@@ -22,6 +22,13 @@ DexConnector::~DexConnector(){
 }
 
 void DexConnector::searchByNumber(std::string pokeNum){
+	if(pokeNum.length() == 1){
+		pokeNum = "00" + pokeNum;
+	}
+	else if(pokeNum.length() == 2){
+		pokeNum = "0" + pokeNum;
+	}
+
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `number` = '" + pokeNum + "';");
 
