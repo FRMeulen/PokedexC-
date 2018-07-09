@@ -87,37 +87,90 @@ void DexConnector::showAll(){
 void DexConnector::printOnce(){
 	res->next();
 
-	//Print values
-	std::cout << "Number: " << res->getString("number") << "\t\t\t";
-	std::cout << "Name: " << res->getString("name") << std::endl;
-	std::cout << "Primary type: " << res->getString("primary_type") << "\t\t";
-	std::cout << "Secondary type: " << res->getString("secondary_type") << std::endl;
-	std::cout << "Generation introduced: " << res->getString("gen_introduced") << "\t";
+	//Print number
+	std::cout << "Number: " << res->getString("number") << " | ";
+
+	//Print name
+	std::cout << "Name: " << res->getString("name");
+	for(unsigned int i=0; i<14-res->getString("name").length(); i++){
+		std::cout << " ";
+	}
+	//Nidoran M and nidoran F symbols seem to mess it up
+	if(res->getString("number") == "029" || res->getString("number") == "032"){
+		std::cout << "  ";
+	}
+	std::cout << " | ";
+
+	//Print primary type
+	std::cout << "Primary type: " << res->getString("primary_type");
+	for(unsigned int i=0; i<8-res->getString("primary_type").length(); i++){
+		std::cout << " ";
+	}
+	std::cout << " | ";
+
+	//Print secondary type
+	std::cout << "Secondary type: " << res->getString("secondary_type");
+	for(unsigned int i=0; i<8-res->getString("secondary_type").length(); i++){
+		std::cout << " ";
+	}
+	std::cout << " | ";
+
+	//Print generation
+	std::cout << "Generation introduced: " << res->getString("gen_introduced") << " | ";
+
+	//Print legendary state
 	std::cout << "Legendary: ";
 	if(res->getString("legendary") == "1"){
-		std::cout << "YES";
+		std::cout << "✔";
 	}
 	else{
-		std::cout << "NO";
+		std::cout << "✕";
 	}
 	std::cout << std::endl << std::endl;
 }
 
 void DexConnector::printGroup(){
 	while(res->next()){
-		//Print values
-		std::cout << "Number: " << res->getString("number") << "\t\t\t";
-		std::cout << "Name: " << res->getString("name") << std::endl;
-		std::cout << "Primary type: " <<  res->getString("primary_type") << "\t\t";
-		std::cout << "Secondary type: " << res->getString("secondary_type") << std::endl;
-		std::cout << "Generation introduced: " << res->getString("gen_introduced") << "\t";
+		//Print number
+		std::cout << "Number: " << res->getString("number") << " | ";
+
+		//Print name
+		std::cout << "Name: " << res->getString("name");
+		for(unsigned int i=0; i<15-res->getString("name").length(); i++){
+			std::cout << " ";
+		}
+		//Nidoran M and nidoran F symbols seem to mess it up
+		if(res->getString("number") == "029" || res->getString("number") == "032"){
+			std::cout << "  ";
+		}
+		std::cout << " | ";
+
+		//Print primary type
+		std::cout << "Primary type: " << res->getString("primary_type");
+		for(unsigned int i=0; i<8-res->getString("primary_type").length(); i++){
+			std::cout << " ";
+		}
+		std::cout << " | ";
+
+		//Print secondary type
+		std::cout << "Secondary type: " << res->getString("secondary_type");
+		for(unsigned int i=0; i<8-res->getString("secondary_type").length(); i++){
+			std::cout << " ";
+		}
+		std::cout << " | ";
+
+		//Print generation
+		std::cout << "Generation introduced: " << res->getString("gen_introduced") << " | ";
+
+		//Print legendary state
 		std::cout << "Legendary: ";
 		if(res->getString("legendary") == "1"){
-			std::cout << "YES";
+			std::cout << "✔";
 		}
 		else{
-			std::cout << "NO";
+			std::cout << "✕";
 		}
-		std::cout << std::endl << std::endl;
+		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
