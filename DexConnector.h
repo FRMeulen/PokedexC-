@@ -26,6 +26,8 @@ public:
 	void showHybrids();
 	void showLegendaries();
 	void showAll();
+	void printOnce();
+	void printGroup();
 	DexConnector();
 	~DexConnector();
 };
