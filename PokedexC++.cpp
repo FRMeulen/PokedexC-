@@ -1,5 +1,7 @@
 //Inclusions
 #include "DexConnector.h"
+#include "MainScreen.h"
+#include <gtkmm-3.0/gtkmm.h>
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -79,11 +81,20 @@ void askCommand(){
 	}
 }
 
-int main(){
+int main(int argc, char *argv[]){
 	std::cout << "--==Welcome to the pokebase!==--" << std::endl;
+	
+	auto app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
+
+	MainScreen mainScreen;
+
+	return app->run(mainScreen);
+
+	/*
 	while(running){
 		askCommand();
 	}
 
 	return 0;
+	*/
 }
