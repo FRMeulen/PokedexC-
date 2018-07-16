@@ -30,21 +30,10 @@ MainScreen::MainScreen() {
 	buttonBox.pack_start(quitButton);
 
 	//Pack into window
-	add(boxBox);
+	add(buttonBox);
 
 	//Display widgets
-	numberButton.show();
-	nameButton.show();
-	primaryTypeButton.show();
-	secondaryTypeButton.show();
-	generationButton.show();
-	hybridsButton.show();
-	legendariesButton.show();
-	showAllButton.show();
-	quitButton.show();
-	buttonBox.show();
-	buttonBox.show();
-	boxBox.show();
+	show_all_children();
 }
 
 MainScreen::~MainScreen(){
