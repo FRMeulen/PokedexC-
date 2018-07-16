@@ -3,9 +3,7 @@
 #include <iostream>
 
 //Constructor
-MainScreen::MainScreen()
-: numberButton("Search by Number.")
-{
+MainScreen::MainScreen() {
 	//Window properties
 	set_border_width(10);
 
@@ -20,16 +18,19 @@ MainScreen::MainScreen()
 	showAllButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showAll));
 	quitButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::quitDex));
 
+	//Pack into box
+	buttonBox.pack_start(numberButton);
+	buttonBox.pack_start(nameButton);
+	buttonBox.pack_start(primaryTypeButton);
+	buttonBox.pack_start(secondaryTypeButton);
+	buttonBox.pack_start(generationButton);
+	buttonBox.pack_start(hybridsButton);
+	buttonBox.pack_start(legendariesButton);
+	buttonBox.pack_start(showAllButton);
+	buttonBox.pack_start(quitButton);
+
 	//Pack into window
-	add(numberButton);
-	add(nameButton);
-	add(primaryTypeButton);
-	add(secondaryTypeButton);
-	add(generationButton);
-	add(hybridsButton);
-	add(legendariesButton);
-	add(showAllButton);
-	add(quitButton);
+	add(boxBox);
 
 	//Display widgets
 	numberButton.show();
@@ -41,6 +42,9 @@ MainScreen::MainScreen()
 	legendariesButton.show();
 	showAllButton.show();
 	quitButton.show();
+	buttonBox.show();
+	buttonBox.show();
+	boxBox.show();
 }
 
 MainScreen::~MainScreen(){
