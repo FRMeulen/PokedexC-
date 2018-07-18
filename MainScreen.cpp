@@ -6,6 +6,44 @@
 MainScreen::MainScreen() {
 	//Window properties
 	set_border_width(10);
+	set_title("PokedexC++");
+
+	//Add main box
+	add(mainVBox);
+
+	//Pack main box
+	mainVBox.pack_start(welcome, Gtk::PACK_EXPAND_WIDGET, 10);
+	mainVBox.pack_start(buttonsHBox, Gtk::PACK_EXPAND_WIDGET, 10);
+
+	//Configure label
+	welcome.set_markup("<b>-= Welcome to PokedexC++ =-</b>");
+
+	//Pack buttons box
+	buttonsHBox.pack_start(searchFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+	buttonsHBox.pack_start(showFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+	buttonsHBox.pack_start(quitButton, Gtk::PACK_EXPAND_WIDGET, 10);
+
+	//Pack frames
+	searchFrame.add(searchVBox);
+	showFrame.add(showVBox);
+
+	//Configure boxes
+	searchVBox.set_border_width(10);
+	showVBox.set_border_width(10);
+
+	//Pack boxes
+	///Searchbox
+	searchVBox.pack_start(numberButton);
+	searchVBox.pack_start(nameButton);
+	searchVBox.pack_start(primaryTypeButton);
+	searchVBox.pack_start(secondaryTypeButton);
+	searchVBox.pack_start(generationButton);
+
+	///Showbox
+	showVBox.pack_start(hybridsButton);
+	showVBox.pack_start(legendariesButton);
+	showVBox.pack_start(showAllButton);
+
 
 	//Signal handlers
 	numberButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::searchByNumber));
@@ -17,20 +55,6 @@ MainScreen::MainScreen() {
 	legendariesButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showLegendaries));
 	showAllButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showAll));
 	quitButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::quitDex));
-
-	//Pack into box
-	buttonBox.pack_start(numberButton);
-	buttonBox.pack_start(nameButton);
-	buttonBox.pack_start(primaryTypeButton);
-	buttonBox.pack_start(secondaryTypeButton);
-	buttonBox.pack_start(generationButton);
-	buttonBox.pack_start(hybridsButton);
-	buttonBox.pack_start(legendariesButton);
-	buttonBox.pack_start(showAllButton);
-	buttonBox.pack_start(quitButton);
-
-	//Pack into window
-	add(buttonBox);
 
 	//Display widgets
 	show_all_children();
