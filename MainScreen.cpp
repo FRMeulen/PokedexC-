@@ -21,15 +21,17 @@ MainScreen::MainScreen() {
 	//Pack buttons box
 	buttonsHBox.pack_start(searchFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 	buttonsHBox.pack_start(showFrame, Gtk::PACK_EXPAND_WIDGET, 10);
-	buttonsHBox.pack_start(quitButton, Gtk::PACK_EXPAND_WIDGET, 10);
+	buttonsHBox.pack_start(optionsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//Pack frames
 	searchFrame.add(searchVBox);
 	showFrame.add(showVBox);
+	optionsFrame.add(optionsVBox);
 
 	//Configure boxes
 	searchVBox.set_border_width(10);
 	showVBox.set_border_width(10);
+	optionsVBox.set_border_width(10);
 
 	//Pack boxes
 	///Searchbox
@@ -44,6 +46,9 @@ MainScreen::MainScreen() {
 	showVBox.pack_start(legendariesButton);
 	showVBox.pack_start(showAllButton);
 
+	///Optionsbox
+	optionsVBox.pack_start(helpButton);
+	optionsVBox.pack_start(quitButton);
 
 	//Signal handlers
 	numberButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::searchByNumber));
@@ -54,6 +59,7 @@ MainScreen::MainScreen() {
 	hybridsButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showHybrids));
 	legendariesButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showLegendaries));
 	showAllButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::showAll));
+	helpButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::helpMe));
 	quitButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::quitDex));
 
 	//Display widgets
@@ -96,8 +102,12 @@ void MainScreen::showAll(){
 	showWip();
 }
 
+void MainScreen::helpMe(){
+	showWip();
+}
+
 void MainScreen::quitDex(){
-	
+	Gtk::Main::quit();
 }
 
 void MainScreen::showWip(){

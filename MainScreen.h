@@ -20,6 +20,7 @@ protected:
 	void showHybrids();
 	void showLegendaries();
 	void showAll();
+	void helpMe();
 	void quitDex();
 
 	void showWip();	//Test function
@@ -29,9 +30,11 @@ protected:
 	Gtk::Box mainVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box buttonsHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 	Gtk::Box searchVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	Gtk::Box optionsVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box showVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Frame searchFrame = Gtk::Frame("Search options");
 	Gtk::Frame showFrame = Gtk::Frame("Show options");
+	Gtk::Frame optionsFrame = Gtk::Frame("Other options");
 
 	//TextViews
 	Gtk::Label welcome;
@@ -46,4 +49,5 @@ protected:
 	Gtk::Button legendariesButton = Gtk::Button("Show legendary Pokemon");
 	Gtk::Button showAllButton = Gtk::Button("Show all Pokemon");
 	Gtk::Button quitButton = Gtk::Button("Exit PokedexC++");
+	Gtk::Button helpButton = Gtk::Button("Help");
 };
