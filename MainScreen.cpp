@@ -2,14 +2,10 @@
 #include "MainScreen.h"
 #include <iostream>
 
-//Constructor
+//Methods
 MainScreen::MainScreen() {
-	//Window properties
-	set_border_width(10);
-	set_title("PokedexC++");
-
 	//Add main box
-	add(mainVBox);
+	this->pack_start(mainVBox);
 
 	//Pack main box
 	mainVBox.pack_start(welcome, Gtk::PACK_EXPAND_WIDGET, 10);

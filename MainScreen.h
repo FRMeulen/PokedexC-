@@ -5,7 +5,7 @@
 #include <gtkmm-3.0/gtkmm.h>
 
 //Class
-class MainScreen : public Gtk::Window {
+class MainScreen : public Gtk::Box {
 public:
 	MainScreen();
 	virtual ~MainScreen();
@@ -26,17 +26,19 @@ protected:
 	void showWip();	//Test function
 
 	//Child widgets
-	///Containers
+	///Boxes
 	Gtk::Box mainVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box buttonsHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 	Gtk::Box searchVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box optionsVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box showVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	
+	///Frames
 	Gtk::Frame searchFrame = Gtk::Frame("Search options");
 	Gtk::Frame showFrame = Gtk::Frame("Show options");
 	Gtk::Frame optionsFrame = Gtk::Frame("Other options");
 
-	//TextViews
+	///Labels
 	Gtk::Label welcome;
 
 	///Buttons
