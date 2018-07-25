@@ -3,9 +3,7 @@
 #include "GuiHandler.h"
 #include <iostream>
 
-//Fields
-DexConnector dex;
-
+//Main
 int main(){
 	GuiHandler gui = GuiHandler();
 

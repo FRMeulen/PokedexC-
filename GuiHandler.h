@@ -20,19 +20,3 @@ protected:
 
 	void showWip();
 };
-
-/*
-
-	<< ID LIST >>
-ID 0 == Main
-ID 1 == Search by Number
-ID 2 == Search by Name
-ID 3 == Search by Primary Type
-ID 4 == Search by Secondary Type
-ID 5 == Search by Generation
-ID 6 == Show Dual-Types
-ID 7 == Show Legendaries
-ID 8 == Show All
-ID 9 == Help
-
-*/
