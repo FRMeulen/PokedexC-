@@ -7,17 +7,22 @@
 GuiHandler::GuiHandler() {
 	auto app = Gtk::Application::create();
 
-	Gtk::Window window;
+	Gtk::Window window;	//Window object
+
+	//Screen objects
 	MainScreen main;
 	HelpScreen help;
+	NumberSearchScreen sbnumber;
 
+	//Set pointers
 	guiWindow = &window;
 	mainScreen = &main;
 	helpScreen = &help;
+	numberSearch = &sbnumber;
 
 	//Set screen button functions
 	///Main screen
-	main.getNumberButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
+	main.getNumberButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toNumberSearch));
 	main.getNameButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getPrimaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getSecondaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
@@ -29,6 +34,10 @@ GuiHandler::GuiHandler() {
 
 	///Help Screen
 	help.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain));
+
+	///Number Search Screen
+	sbnumber.getSearchButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
+	sbnumber.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain)); 
 
 	toMain();
 
@@ -43,6 +52,12 @@ void GuiHandler::toMain() {
 	guiWindow->remove();
 	guiWindow->add(*mainScreen);	//Add main screen to window
 	guiWindow->show_all_children();	//Show all children
+}
+
+void GuiHandler::toNumberSearch(){
+	guiWindow->remove();
+	guiWindow->add(*numberSearch);
+	guiWindow->show_all_children();
 }
 
 void GuiHandler::toHelp() {
