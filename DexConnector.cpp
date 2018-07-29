@@ -21,7 +21,7 @@ DexConnector::~DexConnector(){
 	
 }
 
-void DexConnector::searchByNumber(std::string pokeNum){
+sql::ResultSet* DexConnector::searchByNumber(std::string pokeNum){
 	if(pokeNum.length() == 1){
 		pokeNum = "00" + pokeNum;
 	}
@@ -32,145 +32,54 @@ void DexConnector::searchByNumber(std::string pokeNum){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `number` = '" + pokeNum + "';");
 
-	printOnce();
+	return res;
 }
 
-void DexConnector::searchByName(std::string pokeName){
+sql::ResultSet* DexConnector::searchByName(std::string pokeName){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `name` = '" + pokeName + "';");
 
-	printOnce();
+	return res;
 }
 
-void DexConnector::searchByPrimaryType(std::string pokeType){
+sql::ResultSet* DexConnector::searchByPrimaryType(std::string pokeType){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `primary_type` = '" + pokeType + "';");
 
-	printGroup();
+	return res;
 }
 
-void DexConnector::searchBySecondaryType(std::string pokeType){
+sql::ResultSet* DexConnector::searchBySecondaryType(std::string pokeType){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `secondary_type` = '" + pokeType + "';");
 
-	printGroup();
+	return res;
 }
 
-void DexConnector::searchByGeneration(std::string pokeGen){
+sql::ResultSet* DexConnector::searchByGeneration(std::string pokeGen){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `gen_introduced` = '" + pokeGen + "';");
 
-	printGroup();
+	return res;
 }
 
-void DexConnector::showHybrids(){
+sql::ResultSet* DexConnector::showHybrids(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE NOT `secondary_type` = '-';");
 
-	printGroup();
+	return res;
 }
 
-void DexConnector::showLegendaries(){
+sql::ResultSet* DexConnector::showLegendaries(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `legendary` = '1';");
 
-	printGroup();
+	return res;
 }
 
-void DexConnector::showAll(){
+sql::ResultSet* DexConnector::showAll(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon;");
 
-	printGroup();
-}
-
-void DexConnector::printOnce(){
-	res->next();
-
-	//Print number
-	std::cout << "Number: " << res->getString("number") << " | ";
-
-	//Print name
-	std::cout << "Name: " << res->getString("name");
-	for(unsigned int i=0; i<14-res->getString("name").length(); i++){
-		std::cout << " ";
-	}
-	//Nidoran M and nidoran F symbols seem to mess it up
-	if(res->getString("number") == "029" || res->getString("number") == "032"){
-		std::cout << "  ";
-	}
-	std::cout << " | ";
-
-	//Print primary type
-	std::cout << "Primary type: " << res->getString("primary_type");
-	for(unsigned int i=0; i<8-res->getString("primary_type").length(); i++){
-		std::cout << " ";
-	}
-	std::cout << " | ";
-
-	//Print secondary type
-	std::cout << "Secondary type: " << res->getString("secondary_type");
-	for(unsigned int i=0; i<8-res->getString("secondary_type").length(); i++){
-		std::cout << " ";
-	}
-	std::cout << " | ";
-
-	//Print generation
-	std::cout << "Generation introduced: " << res->getString("gen_introduced") << " | ";
-
-	//Print legendary state
-	std::cout << "Legendary: ";
-	if(res->getString("legendary") == "1"){
-		std::cout << "✔";
-	}
-	else{
-		std::cout << "✕";
-	}
-	std::cout << std::endl << std::endl;
-}
-
-void DexConnector::printGroup(){
-	while(res->next()){
-		//Print number
-		std::cout << "Number: " << res->getString("number") << " | ";
-
-		//Print name
-		std::cout << "Name: " << res->getString("name");
-		for(unsigned int i=0; i<15-res->getString("name").length(); i++){
-			std::cout << " ";
-		}
-		//Nidoran M and nidoran F symbols seem to mess it up
-		if(res->getString("number") == "029" || res->getString("number") == "032"){
-			std::cout << "  ";
-		}
-		std::cout << " | ";
-
-		//Print primary type
-		std::cout << "Primary type: " << res->getString("primary_type");
-		for(unsigned int i=0; i<8-res->getString("primary_type").length(); i++){
-			std::cout << " ";
-		}
-		std::cout << " | ";
-
-		//Print secondary type
-		std::cout << "Secondary type: " << res->getString("secondary_type");
-		for(unsigned int i=0; i<8-res->getString("secondary_type").length(); i++){
-			std::cout << " ";
-		}
-		std::cout << " | ";
-
-		//Print generation
-		std::cout << "Generation introduced: " << res->getString("gen_introduced") << " | ";
-
-		//Print legendary state
-		std::cout << "Legendary: ";
-		if(res->getString("legendary") == "1"){
-			std::cout << "✔";
-		}
-		else{
-			std::cout << "✕";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
+	return res;
 }

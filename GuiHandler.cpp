@@ -13,12 +13,15 @@ GuiHandler::GuiHandler() {
 	MainScreen main;
 	HelpScreen help;
 	NumberSearchScreen sbnumber;
+	PokemonScreen pokemon;
 
 	//Set pointers
 	guiWindow = &window;
+
 	mainScreen = &main;
 	helpScreen = &help;
 	numberSearch = &sbnumber;
+	pokemonScreen = &pokemon;
 
 	//Set screen button functions
 	///Main screen
@@ -36,7 +39,7 @@ GuiHandler::GuiHandler() {
 	help.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain));
 
 	///Number Search Screen
-	sbnumber.getSearchButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
+	sbnumber.getSearchButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toPokemonByNumber));
 	sbnumber.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain)); 
 
 	toMain();
@@ -63,6 +66,13 @@ void GuiHandler::toNumberSearch(){
 void GuiHandler::toHelp() {
 	guiWindow->remove();
 	guiWindow->add(*helpScreen);
+	guiWindow->show_all_children();
+}
+
+void GuiHandler::toPokemonByNumber(){
+	guiWindow->remove();
+	guiWindow->add(*pokemonScreen);
+	pokemonScreen->setByNumber(numberSearch->getInputEntry().get_text());
 	guiWindow->show_all_children();
 }
 

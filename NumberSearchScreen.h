@@ -18,7 +18,7 @@ public:
 	Gtk::Entry& getInputEntry();
 
 protected:
-	//Child widgeets
+	//Child widgets
 	///Boxes
 	Gtk::Box mainVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box entryHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);

@@ -18,16 +18,14 @@ private:
 	sql::Statement *statement;
 	sql::ResultSet *res;
 public:
-	void searchByNumber(std::string pokeNum);
-	void searchByName(std::string pokeName);
-	void searchByPrimaryType(std::string pokeType);
-	void searchBySecondaryType(std::string pokeType);
-	void searchByGeneration(std::string pokeGen);
-	void showHybrids();
-	void showLegendaries();
-	void showAll();
-	void printOnce();
-	void printGroup();
+	sql::ResultSet* searchByNumber(std::string pokeNum);
+	sql::ResultSet* searchByName(std::string pokeName);
+	sql::ResultSet* searchByPrimaryType(std::string pokeType);
+	sql::ResultSet* searchBySecondaryType(std::string pokeType);
+	sql::ResultSet* searchByGeneration(std::string pokeGen);
+	sql::ResultSet* showHybrids();
+	sql::ResultSet* showLegendaries();
+	sql::ResultSet* showAll();
 	DexConnector();
 	~DexConnector();
 };
