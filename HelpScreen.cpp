@@ -17,8 +17,8 @@ HelpScreen::HelpScreen(){
 	helpText.set_single_line_mode(false);
 	helpText.set_markup(
 			"<b><big>This Pokedex offers many features:</big></b>\n"
-			"	<b><big>5 search options</big></b>\n"
-			"	<b><big>3 show options</big></b>\n\n"
+			"	<b><big>2 search options</big></b>\n"
+			"	<b><big>6 show options</big></b>\n\n"
 			"<big>Search options allow you to search for a specific Pokemon.</big>\n"
 			"<big>Show options allow you to show certain sets of Pokemon.</big>"
 		);

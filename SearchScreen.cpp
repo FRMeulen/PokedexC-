@@ -1,8 +1,8 @@
 //Inclusions
-#include "NumberSearchScreen.h"
+#include "SearchScreen.h"
 
 //Methods
-NumberSearchScreen::NumberSearchScreen(){
+SearchScreen::SearchScreen(){
 	//Add main box
 	this->pack_start(frame);
 
@@ -22,18 +22,18 @@ NumberSearchScreen::NumberSearchScreen(){
 	entryHBox.pack_start(searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
 }
 
-NumberSearchScreen::~NumberSearchScreen(){
+SearchScreen::~SearchScreen(){
 
 }
 
-Gtk::Button& NumberSearchScreen::getSearchButton(){
+Gtk::Button& SearchScreen::getSearchButton(){
 	return searchButton;
 }
 
-Gtk::Button& NumberSearchScreen::getReturnButton(){
+Gtk::Button& SearchScreen::getReturnButton(){
 	return returnButton;
 }
 
-Gtk::Entry& NumberSearchScreen::getInputEntry(){
+Gtk::Entry& SearchScreen::getInputEntry(){
 	return numberEntry;
 }

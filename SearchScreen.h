@@ -5,10 +5,10 @@
 #include <gtkmm-3.0/gtkmm.h>
 
 //Class
-class NumberSearchScreen : public Gtk::Box {
+class SearchScreen : public Gtk::Box {
 public:
-	NumberSearchScreen();
-	virtual ~NumberSearchScreen();
+	SearchScreen();
+	virtual ~SearchScreen();
 
 	//Button getters
 	Gtk::Button& getSearchButton();
@@ -24,7 +24,7 @@ protected:
 	Gtk::Box entryHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 
 	///Frames
-	Gtk::Frame frame = Gtk::Frame("Search by Number");
+	Gtk::Frame frame = Gtk::Frame("Search");
 
 	///Entries
 	Gtk::Entry numberEntry = Gtk::Entry();

@@ -32,11 +32,11 @@ MainScreen::MainScreen(){
 	///Search box
 	searchVBox.pack_start(numberButton);
 	searchVBox.pack_start(nameButton);
-	searchVBox.pack_start(primaryTypeButton);
-	searchVBox.pack_start(secondaryTypeButton);
-	searchVBox.pack_start(generationButton);
 
 	///Show box
+	showVBox.pack_start(primaryTypeButton);
+	showVBox.pack_start(secondaryTypeButton);
+	showVBox.pack_start(generationButton);
 	showVBox.pack_start(dualtypesButton);
 	showVBox.pack_start(legendariesButton);
 	showVBox.pack_start(allButton);
