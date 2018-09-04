@@ -4,14 +4,15 @@
 //Methods
 SearchScreen::SearchScreen(){
 	//Add main box
-	this->pack_start(frame);
+	this->pack_start(mainVBox, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//Pack main box
-	frame.add(mainVBox);
+	mainVBox.pack_start(searchFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+	mainVBox.pack_start(optionsFrame, Gtk::PACK_SHRINK, 10);
 
-	//Pack frame
-	mainVBox.pack_start(entryHBox, Gtk::PACK_EXPAND_WIDGET, 10);
-	mainVBox.pack_start(returnButton, Gtk::PACK_EXPAND_WIDGET, 10);
+	//Pack frames
+	searchFrame.add(entryHBox);
+	optionsFrame.add(returnButton);
 
 	//Configure boxes
 	entryHBox.set_border_width(10);

@@ -24,7 +24,8 @@ protected:
 	Gtk::Box entryHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 
 	///Frames
-	Gtk::Frame frame = Gtk::Frame("Search");
+	Gtk::Frame searchFrame = Gtk::Frame("Search");
+	Gtk::Frame optionsFrame = Gtk::Frame("Options");
 
 	///Entries
 	Gtk::Entry numberEntry = Gtk::Entry();

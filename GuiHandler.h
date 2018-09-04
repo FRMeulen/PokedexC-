@@ -6,6 +6,7 @@
 #include "HelpScreen.h"
 #include "SearchScreen.h"
 #include "PokemonScreen.h"
+#include "PokeSetScreen.h"
 #include "DexConnector.h"
 
 //Class
@@ -25,12 +26,14 @@ protected:
 	HelpScreen *helpScreen;
 	SearchScreen *searchScreen;
 	PokemonScreen *pokemonScreen;
+	PokeSetScreen *pokeSetScreen;
 
 	//Methods
 	///Screen transitions
 	void toHelp();
 	void toMain();
 	void toSearch();
+	void toPokeSetScreen();
 	
 	//Search options
 	void toNumberSearch();

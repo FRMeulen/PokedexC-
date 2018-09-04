@@ -17,6 +17,7 @@ GuiHandler::GuiHandler() {
 	HelpScreen help;
 	SearchScreen search;
 	PokemonScreen pokemon;
+	PokeSetScreen pokeSet;
 
 	//Set pointers
 	pokeDex = &dex;
@@ -27,6 +28,7 @@ GuiHandler::GuiHandler() {
 	helpScreen = &help;
 	searchScreen = &search;
 	pokemonScreen = &pokemon;
+	pokeSetScreen = &pokeSet;
 
 	//Set screen button functions
 	///Main screen
@@ -35,7 +37,7 @@ GuiHandler::GuiHandler() {
 	main.getPrimaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toPriTypeSearch));
 	main.getSecondaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toSecTypeSearch));
 	main.getGenerationButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toGenSearch));
-	main.getDualtypesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
+	main.getDualtypesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toPokeSetScreen));
 	main.getLegendariesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getAllButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getHelpButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toHelp));
@@ -49,6 +51,9 @@ GuiHandler::GuiHandler() {
 
 	//Pokemon screen
 	pokemon.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain));
+
+	//PokeSet screen
+	pokeSet.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain));
 
 	toMain();
 
@@ -95,6 +100,12 @@ void GuiHandler::toGenSearch(){
 void GuiHandler::toSearch(){
 	guiWindow->remove();
 	guiWindow->add(*searchScreen);
+	guiWindow->show_all_children();
+}
+
+void GuiHandler::toPokeSetScreen(){
+	guiWindow->remove();
+	guiWindow->add(*pokeSetScreen);
 	guiWindow->show_all_children();
 }
 
