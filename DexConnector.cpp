@@ -63,21 +63,21 @@ sql::ResultSet* DexConnector::searchByGeneration(std::string pokeGen){
 	return res;
 }
 
-sql::ResultSet* DexConnector::showHybrids(){
+sql::ResultSet* DexConnector::searchDualTypes(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE NOT `secondary_type` = '-';");
 
 	return res;
 }
 
-sql::ResultSet* DexConnector::showLegendaries(){
+sql::ResultSet* DexConnector::searchLegendaries(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon WHERE `legendary` = '1';");
 
 	return res;
 }
 
-sql::ResultSet* DexConnector::showAll(){
+sql::ResultSet* DexConnector::searchAll(){
 	statement = conn->createStatement();
 	res = statement->executeQuery("SELECT * FROM pokemon;");
 

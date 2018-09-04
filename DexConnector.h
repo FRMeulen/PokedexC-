@@ -23,9 +23,9 @@ public:
 	sql::ResultSet* searchByPrimaryType(std::string pokeType);
 	sql::ResultSet* searchBySecondaryType(std::string pokeType);
 	sql::ResultSet* searchByGeneration(std::string pokeGen);
-	sql::ResultSet* showHybrids();
-	sql::ResultSet* showLegendaries();
-	sql::ResultSet* showAll();
+	sql::ResultSet* searchDualTypes();
+	sql::ResultSet* searchLegendaries();
+	sql::ResultSet* searchAll();
 	DexConnector();
 	~DexConnector();
 };

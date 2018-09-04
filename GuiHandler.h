@@ -41,6 +41,9 @@ protected:
 	void toPriTypeSearch();
 	void toSecTypeSearch();
 	void toGenSearch();
+	void toDualTypeSearch();
+	void toLegendarySearch();
+	void toAllSearch();
 
 	//Functional methods
 	void searchPokemon();

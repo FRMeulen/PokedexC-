@@ -55,7 +55,6 @@ void PokemonScreen::setContents(
 
 	//Pack sprite
 	spriteBox.pack_start(sprite, Gtk::PACK_EXPAND_WIDGET, 10);
-	sprite.set_pixel_size(4);
 
 	//Pack info
 	infoVBox.pack_start(pokeNum, Gtk::PACK_EXPAND_WIDGET, 10);

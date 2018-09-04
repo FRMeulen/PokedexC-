@@ -10,6 +10,14 @@ public:
 	PokeSetScreen();
 	virtual ~PokeSetScreen();
 	Gtk::Button& getReturnButton();
+	void clearPokemon();
+	void appendPokemon(
+		std::string _pokeNum,
+		std::string _pokeName,
+		std::string _pokePriType,
+		std::string _pokeSecType,
+		std::string _pokeGen
+	);
 
 protected:
 	//Tree model

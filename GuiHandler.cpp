@@ -37,9 +37,9 @@ GuiHandler::GuiHandler() {
 	main.getPrimaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toPriTypeSearch));
 	main.getSecondaryTypeButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toSecTypeSearch));
 	main.getGenerationButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toGenSearch));
-	main.getDualtypesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toPokeSetScreen));
-	main.getLegendariesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
-	main.getAllButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
+	main.getDualtypesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toDualTypeSearch));
+	main.getLegendariesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toLegendarySearch));
+	main.getAllButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toAllSearch));
 	main.getHelpButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toHelp));
 	main.getQuitButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::quitDex));
 
@@ -98,6 +98,21 @@ void GuiHandler::toGenSearch(){
 	toSearch();
 }
 
+void GuiHandler::toDualTypeSearch(){
+	searchMode = 6;
+	searchPokemon();
+}
+
+void GuiHandler::toLegendarySearch(){
+	searchMode = 7;
+	searchPokemon();
+}
+
+void GuiHandler::toAllSearch(){
+	searchMode = 8;
+	searchPokemon();
+}
+
 void GuiHandler::toSearch(){
 	guiWindow->remove();
 	guiWindow->add(*searchScreen);
@@ -131,12 +146,27 @@ void GuiHandler::searchPokemon(){
 	}
 	else if(searchMode == 3){	//... by primary type
 		result = pokeDex->searchByPrimaryType(searchTerm);
+		searchSet(result);
 	}
 	else if(searchMode == 4){	//... by secondary type
 		result = pokeDex->searchBySecondaryType(searchTerm);
+		searchSet(result);
 	}
 	else if(searchMode == 5){	//... by generation
 		result = pokeDex->searchByGeneration(searchTerm);
+		searchSet(result);
+	}
+	else if(searchMode == 6){
+		result = pokeDex->searchDualTypes();
+		searchSet(result);
+	}
+	else if(searchMode == 7){
+		result = pokeDex->searchLegendaries();
+		searchSet(result);
+	}
+	else if(searchMode == 8){
+		result = pokeDex->searchAll();
+		searchSet(result);
 	}
 }
 
@@ -168,7 +198,29 @@ void GuiHandler::searchOne(sql::ResultSet *result){
 }
 
 void GuiHandler::searchSet(sql::ResultSet *result){
+	pokeSetScreen->clearPokemon();
 
+	while(result->next()){
+		//Fill data strings
+		std::string dataNumber = result->getString("number");
+		std::string dataName = result->getString("name");
+		std::string dataPrimaryType = result->getString("primary_type");
+		std::string dataSecondaryType = result->getString("secondary_type");
+		std::string dataGenIntroduced = result->getString("gen_introduced");
+
+		//Append into TreeModel
+		pokeSetScreen->appendPokemon(
+			dataNumber,
+			dataName,
+			dataPrimaryType,
+			dataSecondaryType,
+			dataGenIntroduced
+		);
+	}
+
+	guiWindow->remove();
+	guiWindow->add(*pokeSetScreen);
+	guiWindow->show_all_children();
 }
 
 void GuiHandler::showWip(){

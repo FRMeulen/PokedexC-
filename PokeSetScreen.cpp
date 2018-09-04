@@ -21,25 +21,6 @@ PokeSetScreen::PokeSetScreen(){
 	refTreeModel = Gtk::ListStore::create(modelColumns);
 	treeView.set_model(refTreeModel);
 
-	/*	--FILL TREEVIEW MODEL EXAMPLE--	
-	//First row
-	Gtk::TreeModel::Row row = *(refTreeModel->append());
-	row[modelColumns.modelColumnID] = pokemon number;
-	row[modelColumns.modelColumnName] = pokemon name;
-	row[modelColumns.modelColumnPriType] = pokemon type;
-	row[modelColumns.modelColumnSecType] = pokemon type;
-	row[modelColumns.modelColumnGen] = generation;
-
-	//Subsequent rows
-	row = *(refTreeModel->append());
-	row[modelColumns.modelColumnID] = pokemon number;
-	row[modelColumns.modelColumnName] = pokemon name;
-	row[modelColumns.modelColumnPriType] = pokemon type;
-	row[modelColumns.modelColumnSecType] = pokemon type;
-	row[modelColumns.modelColumnGen] = generation;
-
-	*/
-
 	//Add TreeView view columns
 	treeView.append_column("Number", modelColumns.modelColumnID);
 	treeView.append_column("Name", modelColumns.modelColumnName);
@@ -55,6 +36,25 @@ PokeSetScreen::PokeSetScreen(){
 
 PokeSetScreen::~PokeSetScreen(){
 
+}
+
+void PokeSetScreen::clearPokemon(){
+	refTreeModel->clear();
+}
+
+void PokeSetScreen::appendPokemon(
+	std::string _pokeNum,
+	std::string _pokeName,
+	std::string _pokePriType,
+	std::string _pokeSecType,
+	std::string _pokeGen
+){
+	Gtk::TreeModel::Row row = *(refTreeModel->append());
+	row[modelColumns.modelColumnID] = _pokeNum;
+	row[modelColumns.modelColumnName] = _pokeName;
+	row[modelColumns.modelColumnPriType] = _pokePriType;
+	row[modelColumns.modelColumnSecType] = _pokeSecType;
+	row[modelColumns.modelColumnGen] = _pokeGen;
 }
 
 Gtk::Button& PokeSetScreen::getReturnButton(){
