@@ -20,10 +20,9 @@ public:
 	Gtk::Button& getLegendariesButton();
 	Gtk::Button& getAllButton();
 	Gtk::Button& getHelpButton();
+	Gtk::Button& getQuitButton();
 
 protected:
-	void quitDex();
-
 	//Child widgets
 	///Boxes
 	Gtk::Box mainVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);

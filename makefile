@@ -8,5 +8,5 @@ CFLAGS = -Wall -lmysqlcppconn
 PKGCONFIG = `pkg-config gtkmm-3.0 --cflags --libs`
 
 #Command contains everything that needs to be done
-PokedexC++: PokedexC++.cpp DexConnector.cpp MainScreen.cpp HelpScreen.cpp
+PokedexC++:
 	$(CC) $(CFLAGS) *.cpp -o PokedexC++ $(PKGCONFIG)

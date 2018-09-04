@@ -46,6 +46,7 @@ protected:
 	void searchPokemon();
 	void searchOne(sql::ResultSet *result);
 	void searchSet(sql::ResultSet *result);
+	void quitDex();
 
 	//Temporary methods
 	void showWip();

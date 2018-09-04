@@ -41,6 +41,7 @@ GuiHandler::GuiHandler() {
 	main.getLegendariesButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getAllButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::showWip));
 	main.getHelpButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toHelp));
+	main.getQuitButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::quitDex));
 
 	///Help Screen
 	help.getReturnButton().signal_clicked().connect(sigc::mem_fun(*this, &GuiHandler::toMain));
@@ -172,4 +173,8 @@ void GuiHandler::searchSet(sql::ResultSet *result){
 
 void GuiHandler::showWip(){
 	std::cout << "In progress!" << std::endl;
+}
+
+void GuiHandler::quitDex(){
+	guiWindow->hide();
 }

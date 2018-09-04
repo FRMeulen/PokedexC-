@@ -11,11 +11,46 @@ PokeSetScreen::PokeSetScreen(){
 	mainVBox.pack_start(optionsFrame, Gtk::PACK_SHRINK, 10);
 
 	//Pack frames
-	scrollFrame.add(treeView);
 	optionsFrame.add(returnButton);
 
-	//Hide scrollbar when not necessary
-	scrollWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+	//Setup scroll window
+	scrollWindow.add(treeView);
+	scrollWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);	//Hide scrollbar when not necessary
+	
+	//Create tree model
+	refTreeModel = Gtk::ListStore::create(modelColumns);
+	treeView.set_model(refTreeModel);
+
+	/*	--FILL TREEVIEW MODEL EXAMPLE--	
+	//First row
+	Gtk::TreeModel::Row row = *(refTreeModel->append());
+	row[modelColumns.modelColumnID] = pokemon number;
+	row[modelColumns.modelColumnName] = pokemon name;
+	row[modelColumns.modelColumnPriType] = pokemon type;
+	row[modelColumns.modelColumnSecType] = pokemon type;
+	row[modelColumns.modelColumnGen] = generation;
+
+	//Subsequent rows
+	row = *(refTreeModel->append());
+	row[modelColumns.modelColumnID] = pokemon number;
+	row[modelColumns.modelColumnName] = pokemon name;
+	row[modelColumns.modelColumnPriType] = pokemon type;
+	row[modelColumns.modelColumnSecType] = pokemon type;
+	row[modelColumns.modelColumnGen] = generation;
+
+	*/
+
+	//Add TreeView view columns
+	treeView.append_column("Number", modelColumns.modelColumnID);
+	treeView.append_column("Name", modelColumns.modelColumnName);
+	treeView.append_column("Primary Type", modelColumns.modelColumnPriType);
+	treeView.append_column("Secondary Type", modelColumns.modelColumnSecType);
+	treeView.append_column("Gen Introduced", modelColumns.modelColumnGen);
+	//Pack scroll frame
+	scrollFrame.add(scrollWindow);
+
+	//Show all children
+	show_all_children();
 }
 
 PokeSetScreen::~PokeSetScreen(){

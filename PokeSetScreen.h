@@ -18,19 +18,20 @@ protected:
 		ModelColumns() {
 			add(modelColumnID);
 			add(modelColumnName);
-			add(modelColumnSprite);
-			add(modelColumnButton);
+			add(modelColumnPriType);
+			add(modelColumnSecType);
+			add(modelColumnGen);
 		}
 
 		Gtk::TreeModelColumn<std::string> modelColumnID;
 		Gtk::TreeModelColumn<std::string> modelColumnName;
-		Gtk::TreeModelColumn<std::string> modelColumnSprite;
-		Gtk::TreeModelColumn<std::string> modelColumnButton;
+		Gtk::TreeModelColumn<std::string> modelColumnPriType;
+		Gtk::TreeModelColumn<std::string> modelColumnSecType;
+		Gtk::TreeModelColumn<std::string> modelColumnGen;
 	};
 
 	ModelColumns modelColumns;
 
-	Gtk::Box listVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::ScrolledWindow scrollWindow;
 	Gtk::TreeView treeView;
 	Glib::RefPtr<Gtk::ListStore> refTreeModel;

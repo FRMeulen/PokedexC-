@@ -44,9 +44,6 @@ MainScreen::MainScreen(){
 	///Options box
 	optionsVBox.pack_start(helpButton);
 	optionsVBox.pack_start(quitButton);
-
-	//Signal handlers
-	quitButton.signal_clicked().connect(sigc::mem_fun(*this, &MainScreen::quitDex));
 }
 
 MainScreen::~MainScreen(){
@@ -89,6 +86,6 @@ Gtk::Button& MainScreen::getHelpButton(){
 	return helpButton;
 }
 
-void MainScreen::quitDex(){
-	Gtk::Main::quit();
+Gtk::Button& MainScreen::getQuitButton(){
+	return quitButton;
 }
