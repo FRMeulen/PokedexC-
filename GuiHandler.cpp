@@ -171,27 +171,31 @@ void GuiHandler::searchPokemon(){
 }
 
 void GuiHandler::searchOne(sql::ResultSet *result){
-	result->next();
+	//Check for empty set
+	if(!result->next()){
+		//Empty set
+	}
+	else{
+		//Fill data strings
+		std::string dataNumber = "Number: " + result->getString("number");
+		std::string dataName = "Name: " + result->getString("name");
+		std::string dataPrimaryType = "Primary Type: " + result->getString("primary_type");
+		std::string dataSecondaryType = "Secondary Type: " + result->getString("secondary_type");
+		std::string dataGenIntroduced = "Generation Introduced: " + result->getString("gen_introduced");
+		std::string spritePath = "./sprites/" + result->getString("name") + ".png";
 
-	//Fill data strings
-	std::string dataNumber = "Number: " + result->getString("number");
-	std::string dataName = "Name: " + result->getString("name");
-	std::string dataPrimaryType = "Primary Type: " + result->getString("primary_type");
-	std::string dataSecondaryType = "Secondary Type: " + result->getString("secondary_type");
-	std::string dataGenIntroduced = "Generation Introduced: " + result->getString("gen_introduced");
-	std::string spritePath = "./sprites/" + result->getString("name") + ".png";
-
-	//Set window
-	guiWindow->remove();
-	guiWindow->add(*pokemonScreen);
-	pokemonScreen->setContents(
-		dataNumber,
-		dataName,
-		dataPrimaryType,
-		dataSecondaryType,
-		dataGenIntroduced,
-		spritePath);
-	guiWindow->show_all_children();
+		//Set window
+		guiWindow->remove();
+		guiWindow->add(*pokemonScreen);
+		pokemonScreen->setContents(
+			dataNumber,
+			dataName,
+			dataPrimaryType,
+			dataSecondaryType,
+			dataGenIntroduced,
+			spritePath);
+		guiWindow->show_all_children();
+	}
 
 	//Reset input entry
 	searchScreen->getInputEntry().set_text("");
@@ -200,7 +204,18 @@ void GuiHandler::searchOne(sql::ResultSet *result){
 void GuiHandler::searchSet(sql::ResultSet *result){
 	pokeSetScreen->clearPokemon();
 
-	while(result->next()){
+	//Check for empty set
+	if(!result->next()){
+		//No pokemon in set
+		pokeSetScreen->appendPokemon(
+			"No",
+			"Pokemon",
+			"match",
+			"given",
+			"query!"
+		);
+	}
+	else{
 		//Fill data strings
 		std::string dataNumber = result->getString("number");
 		std::string dataName = result->getString("name");
@@ -216,15 +231,30 @@ void GuiHandler::searchSet(sql::ResultSet *result){
 			dataSecondaryType,
 			dataGenIntroduced
 		);
+
+		//Append the rest of the set
+		while(result->next()){
+			//Fill data strings
+			dataNumber = result->getString("number");
+			dataName = result->getString("name");
+			dataPrimaryType = result->getString("primary_type");
+			dataSecondaryType = result->getString("secondary_type");
+			dataGenIntroduced = result->getString("gen_introduced");
+
+			//Append into TreeModel
+			pokeSetScreen->appendPokemon(
+				dataNumber,
+				dataName,
+				dataPrimaryType,
+				dataSecondaryType,
+				dataGenIntroduced
+			);
+		}
 	}
 
 	guiWindow->remove();
 	guiWindow->add(*pokeSetScreen);
 	guiWindow->show_all_children();
-}
-
-void GuiHandler::showWip(){
-	std::cout << "In progress!" << std::endl;
 }
 
 void GuiHandler::quitDex(){
