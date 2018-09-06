@@ -3,13 +3,6 @@
 
 //Inclusions
 #include <gtkmm-3.0/gtkmm.h>
-#include <mysql_connection.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
-#include <mysql_driver.h>
-#include "DexConnector.h"
 
 //Class
 class PokemonScreen : public Gtk::Box {

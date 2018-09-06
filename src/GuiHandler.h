@@ -2,11 +2,11 @@
 #pragma once
 
 //Inclusions
-#include "MainScreen.h"
-#include "HelpScreen.h"
-#include "SearchScreen.h"
-#include "PokemonScreen.h"
-#include "PokeSetScreen.h"
+#include "screens/MainScreen.h"
+#include "screens/HelpScreen.h"
+#include "screens/SearchScreen.h"
+#include "screens/PokemonScreen.h"
+#include "screens/PokeSetScreen.h"
 #include "DexConnector.h"
 
 //Class
