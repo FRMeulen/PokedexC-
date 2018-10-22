@@ -24,7 +24,8 @@ public:
 protected:
 	//Child widgets
 	///Boxes
-	Gtk::Box mainHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+	Gtk::Box mainVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	Gtk::Box topHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 	Gtk::Box spriteBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box rightVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 	Gtk::Box infoVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
@@ -34,6 +35,7 @@ protected:
 	Gtk::Frame spriteFrame = Gtk::Frame("Sprite");
 	Gtk::Frame infoFrame = Gtk::Frame("Information");
 	Gtk::Frame optionsFrame = Gtk::Frame("Options");
+	Gtk::Frame descriptionFrame = Gtk::Frame("Description");
 
 	///Labels
 	Gtk::Label pokeNum;
@@ -41,6 +43,7 @@ protected:
 	Gtk::Label pokePriType;
 	Gtk::Label pokeSecType;
 	Gtk::Label pokeGen;
+	Gtk::Label pokeDesc;
 
 	///Sprite
 	Gtk::Image sprite;

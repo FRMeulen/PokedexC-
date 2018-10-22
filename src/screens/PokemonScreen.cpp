@@ -7,11 +7,15 @@ PokemonScreen::PokemonScreen(){
 	this->pack_start(frame);
 
 	//Pack frame
-	frame.add(mainHBox);
+	frame.add(mainVBox);
 
 	//Pack main box
-	mainHBox.pack_start(spriteFrame, Gtk::PACK_EXPAND_WIDGET, 10);
-	mainHBox.pack_start(rightVBox, Gtk::PACK_EXPAND_WIDGET, 10);
+	mainVBox.pack_start(topHBox, Gtk::PACK_EXPAND_WIDGET, 10);
+	mainVBox.pack_start(descriptionFrame);
+
+	//Pack top box
+	topHBox.pack_start(spriteFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+	topHBox.pack_start(rightVBox, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//Pack right box
 	rightVBox.pack_start(infoFrame);
@@ -30,6 +34,12 @@ PokemonScreen::PokemonScreen(){
 
 	///Options frame
 	optionsFrame.add(returnButton);
+
+	///Description frame
+	descriptionFrame.add(pokeDesc);
+
+	//Configure labels
+	pokeDesc.set_single_line_mode(false);
 }
 
 PokemonScreen::~PokemonScreen(){
@@ -42,7 +52,8 @@ void PokemonScreen::setContents(
 	std::string _pokePriType,
 	std::string _pokeSecType,
 	std::string _pokeFirstGen,
-	std::string _pokePath
+	std::string _pokePath,
+	std::string _pokeDesc
 	){
 
 	//Set contents
@@ -52,6 +63,7 @@ void PokemonScreen::setContents(
 	pokeSecType = Gtk::Label(_pokeSecType);
 	pokeGen = Gtk::Label(_pokeFirstGen);
 	sprite = Gtk::Image(_pokePath);
+	pokeDesc = Gtk::Label(_pokeDesc);
 
 	//Pack sprite
 	spriteBox.pack_start(sprite, Gtk::PACK_EXPAND_WIDGET, 10);

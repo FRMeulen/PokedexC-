@@ -183,6 +183,7 @@ void GuiHandler::searchOne(sql::ResultSet *result){
 		std::string dataSecondaryType = "Secondary Type: " + result->getString("secondary_type");
 		std::string dataGenIntroduced = "Generation Introduced: " + result->getString("gen_introduced");
 		std::string spritePath = "./sprites/" + result->getString("number") + ".png";
+		std::string dataDescription = result->getString("description");
 
 		//Set window
 		guiWindow->remove();
@@ -193,7 +194,8 @@ void GuiHandler::searchOne(sql::ResultSet *result){
 			dataPrimaryType,
 			dataSecondaryType,
 			dataGenIntroduced,
-			spritePath);
+			spritePath,
+			dataDescription);
 		guiWindow->show_all_children();
 	}
 
