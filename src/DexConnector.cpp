@@ -1,27 +1,33 @@
-//Inclusions
-#include <mysql_connection.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
-#include <mysql_driver.h>
+//	Project:	PokedexC++
+//	DexConnector.cpp	--	Implementation of the CDexConnector class.
+//	Revisions:
+//	2018-07-09	--	F.R. van der Meulen	--	Created.
+//	2018-10-25	--	F.R. van der Meulen	--	Altered to match V2 style.
 
-#include <string>
+//	Include files.
 #include "DexConnector.h"
 
-//Methods
-DexConnector::DexConnector(){
-	driver = sql::mysql::get_mysql_driver_instance();
-	conn = driver->connect("tcp://127.0.0.1:3306", "pokedex", "CppDex");
+//	Constructor.
+CDexConnector::CDexConnector(){
+	//	Set up driver & connection.
+	m_pdriver = sql::mysql::get_mysql_driver_instance();
+	m_pconn = m_pdriver->connect("tcp://127.0.0.1:3306", "pokedex", "CppDex");
 
-	conn->setSchema("pokebase");
+	//	Select database.
+	m_pconn->setSchema("pokebase");
 }
 
-DexConnector::~DexConnector(){
+//	Destructor.
+CDexConnector::~CDexConnector(){
 	
 }
 
-sql::ResultSet* DexConnector::searchByNumber(std::string pokeNum){
+//	searchByNumber	--	returns record with matching number.
+//	Parameters:
+//		pokeNum	--	string of number.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchByNumber(std::string pokeNum){
+	//	Insert 0's to match record length.
 	if(pokeNum.length() == 1){
 		pokeNum = "00" + pokeNum;
 	}
@@ -29,57 +35,98 @@ sql::ResultSet* DexConnector::searchByNumber(std::string pokeNum){
 		pokeNum = "0" + pokeNum;
 	}
 
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `number` = '" + pokeNum + "';");
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `number` = '" + pokeNum + "';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchByName(std::string pokeName){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `name` = '" + pokeName + "';");
+//	searchByName	--	returns record with matching name.
+//	Parameters:
+//		pokeName	--	string of name.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchByName(std::string pokeName){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `name` = '" + pokeName + "';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchByPrimaryType(std::string pokeType){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `primary_type` = '" + pokeType + "';");
+//	searchByPrimaryType	--	returns record with matching primary type.
+//	Parameters:
+//		pokeType	--	string of primary type.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchByPrimaryType(std::string pokeType){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `primary_type` = '" + pokeType + "';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchBySecondaryType(std::string pokeType){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `secondary_type` = '" + pokeType + "';");
+//	searchBySecondaryTYpe	--	returns record with matching secondary type.
+//	Parameters:
+//		pokeType	--	string of secondary type.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchBySecondaryType(std::string pokeType){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `secondary_type` = '" + pokeType + "';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchByGeneration(std::string pokeGen){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `gen_introduced` = '" + pokeGen + "';");
+//	searchByGeneration	--	returns record with matching generation.
+//	Parameters:
+//		pokeGen	--	string of generation.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchByGeneration(std::string pokeGen){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `gen_introduced` = '" + pokeGen + "';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchDualTypes(){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE NOT `secondary_type` = '-';");
+//	searchDualTypes	--	returns records of dual-types.
+//	Parameters:	none.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchDualTypes(){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE NOT `secondary_type` = '-';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchLegendaries(){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon WHERE `legendary` = '1';");
+//	searchLegendaries	--	returns records of legendaries.
+//	Parameters:	none.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchLegendaries(){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon WHERE `legendary` = '1';");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
 
-sql::ResultSet* DexConnector::searchAll(){
-	statement = conn->createStatement();
-	res = statement->executeQuery("SELECT * FROM pokemon;");
+//	searchAll	--	returns all records..
+//	Parameters:	none.
+//	Returns:	pointer to SQL ResultSet of executed query.
+sql::ResultSet* CDexConnector::searchAll(){
+	//	Execute query.
+	m_pstatement = m_pconn->createStatement();
+	m_pres = m_pstatement->executeQuery("SELECT * FROM pokemon;");
 
-	return res;
+	//	Return resultset.
+	return m_pres;
 }
