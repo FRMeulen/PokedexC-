@@ -19,12 +19,16 @@ protected:
 	Gtk::Box m_framesVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 		Gtk::Frame m_optionsFrame = Gtk::Frame("Options");
 			Gtk::Box m_optionsHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-				Gtk::Button m_backButton = Gtk::Button("Back");
-				Gtk::Button m_confirmButton = Gtk::Button("Confirm");
+				Gtk::Button m_backButton	= Gtk::Button("Back");
+				Gtk::Button m_confirmButton = Gtk::Button("Done");
 
 		Gtk::Frame m_filtersFrame = Gtk::Frame("Filters");
 			Gtk::Box m_filtersVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-				Gtk::Label m_selectedFilter = Gtk::Label("Selected: ---");
+				Gtk::Frame m_selectedFilterFrame = Gtk::Frame("Selected filter");
+					Gtk::Box m_selectedFilterHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+						Gtk::Label m_selectedFilterGroupLabel = Gtk::Label("Group: ---");
+						Gtk::Label m_selectedFilterNameLabel = Gtk::Label("Name: ---");
+
 				Gtk::Frame m_typeFiltersFrame = Gtk::Frame("Type Filters");
 					Gtk::Box m_typeFilterRowsVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 						Gtk::Box m_typeFiltersTopHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -71,13 +75,13 @@ protected:
 
 				Gtk::Frame m_genFiltersFrame = Gtk::Frame("Generation Filters");
 					Gtk::Box m_genFiltersHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-						Gtk::Button m_genFilterKanto	= Gtk::Button("Kanto");
-						Gtk::Button m_genFilterJohto	= Gtk::Button("Johto");
-						Gtk::Button m_genFilterHoenn	= Gtk::Button("Hoenn");
+						Gtk::Button m_genFilterKanto	= Gtk::Button(" Kanto");
+						Gtk::Button m_genFilterJohto	= Gtk::Button(" Johto");
+						Gtk::Button m_genFilterHoenn	= Gtk::Button(" Hoenn");
 						Gtk::Button m_genFilterSinnoh	= Gtk::Button("Sinnoh");
-						Gtk::Button m_genFilterUnova	= Gtk::Button("Unova");
-						Gtk::Button m_genFilterKalos	= Gtk::Button("Kalos");
-						Gtk::Button m_genFilterAlola	= Gtk::Button("Alola");
+						Gtk::Button m_genFilterUnova	= Gtk::Button(" Unova");
+						Gtk::Button m_genFilterKalos	= Gtk::Button(" Kalos");
+						Gtk::Button m_genFilterAlola	= Gtk::Button(" Alola");
 
 				Gtk::Frame m_miscFiltersFrame = Gtk::Frame("Miscellaneous Filters");
 					Gtk::Box m_miscFiltersHBox = Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -90,4 +94,5 @@ public:
 
 	//	Methods.
 	void toMainScreen();
+	void selectFilter(std::string group, std::string name);
 };

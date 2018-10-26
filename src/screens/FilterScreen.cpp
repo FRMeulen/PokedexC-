@@ -22,7 +22,11 @@ CFilterScreen::CFilterScreen(Gtk::Notebook& par) : parent(&par) {
 
 	m_framesVBox.pack_start(m_filtersFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 		m_filtersFrame.add(m_filtersVBox);
-			m_filtersVBox.pack_start(m_selectedFilter, Gtk::PACK_SHRINK, 10);
+			m_filtersVBox.pack_start(m_selectedFilterFrame, Gtk::PACK_SHRINK, 10);
+				m_selectedFilterFrame.add(m_selectedFilterHBox);
+					m_selectedFilterHBox.pack_start(m_selectedFilterGroupLabel, Gtk::PACK_EXPAND_WIDGET, 10);
+					m_selectedFilterHBox.pack_start(m_selectedFilterNameLabel, Gtk::PACK_EXPAND_WIDGET, 10);
+
 			m_filtersVBox.pack_start(m_typeFiltersFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 				m_typeFiltersFrame.add(m_typeFilterRowsVBox);
 					
@@ -87,12 +91,46 @@ CFilterScreen::CFilterScreen(Gtk::Notebook& par) : parent(&par) {
 	//	Configure widgets.
 	m_optionsFrame.set_border_width(10);
 	m_filtersFrame.set_border_width(10);
+	m_selectedFilterFrame.set_border_width(10);
 	m_typeFiltersFrame.set_border_width(10);
 	m_genFiltersFrame.set_border_width(10);
 	m_miscFiltersFrame.set_border_width(10);
 
-	//	Signal handlers.
+	//	Signal handlers	-	Options frame.
 	m_backButton.signal_clicked().connect(sigc::mem_fun(*this, &CFilterScreen::toMainScreen));
+
+	//	Signal handlers	-	Type filters.
+	m_typeFilterNormal.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Normal"));
+	m_typeFilterFighting.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Fighting"));
+	m_typeFilterFlying.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Flying"));
+	m_typeFilterPoison.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Poison"));
+	m_typeFilterGround.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Ground"));
+	m_typeFilterRock.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Rock"));
+	m_typeFilterBug.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Bug"));
+	m_typeFilterGhost.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Ghost"));
+	m_typeFilterSteel.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Steel"));
+	m_typeFilterFire.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Fire"));
+	m_typeFilterWater.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Water"));
+	m_typeFilterGrass.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Grass"));
+	m_typeFilterElectric.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Electric"));
+	m_typeFilterPsychic.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Psychic"));
+	m_typeFilterIce.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Ice"));
+	m_typeFilterDragon.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Dragon"));
+	m_typeFilterDark.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Dark"));
+	m_typeFilterFairy.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Fairy"));
+
+	//	Signal handlers	-	Generation filters.
+	m_genFilterKanto.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Kanto"));
+	m_genFilterJohto.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Johto"));
+	m_genFilterHoenn.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Hoenn"));
+	m_genFilterSinnoh.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Sinnoh"));
+	m_genFilterUnova.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Unova"));
+	m_genFilterKalos.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Kalos"));
+	m_genFilterAlola.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Generation", "Alola"));
+
+	//	Signal handlers	-	Miscellaneous filters.
+	m_miscFilterLegendary.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Misc", "Legendary"));
+	m_miscFilterDualType.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Misc", "Dual-Type"));
 }
 
 //	Destructor.
@@ -106,4 +144,14 @@ CFilterScreen::~CFilterScreen() {
 //	Returns:	void.
 void CFilterScreen::toMainScreen() {
 	parent->set_current_page(0);
+}
+
+//	selectFilter	--	Selects a filter
+//	Parameters:
+//		group	--	string of filter group
+//		name	--	string of filter name
+//	Returns:	void.
+void CFilterScreen::selectFilter(std::string group, std::string name) {
+	m_selectedFilterGroupLabel.set_text("Group: " + group);
+	m_selectedFilterNameLabel.set_text("Name: " + name);
 }
