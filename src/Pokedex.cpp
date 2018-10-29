@@ -7,6 +7,13 @@
 //	Include files.
 #include "DexConnector.h"
 #include "DexGui.h"
+#include <mysql_connection.h>
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
+#include <mysql_driver.h>
+#include <iostream>
 
 //	Main method	--	Entry point for PokedexC++ program.
 //	Parameters:	none.
@@ -14,7 +21,6 @@
 int main() {
 	//	Create essential objects.
 	CDexGui *m_gui = new CDexGui();
-	CDexConnector *m_dex = new CDexConnector();
 
 	//	Exit program.
 	return 0;

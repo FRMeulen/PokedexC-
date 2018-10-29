@@ -11,6 +11,9 @@ CDexGui::CDexGui() {
 	//	Create application.
 	auto app = Gtk::Application::create();
 	
+	//	Dex connector
+	m_dex = new CDexConnector();
+
 	//	Create & configure window.
 	Gtk::Window m_window;
 	m_window.set_title("PokedexC++");
@@ -20,7 +23,7 @@ CDexGui::CDexGui() {
 	//	Create notebook & screen objects.
 	m_screens = new Gtk::Notebook();
 	m_screens->set_show_tabs(false);
-	m_mainScreen = new CMainScreen(*m_screens);
+	m_mainScreen = new CMainScreen(*m_screens, m_dex->retrieveData("SELECT * FROM pokemon;"));
 	m_filterScreen = new CFilterScreen(*m_screens);
 
 	//	Add notebook to window.
@@ -45,4 +48,18 @@ CDexGui::~CDexGui() {
 //	Returns:	reference to notebook containing screens.
 Gtk::Notebook& CDexGui::getScreens() {
 	return *m_screens;
+}
+
+//	getMainScreen	--	Returns main screen.
+//	Parameters:	none.
+//	Returns:	Pointer to main screen.
+CMainScreen* CDexGui::getMainScreen() {
+	return m_mainScreen;
+}
+
+//	getFilterScreen	--	Returns filter screen.
+//	Parameters:	none.
+//	Returns:	Pointer to filter screen.
+CFilterScreen* CDexGui::getFilterScreen() {
+	return m_filterScreen;
 }

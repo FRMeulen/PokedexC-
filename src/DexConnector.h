@@ -32,12 +32,5 @@ public:
 	~CDexConnector();
 	
 	//	Methods.
-	sql::ResultSet* searchByNumber(std::string pokeNum);
-	sql::ResultSet* searchByName(std::string pokeName);
-	sql::ResultSet* searchByPrimaryType(std::string pokeType);
-	sql::ResultSet* searchBySecondaryType(std::string pokeType);
-	sql::ResultSet* searchByGeneration(std::string pokeGen);
-	sql::ResultSet* searchDualTypes();
-	sql::ResultSet* searchLegendaries();
-	sql::ResultSet* searchAll();
+	sql::ResultSet* retrieveData(std::string query);
 };
