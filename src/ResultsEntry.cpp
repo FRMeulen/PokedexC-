@@ -6,6 +6,7 @@
 
 //	Include files.
 #include "ResultsEntry.h"
+#include <iostream>
 
 //	Constructor.
 CResultsEntry::CResultsEntry() {

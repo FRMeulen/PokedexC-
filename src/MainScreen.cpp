@@ -12,19 +12,25 @@
 #define posPokemonScreen	2
 
 //	Constructor.
-CMainScreen::CMainScreen(Gtk::Notebook& par, sql::ResultSet* res) : parent(&par), m_queryRes(res) {
+CMainScreen::CMainScreen(Gtk::Notebook& par, CDexConnector* dex, std::string query) : parent(&par), m_dex(dex), m_query(query) {
 	//	Build screen.
 	this->pack_start(m_framesVBox, Gtk::PACK_EXPAND_WIDGET, 5);
 
 	m_framesVBox.pack_start(m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 		m_resultsFrame.add(m_scrollWindow);
 			m_scrollWindow.add(m_resultsListVBox);
-				displayResultsEntries();
+				setResultEntries(m_query);
 
 	m_framesVBox.pack_start(m_specifyFrame, Gtk::PACK_SHRINK, 10);
 		m_specifyFrame.add(m_specifyHBox);
 			m_specifyHBox.pack_start(m_filterOneButton, Gtk::PACK_EXPAND_WIDGET, 10);
+				if (!m_filterOne.empty())
+					m_filterOneButton.set_label(m_filterOne);
+
 			m_specifyHBox.pack_start(m_filterTwoButton, Gtk::PACK_EXPAND_WIDGET, 10);
+				if (!m_filterTwo.empty())
+					m_filterTwoButton.set_label(m_filterTwo);
+
 			m_specifyHBox.pack_start(m_searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//	Configure widgets.
@@ -33,6 +39,7 @@ CMainScreen::CMainScreen(Gtk::Notebook& par, sql::ResultSet* res) : parent(&par)
 
 	//	Signal handlers.
 	m_filterOneButton.signal_clicked().connect(sigc::mem_fun(*this, &CMainScreen::toFilterScreen));
+	m_filterTwoButton.signal_clicked().connect(sigc::mem_fun(*this, &CMainScreen::toFilterScreen));
 }
 
 //	Destructor.
@@ -59,7 +66,10 @@ void CMainScreen::appendResultsEntry(std::string num, std::string name, std::str
 //	displayResultsEntries	--	Displays vector contents on screen.
 //	Parameters:	none.
 //	Returns:	void.
-void CMainScreen::displayResultsEntries() {
+void CMainScreen::setResultEntries(std::string newQuery) {
+	//	Update resultset
+	m_queryRes = m_dex->retrieveData(m_query);
+
 	//	Clear vector.
 	m_resultsEntries.clear();
 
@@ -79,15 +89,31 @@ void CMainScreen::displayResultsEntries() {
 }
 
 //	toFilterScreen	--	Sets notebook page to filter screen.
-//	Parameters:	none.
+//	Parameters:
+//		--	num	--	Filter number.
 //	Returns:	void.
 void CMainScreen::toFilterScreen() {
 	parent->set_current_page(posFilterScreen);
 }
 
+//	addFilter	--	Adds filter to query results.
+//	Parameters:
+//		--	filterNum	--	Number of filter.
+//		--	filter		--	String of filter.
+//	Returns:	void.
+void CMainScreen::addFilter(int filterNum, std::string filter) {
+	if (filterNum == 1) {
+		//	Set first filter.
+	} else if (filterNum == 2) {
+		//	Set second filter.
+	} else {
+		//	Invalid filter num.
+	}
+}
+
 //	toPokemonScreen	--	Sets notebook page to pokemon screen.
 //	Parameters:
-//		--	num	--	String of Pokemon number
+//		--	num	--	String of Pokemon number.
 //	Returns:	void.
 void CMainScreen::toPokemonScreen(std::string num) {
 	parent->set_current_page(posPokemonScreen);

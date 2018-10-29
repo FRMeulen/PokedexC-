@@ -14,6 +14,7 @@ class CFilterScreen : public Gtk::Box {
 protected:
 	//	Parent notebook pointer.
 	Gtk::Notebook* parent;
+	int m_filterNum;
 
 	//	Child widgets.
 	Gtk::Box m_framesVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
@@ -94,5 +95,6 @@ public:
 
 	//	Methods.
 	void toMainScreen();
+	void setFilterNum(int num);
 	void selectFilter(std::string group, std::string name);
 };

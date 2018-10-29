@@ -9,8 +9,8 @@
 //	Include files.
 #include <gtkmm-3.0/gtkmm.h>
 #include <cppconn/resultset.h>
-#include "screens/MainScreen.h"
-#include "screens/FilterScreen.h"
+#include "MainScreen.h"
+#include "FilterScreen.h"
 #include "DexConnector.h"
 
 //	Class interface.

@@ -10,6 +10,7 @@
 #include <gtkmm-3.0/gtkmm.h>
 #include <vector>
 #include <cppconn/resultset.h>
+#include "DexConnector.h"
 #include "ResultsEntry.h"
 
 //	Class interface.
@@ -17,8 +18,11 @@ class CMainScreen : public Gtk::Box {
 protected:
 	//	Parent notebook pointer.
 	Gtk::Notebook* parent;
+	CDexConnector* m_dex;
 	sql::ResultSet* m_queryRes;
-
+	std::string m_query;
+	std::string m_filterOne;
+	std::string m_filterTwo;
 
 	//	Child widgets.
 	Gtk::Box m_framesVBox = Gtk::Box(Gtk::ORIENTATION_VERTICAL);
@@ -35,12 +39,13 @@ protected:
 				Gtk::Button m_searchButton		=	Gtk::Button("Search");
 public:
 	//	Constructors & desctructor.
-	CMainScreen(Gtk::Notebook& par, sql::ResultSet* res);
+	CMainScreen(Gtk::Notebook& par, CDexConnector* dex, std::string query);
 	virtual ~CMainScreen();
 
 	//	Methods.
 	void appendResultsEntry(std::string num, std::string name, std::string pritype, std::string sectype);
-	void displayResultsEntries();
+	void setResultEntries(std::string query);
 	void toFilterScreen();
+	void addFilter(int filterNum, std::string filter);
 	void toPokemonScreen(std::string num);
 };

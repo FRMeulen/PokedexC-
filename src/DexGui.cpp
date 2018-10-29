@@ -23,7 +23,7 @@ CDexGui::CDexGui() {
 	//	Create notebook & screen objects.
 	m_screens = new Gtk::Notebook();
 	m_screens->set_show_tabs(false);
-	m_mainScreen = new CMainScreen(*m_screens, m_dex->retrieveData("SELECT * FROM pokemon;"));
+	m_mainScreen = new CMainScreen(*m_screens, m_dex, "SELECT * FROM pokemon;");
 	m_filterScreen = new CFilterScreen(*m_screens);
 
 	//	Add notebook to window.

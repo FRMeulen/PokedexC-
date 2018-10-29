@@ -98,7 +98,8 @@ CFilterScreen::CFilterScreen(Gtk::Notebook& par) : parent(&par) {
 
 	//	Signal handlers	-	Options frame.
 	m_backButton.signal_clicked().connect(sigc::mem_fun(*this, &CFilterScreen::toMainScreen));
-
+	m_confirmButton.signal_clicked().connect(sigc::mem_fun(*this, &CFilterScreen::toMainScreen));
+	
 	//	Signal handlers	-	Type filters.
 	m_typeFilterNormal.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Normal"));
 	m_typeFilterFighting.signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Fighting"));
@@ -143,7 +144,15 @@ CFilterScreen::~CFilterScreen() {
 //	Parameters:	none.
 //	Returns:	void.
 void CFilterScreen::toMainScreen() {
-	parent->set_current_page(0);
+	parent->set_current_page(posMainScreen);
+}
+
+//	setFilterNum	--	Sets filter number.
+//	Parameters:
+//		--	num	--	Filter number.
+//	Returns:	void.
+void CFilterScreen::setFilterNum(int num) {
+	m_filterNum = num;
 }
 
 //	selectFilter	--	Selects a filter
