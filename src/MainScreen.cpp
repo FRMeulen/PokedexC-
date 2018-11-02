@@ -27,7 +27,7 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 	m_framesVBox->pack_start(*m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
 		m_resultsFrame->add(*m_scrollWindow);
 			m_scrollWindow->add(*m_resultsListVBox);
-				showQueryResults("SELECT * FROM pokemon;");
+				getQueryResults("SELECT * FROM pokemon;");
 
 	m_framesVBox->pack_start(*m_specifyFrame, Gtk::PACK_SHRINK, 10);
 		m_specifyFrame->add(*m_specifyHBox);
@@ -53,10 +53,7 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 CMainScreen::~CMainScreen() {
 	m_gui->setMainScreen(NULL);
 
-	//m_resultsEntries.clear();
-	//if (m_resEntry != NULL) {
-	//	delete m_resEntry;
-	//}
+	m_resultsEntries.clear();
 }
 
 //	swapScreen	--	Tells the window to switch screens.
@@ -76,26 +73,26 @@ void CMainScreen::swapScreen(std::string newScreen) {
 }
 
 //	appendResultsEntry	--	Appends results entry to vector.
-//	Parematers:
+//	Parameters:
 //		--	num		--	String of Pokemon number.
 //		--	name	--	String of Pokemon name.
 //		--	pritype	--	String of Pokemon primary type.
 //		--	sectype	--	String of Pokemon secondary type.
 //	Returns:	void.
-//void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
-//	m_resultsEntries.push_back(*entry);
-//	m_resultsListVBox->pack_start(*entry, Gtk::PACK_SHRINK, 5);
-//}
+void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
+	m_resultsEntries.push_back(entry);
+	//m_resultsListVBox->pack_start(*entry, Gtk::PACK_SHRINK, 5);
+}
 
 //	displayResultsEntries	--	Displays vector contents on screen.
 //	Parameters:	none.
 //	Returns:	void.
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Clear vector.
-	//m_resultsEntries.clear();
+	m_resultsEntries.clear();
 
 	//	Update resultset
-	//m_gui->fillEntries(newQuery);
+	
 }
 
 //	setQuery	--	Sets query string.

@@ -58,26 +58,6 @@ void CDexGui::swapScreen(std::string newScreen) {
 		m_pages->set_current_page(filterScreenPage);
 }
 
-//	fillEntries	--	Fills main screen with entries.
-//	Parameters:
-//		query	--	Query to make entries with.
-//	Returns:	void.
-void CDexGui::fillEntries(std::string query) {
-	m_queryRes = m_dex->retrieveData(query);
-
-	while (m_queryRes->next()) {
-		m_entry = new CResultsEntry(*m_mainScreen);
-
-		std::string _num = m_queryRes->getString("pokemon_number");
-		std::string _name = m_queryRes->getString("pokemon_name");
-		std::string _pritype = m_queryRes->getString("pokemon_primary_type");
-		std::string _sectype = m_queryRes->getString("pokemon_secondary_type");
-
-		m_entry->setEntryData(_num, _name, _pritype, _sectype);
-		m_entry->appendToScreen();
-	}
-}
-
 //	getWindow	--	Returns pointer to window.
 //	Parameters:	none.
 //	Returns:	pointer to app window.
@@ -88,8 +68,8 @@ Gtk::Window* CDexGui::getWindow() {
 //	getNotebook	--	Returns pointer to notebook.
 //	Parameters:	none.
 //	Returns:	pointer to notebook containing screens.
-Gtk::Notebook& CDexGui::getScreens() {
-	return *m_screens;
+Gtk::Notebook* CDexGui::getNotebook() {
+	return m_pages;
 }
 
 //	getMainScreen	--	Returns pointer to main screen.

@@ -64,7 +64,7 @@ CResultsEntry::~CResultsEntry() {
 //	Parameters:	none.
 //	Returns:	void.
 void CResultsEntry::appendToScreen() {
-	m_mainScreen->appendResultsEntry(this);
+	//m_mainScreen->appendResultsEntry(this);
 }
 
 //	getNumber	--	Returns Pokemon number.

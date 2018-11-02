@@ -11,11 +11,11 @@
 #include <gtkmm-3.0/gtkmm.h>
 #include <cppconn/resultset.h>
 #include "DexConnector.h"
-#include "ResultsEntry.h"
 
 //	Predefinitions.
 class CMainScreen;
 class CFilterScreen;
+class CResultsEntry;
 
 //	Class interface.
 class CDexGui {
@@ -26,7 +26,7 @@ protected:
 	Gtk::Notebook* m_pages;
 	CDexConnector* m_dex;
 	sql::ResultSet* m_queryRes;
-	//CResultsEntry* m_entry;
+	CResultsEntry* m_entry;
 
 	//	Screen object pointers.
 	CMainScreen* m_mainScreen;
@@ -39,7 +39,6 @@ public:
 	//	Methods.
 	void start();
 	void swapScreen(std::string newScreen);
-	//void fillEntries(std::string query);
 
 	//	Getters.
 	Gtk::Window* getWindow();

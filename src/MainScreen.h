@@ -35,8 +35,8 @@ protected:
 		Gtk::Frame* m_resultsFrame;
 			Gtk::ScrolledWindow* m_scrollWindow;
 				Gtk::Box* m_resultsListVBox;
-					//std::vector<CResultsEntry*> m_resultsEntries;
-					//CResultsEntry* m_resEntry;
+					std::vector<CResultsEntry*> m_resultsEntries;
+					CResultsEntry* m_resEntry;
 
 		Gtk::Frame* m_specifyFrame;
 			Gtk::Box* m_specifyHBox;
@@ -50,7 +50,7 @@ public:
 
 	//	Methods.
 	void swapScreen(std::string newScreen);
-	//void appendResultsEntry(CResultsEntry* entry);
+	void appendResultsEntry(CResultsEntry* entry);
 	
 	//	Getters.
 	void getQueryResults(std::string query);
