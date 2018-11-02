@@ -21,14 +21,13 @@
 //	Class interface.
 class CMainScreen {
 protected:
-	//	Gui pointer.
+	//	Gui pointers.
 	CDexGui* m_gui;
+	CFilterScreen* m_filterScreen;
 
 	//	Data-related fields.
 	sql::ResultSet* m_queryRes;
 	std::string m_query;
-	std::string m_filterOne;
-	std::string m_filterTwo;
 
 	//	Child widget pointers.
 	Gtk::Box* m_framesVBox;
@@ -40,8 +39,14 @@ protected:
 
 		Gtk::Frame* m_specifyFrame;
 			Gtk::Box* m_specifyHBox;
-				Gtk::Button* m_filterOneButton;
-				Gtk::Button* m_filterTwoButton;
+				Gtk::Box* m_filterOneVBox;
+					Gtk::Label* m_filterOneLabel;
+					Gtk::Button* m_filterOneButton;
+				
+				Gtk::Box* m_filterTwoVBox;
+					Gtk::Label* m_filterTwoLabel;
+					Gtk::Button* m_filterTwoButton;
+				
 				Gtk::Button* m_searchButton;
 public:
 	//	Constructors & desctructor.
@@ -51,7 +56,8 @@ public:
 	//	Methods.
 	void swapScreen(std::string newScreen);
 	void appendResultsEntry(CResultsEntry* entry);
-	
+	void updatePointers(CFilterScreen newFilterScreen);
+
 	//	Getters.
 	void getQueryResults(std::string query);
 

@@ -202,6 +202,10 @@ CFilterScreen::CFilterScreen(CDexGui parmGui) : m_gui(&parmGui) {
 	//	Signal handlers	-	Miscellaneous filters.
 	m_miscFilterLegendary->signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Misc", "Legendary"));
 	m_miscFilterDualType->signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Misc", "Dual-Type"));
+
+	//	Make self known to Gui.
+	m_gui->setFilterScreen(this);
+	m_gui->getNotebook()->append_page(*m_framesVBox);
 }
 
 //	Destructor.
@@ -217,10 +221,18 @@ void CFilterScreen::swapScreen(std::string newScreen) {
 	if (newScreen == "mainscreen0") {
 		swapScreen("mainscreen");
 	} else if (newScreen == "mainscreen1") {
-		if (m_filterNum == 1) {
-			m_gui->getMainScreen()->setFilter(1, m_filterGroup + ":" + m_filterName);
-		} else if (m_filterNum == 2) {
-			m_gui->getMainScreen()->setFilter(2, m_filterGroup + ":" + m_filterName);
+		std::string filterGroup = m_selectedFilterGroupLabel->get_text();
+		filterGroup = filterGroup.substr(7);
+		std::string filterName = m_selectedFilterNameLabel->get_text();
+		filterName = filterName.substr(6);
+		std::string filterString = filterGroup + ":" + filterName;
+
+		if (m_filtersFrame->get_label() == "Filter 1") {
+			m_mainScreen->setFilter(1, filterString);
+			swapScreen("mainscreen");
+		} else if (m_filtersFrame->get_label() == "Filter 2") {
+			m_mainScreen->setFilter(2, filterString);
+			swapScreen("mainscreen");
 		}
 	} else {
 		m_gui->swapScreen(newScreen);
@@ -234,9 +246,17 @@ void CFilterScreen::swapScreen(std::string newScreen) {
 //	Returns:	void.
 void CFilterScreen::selectFilter(std::string group, std::string name) {
 	m_selectedFilterGroupLabel->set_text("Group: " + group);
-	m_filterGroup = group;
+	//m_filterGroup = group;
 	m_selectedFilterNameLabel->set_text("Name: " + name);
-	m_filterName = name;
+	//m_filterName = name;
+}
+
+//	updatePointers	--	Updates pointers to other screens.
+//	Parameters:
+//		newMainScreen	--	Main Screen.
+//	Returns:	void.
+void CFilterScreen::updatePointers(CMainScreen newMainScreen) {
+	m_mainScreen = &newMainScreen;
 }
 
 //	setFilterNum	--	Sets filter number.
@@ -244,5 +264,5 @@ void CFilterScreen::selectFilter(std::string group, std::string name) {
 //		--	num	--	Filter number.
 //	Returns:	void.
 void CFilterScreen::setFilterNum(int num) {
-	m_filterNum = num;
+	m_filtersFrame->set_label("Filter " + std::to_string(num));
 }

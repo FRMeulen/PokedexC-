@@ -6,6 +6,7 @@
 
 //	Include files.
 #include "MainScreen.h"
+#include <iostream>
 
 //	Constructor.
 //	Parameters:
@@ -19,8 +20,14 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 
 		m_specifyFrame = new Gtk::Frame("Specify");
 			m_specifyHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-				m_filterOneButton = new Gtk::Button("Filter one: ---");
-				m_filterTwoButton = new Gtk::Button("Filter two: ---");
+				m_filterOneVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+					m_filterOneLabel = new Gtk::Label("Filter one: ---");
+					m_filterOneButton = new Gtk::Button("SELECT");
+				
+				m_filterTwoVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+					m_filterTwoLabel = new Gtk::Label("Filter two: ---");
+					m_filterTwoButton = new Gtk::Button("SELECT");
+				
 				m_searchButton = new Gtk::Button("Search");
 
 	//	Build screen.
@@ -31,8 +38,14 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 
 	m_framesVBox->pack_start(*m_specifyFrame, Gtk::PACK_SHRINK, 10);
 		m_specifyFrame->add(*m_specifyHBox);
-			m_specifyHBox->pack_start(*m_filterOneButton, Gtk::PACK_EXPAND_WIDGET, 10);
-			m_specifyHBox->pack_start(*m_filterTwoButton, Gtk::PACK_EXPAND_WIDGET, 10);
+			m_specifyHBox->pack_start(*m_filterOneVBox, Gtk::PACK_EXPAND_WIDGET, 10);
+				m_filterOneVBox->pack_start(*m_filterOneLabel, Gtk::PACK_SHRINK, 10);
+				m_filterOneVBox->pack_start(*m_filterOneButton, Gtk::PACK_SHRINK, 10);
+
+			m_specifyHBox->pack_start(*m_filterTwoVBox, Gtk::PACK_EXPAND_WIDGET, 10);
+				m_filterTwoVBox->pack_start(*m_filterTwoLabel, Gtk::PACK_SHRINK, 10);
+				m_filterTwoVBox->pack_start(*m_filterTwoButton, Gtk::PACK_SHRINK, 10);
+			
 			m_specifyHBox->pack_start(*m_searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//	Configure widgets.
@@ -62,10 +75,11 @@ CMainScreen::~CMainScreen() {
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
 	if (newScreen == "filterscreen1") {
-		m_gui->getFilterScreen()->setFilterNum(1);
+		std::cout << "MainScreen: setting filter num to 1" << std::endl;
+		m_filterScreen->setFilterNum(1);
 		swapScreen("filterscreen");
 	} else if (newScreen == "filterscreen2") {
-		m_gui->getFilterScreen()->setFilterNum(2);
+		m_filterScreen->setFilterNum(2);
 		swapScreen("filterscreen");
 	} else {
 		m_gui->swapScreen(newScreen);
@@ -82,6 +96,14 @@ void CMainScreen::swapScreen(std::string newScreen) {
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 	m_resultsEntries.push_back(entry);
 	//m_resultsListVBox->pack_start(*entry, Gtk::PACK_SHRINK, 5);
+}
+
+//	updatePointers	--	Updates pointers to other screens.
+//	Parameters:
+//		newFilterScreen	--	Filter Screen
+//	Returns:	none.
+void CMainScreen::updatePointers(CFilterScreen newFilterScreen) {
+	m_filterScreen = &newFilterScreen;
 }
 
 //	displayResultsEntries	--	Displays vector contents on screen.
@@ -109,8 +131,9 @@ void CMainScreen::setQuery(std::string newQuery) {
 //		filter	--	String containing filter.
 //	Returns:	void.
 void CMainScreen::setFilter(int filterNum, std::string filter) {
-	if (filterNum == 1)
-		m_filterOne = filter;
-	else if (filterNum == 2)
-		m_filterTwo = filter;
+	if (filterNum == 1) {
+		m_filterOneLabel->set_text("Filter 1: " + filter);
+	} else if (filterNum == 2) {
+		m_filterTwoLabel->set_text("Filter 2: " + filter);
+	}
 }

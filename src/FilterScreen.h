@@ -15,13 +15,9 @@
 //	Class interface.
 class CFilterScreen {
 protected:
-	//	Gui pointer.
+	//	Gui pointers.
 	CDexGui* m_gui;
-	
-	//	Data-related pointers.
-	int m_filterNum;
-	std::string m_filterGroup;
-	std::string m_filterName;
+	CMainScreen* m_mainScreen;
 
 	//	Child widget pointers.
 	Gtk::Box* m_framesVBox;
@@ -103,6 +99,7 @@ public:
 	//	Methods.
 	void swapScreen(std::string newScreen);
 	void selectFilter(std::string group, std::string name);
+	void updatePointers(CMainScreen newMainScreen);
 
 	//	Setters.
 	void setFilterNum(int num);
