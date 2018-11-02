@@ -10,7 +10,7 @@
 #include <iostream>
 
 //	Constructor.
-CResultsEntry::CResultsEntry(CMainScreen parmScreen) : m_mainScreen(&parmScreen) {
+CResultsEntry::CResultsEntry() {
 	//	Build child widgets.
 	m_entryMainFrame = new Gtk::Frame();
 		m_entryMainHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -72,6 +72,13 @@ void CResultsEntry::appendToScreen() {
 //	Returns:	String of Pokemon number.
 std::string CResultsEntry::getNumber() {
 	return m_entryNumLabel->get_text();
+}
+
+//	getMainFrame	--	Returns main frame of entry.
+//	Parameters:	none.
+//	Returns:	pointer to main frame.
+Gtk::Frame* getMainFrame() {
+	return m_entryMainFrame;
 }
 
 //	setEntryData	--	Sets data in entry boxes.

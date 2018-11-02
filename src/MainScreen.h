@@ -14,9 +14,7 @@
 #include "DexGui.h"
 #include "DexConnector.h"
 #include "FilterScreen.h"
-
-//	Predefinitions.
-//class CResultsEntry;
+#include "ResultsEntry.h"
 
 //	Class interface.
 class CMainScreen {

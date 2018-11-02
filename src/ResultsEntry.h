@@ -10,14 +10,10 @@
 
 //	Include files.
 #include <gtkmm-3.0/gtkmm.h>
-#include "MainScreen.h"
 
 //	Class interface.
 class CResultsEntry {
 protected:
-	//	Main screen pointer.
-	CMainScreen* m_mainScreen;
-
 	//	Child widget pointers.
 	Gtk::Frame* m_entryMainFrame;
 		Gtk::Box* m_entryMainHBox;
@@ -39,7 +35,7 @@ protected:
 		Gtk::Button* m_selectEntryButton;
 public:
 	//	Constructors & destructor.
-	CResultsEntry(CMainScreen parmScreen);
+	CResultsEntry();
 	virtual ~CResultsEntry();
 
 	//	Methods.
@@ -47,6 +43,7 @@ public:
 
 	//	Getters.
 	std::string getNumber();
+	Gtk::Frame* getMainFrame();
 
 	//	Setters.
 	void setEntryData(std::string num, std::string name, std::string pritype, std::string(sectype));

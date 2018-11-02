@@ -72,6 +72,13 @@ Gtk::Notebook* CDexGui::getNotebook() {
 	return m_pages;
 }
 
+//	getDex	--	Returns pointer to dexconnector.
+//	Parameters:	none.
+//	Returns:	pointer to dexconnector.
+CDexConnector* CDexGui::getDex() {
+	return m_dex;
+}
+
 //	getMainScreen	--	Returns pointer to main screen.
 //	Parameters:	none.
 //	Returns:	pointer to main screen.
