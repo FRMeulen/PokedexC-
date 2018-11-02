@@ -2,51 +2,76 @@
 //	MainScreen.cpp	--	Implementation of the CMainScreen class.
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
+//	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
 
 //	Include files.
 #include "MainScreen.h"
 
-//	Definitions.
-#define	posMainScreen		0
-#define	posFilterScreen		1
-#define posPokemonScreen	2
-
 //	Constructor.
-CMainScreen::CMainScreen(Gtk::Notebook& par, CDexConnector* dex, std::string query) : parent(&par), m_dex(dex), m_query(query) {
+//	Parameters:
+//		parmGui	--	Gui containing this screen.
+CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
+	//	Build child widgets.
+	m_framesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+		m_resultsFrame = new Gtk::Frame("Results");
+			m_scrollWindow = new Gtk::ScrolledWindow();
+				m_resultsListVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+
+		m_specifyFrame = new Gtk::Frame("Specify");
+			m_specifyHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+				m_filterOneButton = new Gtk::Button("Filter one: ---");
+				m_filterTwoButton = new Gtk::Button("Filter two: ---");
+				m_searchButton = new Gtk::Button("Search");
+
 	//	Build screen.
-	this->pack_start(m_framesVBox, Gtk::PACK_EXPAND_WIDGET, 5);
+	m_framesVBox->pack_start(*m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+		m_resultsFrame->add(*m_scrollWindow);
+			m_scrollWindow->add(*m_resultsListVBox);
+				showQueryResults("SELECT * FROM pokemon;");
 
-	m_framesVBox.pack_start(m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
-		m_resultsFrame.add(m_scrollWindow);
-			m_scrollWindow.add(m_resultsListVBox);
-				setResultEntries(m_query);
-
-	m_framesVBox.pack_start(m_specifyFrame, Gtk::PACK_SHRINK, 10);
-		m_specifyFrame.add(m_specifyHBox);
-			m_specifyHBox.pack_start(m_filterOneButton, Gtk::PACK_EXPAND_WIDGET, 10);
-				if (!m_filterOne.empty())
-					m_filterOneButton.set_label(m_filterOne);
-
-			m_specifyHBox.pack_start(m_filterTwoButton, Gtk::PACK_EXPAND_WIDGET, 10);
-				if (!m_filterTwo.empty())
-					m_filterTwoButton.set_label(m_filterTwo);
-
-			m_specifyHBox.pack_start(m_searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
+	m_framesVBox->pack_start(*m_specifyFrame, Gtk::PACK_SHRINK, 10);
+		m_specifyFrame->add(*m_specifyHBox);
+			m_specifyHBox->pack_start(*m_filterOneButton, Gtk::PACK_EXPAND_WIDGET, 10);
+			m_specifyHBox->pack_start(*m_filterTwoButton, Gtk::PACK_EXPAND_WIDGET, 10);
+			m_specifyHBox->pack_start(*m_searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	//	Configure widgets.
-	m_resultsFrame.set_border_width(10);
-	m_specifyFrame.set_border_width(10);
+	m_resultsFrame->set_border_width(10);
+	m_specifyFrame->set_border_width(10);
 
 	//	Signal handlers.
-	m_filterOneButton.signal_clicked().connect(sigc::mem_fun(*this, &CMainScreen::toFilterScreen));
-	m_filterTwoButton.signal_clicked().connect(sigc::mem_fun(*this, &CMainScreen::toFilterScreen));
+	m_filterOneButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CMainScreen::swapScreen), "filterscreen1"));
+	m_filterTwoButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CMainScreen::swapScreen), "filterscreen2"));
+
+	//	Make self known to Gui.
+	m_gui->setMainScreen(this);
+	m_gui->getNotebook()->append_page(*m_framesVBox);
 }
 
 //	Destructor.
+//	Parameters:	none.
 CMainScreen::~CMainScreen() {
-	m_resultsEntries.clear();
-	if (m_resEntry != NULL) {
-		delete m_resEntry;
+	m_gui->setMainScreen(NULL);
+
+	//m_resultsEntries.clear();
+	//if (m_resEntry != NULL) {
+	//	delete m_resEntry;
+	//}
+}
+
+//	swapScreen	--	Tells the window to switch screens.
+//	Parameters:
+//		newScreen	--	String of new screen name.
+//	Returns:	void.
+void CMainScreen::swapScreen(std::string newScreen) {
+	if (newScreen == "filterscreen1") {
+		m_gui->getFilterScreen()->setFilterNum(1);
+		swapScreen("filterscreen");
+	} else if (newScreen == "filterscreen2") {
+		m_gui->getFilterScreen()->setFilterNum(2);
+		swapScreen("filterscreen");
+	} else {
+		m_gui->swapScreen(newScreen);
 	}
 }
 
@@ -57,64 +82,38 @@ CMainScreen::~CMainScreen() {
 //		--	pritype	--	String of Pokemon primary type.
 //		--	sectype	--	String of Pokemon secondary type.
 //	Returns:	void.
-void CMainScreen::appendResultsEntry(std::string num, std::string name, std::string pritype, std::string sectype) {
-	m_resEntry = new CResultsEntry();
-	m_resEntry->setEntryData(num, name, pritype, sectype);
-	m_resultsEntries.push_back(m_resEntry);
-}
+//void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
+//	m_resultsEntries.push_back(*entry);
+//	m_resultsListVBox->pack_start(*entry, Gtk::PACK_SHRINK, 5);
+//}
 
 //	displayResultsEntries	--	Displays vector contents on screen.
 //	Parameters:	none.
 //	Returns:	void.
-void CMainScreen::setResultEntries(std::string newQuery) {
-	//	Update resultset
-	m_queryRes = m_dex->retrieveData(m_query);
-
+void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Clear vector.
-	m_resultsEntries.clear();
+	//m_resultsEntries.clear();
 
-	//	Append new entries.
-	while (m_queryRes->next()) {
-		std::string _num = m_queryRes->getString("pokemon_number");
-		std::string _name = m_queryRes->getString("pokemon_name");
-		std::string _pritype = m_queryRes->getString("pokemon_primary_type");
-		std::string _sectype = m_queryRes->getString("pokemon_secondary_type");
-		appendResultsEntry(_num, _name, _pritype, _sectype);
-	}
-
-	for (int i = 0; i < m_resultsEntries.size(); i++) {
-		m_resEntry  = m_resultsEntries.at(i);
-		m_resultsListVBox.pack_start(*m_resEntry, Gtk::PACK_SHRINK, 5);
-	}
+	//	Update resultset
+	//m_gui->fillEntries(newQuery);
 }
 
-//	toFilterScreen	--	Sets notebook page to filter screen.
+//	setQuery	--	Sets query string.
 //	Parameters:
-//		--	num	--	Filter number.
+//		newQuery	--	String of new query.
 //	Returns:	void.
-void CMainScreen::toFilterScreen() {
-	parent->set_current_page(posFilterScreen);
+void CMainScreen::setQuery(std::string newQuery) {
+	m_query = newQuery;
 }
 
-//	addFilter	--	Adds filter to query results.
+//	setFilter	--	Sets filter string.
 //	Parameters:
-//		--	filterNum	--	Number of filter.
-//		--	filter		--	String of filter.
+//		filterNum	--	Int deciding which filter is filled.
+//		filter	--	String containing filter.
 //	Returns:	void.
-void CMainScreen::addFilter(int filterNum, std::string filter) {
-	if (filterNum == 1) {
-		//	Set first filter.
-	} else if (filterNum == 2) {
-		//	Set second filter.
-	} else {
-		//	Invalid filter num.
-	}
-}
-
-//	toPokemonScreen	--	Sets notebook page to pokemon screen.
-//	Parameters:
-//		--	num	--	String of Pokemon number.
-//	Returns:	void.
-void CMainScreen::toPokemonScreen(std::string num) {
-	parent->set_current_page(posPokemonScreen);
+void CMainScreen::setFilter(int filterNum, std::string filter) {
+	if (filterNum == 1)
+		m_filterOne = filter;
+	else if (filterNum == 2)
+		m_filterTwo = filter;
 }

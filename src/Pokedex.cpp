@@ -3,24 +3,26 @@
 //	Revisions:
 //	2018-07-09	--	F.R. van der Meulen	--	Created.
 //	2018-10-25	--	F.R. van der Meulen	--	Altered to match V2 style.
+//	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
 
 //	Include files.
-#include "DexConnector.h"
 #include "DexGui.h"
-#include <mysql_connection.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
-#include <mysql_driver.h>
-#include <iostream>
+#include "MainScreen.h"
+#include "FilterScreen.h"
 
 //	Main method	--	Entry point for PokedexC++ program.
 //	Parameters:	none.
 //	Returns:	int.
 int main() {
-	//	Create essential objects.
+	//	Create dex objects.
 	CDexGui *m_gui = new CDexGui();
+
+	//	Create screens.
+	CMainScreen *m_mainScreen = new CMainScreen(*m_gui);
+	CFilterScreen *m_filterScreen = new CFilterScreen(*m_gui);
+
+	//	Start gui.
+	m_gui->start();
 
 	//	Exit program.
 	return 0;
