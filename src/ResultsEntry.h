@@ -38,9 +38,6 @@ public:
 	CResultsEntry();
 	virtual ~CResultsEntry();
 
-	//	Methods.
-	void appendToScreen();
-
 	//	Getters.
 	std::string getNumber();
 	Gtk::Frame* getMainFrame();

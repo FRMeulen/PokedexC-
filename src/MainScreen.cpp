@@ -95,8 +95,8 @@ void CMainScreen::swapScreen(std::string newScreen) {
 //	Returns:	void.
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 	m_resultsEntries.push_back(entry);
-	//Gtk::Frame* entryFrame = entry->getMainFrame();
-	//m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 5);
+	Gtk::Frame* entryFrame = entry->getMainFrame();
+	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 5);
 }
 
 //	updatePointers	--	Updates pointers to other screens.
@@ -118,15 +118,15 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 	m_queryRes = m_gui->getDex()->retrieveData(newQuery);
 
 	while (m_queryRes->next()) {
-		//m_resEntry = new CResultsEntry();
+		m_resEntry = new CResultsEntry();
 
 		std::string _num = m_queryRes->getString("pokemon_number");
 		std::string _name = m_queryRes->getString("pokemon_name");
 		std::string _pritype = m_queryRes->getString("pokemon_primary_type");
 		std::string _sectype = m_queryRes->getString("pokemon_secondary_type");
 
-		//m_resEntry->setEntryData(_num, _name, _pritype, _sectype);
-		//appendResultsEntry(m_resEntry);
+		m_resEntry->setEntryData(_num, _name, _pritype, _sectype);
+		appendResultsEntry(m_resEntry);
 	}
 }
 

@@ -29,7 +29,7 @@ CResultsEntry::CResultsEntry() {
 					m_entrySecTypeFrame = new Gtk::Frame();
 						m_entrySecTypeLabel = new Gtk::Label();
 
-		m_selectEntryButton = new Gtk::Button();
+		m_selectEntryButton = new Gtk::Button("GO");
 
 	//	Build entry.
 	m_entryMainFrame->set_border_width(10);
@@ -60,13 +60,6 @@ CResultsEntry::~CResultsEntry() {
 
 }
 
-//	appendToScreen	--	Appends entry to mainscreen vector.
-//	Parameters:	none.
-//	Returns:	void.
-void CResultsEntry::appendToScreen() {
-	//m_mainScreen->appendResultsEntry(this);
-}
-
 //	getNumber	--	Returns Pokemon number.
 //	Parameters:	none.
 //	Returns:	String of Pokemon number.
@@ -77,7 +70,7 @@ std::string CResultsEntry::getNumber() {
 //	getMainFrame	--	Returns main frame of entry.
 //	Parameters:	none.
 //	Returns:	pointer to main frame.
-Gtk::Frame* getMainFrame() {
+Gtk::Frame* CResultsEntry::getMainFrame() {
 	return m_entryMainFrame;
 }
 
