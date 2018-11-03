@@ -55,6 +55,7 @@ public:
 	void swapScreen(std::string newScreen);
 	void appendResultsEntry(CResultsEntry* entry);
 	void updatePointers(CFilterScreen newFilterScreen);
+	void updateQuery();
 
 	//	Getters.
 	void getQueryResults(std::string query);

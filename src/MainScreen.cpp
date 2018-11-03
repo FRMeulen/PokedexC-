@@ -21,11 +21,11 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 		m_specifyFrame = new Gtk::Frame("Specify");
 			m_specifyHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 				m_filterOneVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-					m_filterOneLabel = new Gtk::Label("Filter one: ---");
+					m_filterOneLabel = new Gtk::Label("Filter 1: ---");
 					m_filterOneButton = new Gtk::Button("SELECT");
 				
 				m_filterTwoVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-					m_filterTwoLabel = new Gtk::Label("Filter two: ---");
+					m_filterTwoLabel = new Gtk::Label("Filter 2: ---");
 					m_filterTwoButton = new Gtk::Button("SELECT");
 				
 				m_searchButton = new Gtk::Button("Search");
@@ -75,7 +75,6 @@ CMainScreen::~CMainScreen() {
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
 	if (newScreen == "filterscreen1") {
-		std::cout << "MainScreen: setting filter num to 1" << std::endl;
 		m_filterScreen->setFilterNum(1);
 		swapScreen("filterscreen");
 	} else if (newScreen == "filterscreen2") {
@@ -105,6 +104,123 @@ void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 //	Returns:	none.
 void CMainScreen::updatePointers(CFilterScreen newFilterScreen) {
 	m_filterScreen = &newFilterScreen;
+}
+
+//	updateQuery	--	Updates query to include filters
+//	Parameters:	none.
+//	Returns:	void.
+void CMainScreen::updateQuery() {
+	int colonPos;
+	std::string filterOneGroup, filterOneName, filterTwoGroup, filterTwoName;
+
+	//	Get first filter info.
+	if (m_filterOneLabel->get_text() != "Filter 1: ---") {
+		//	Retrieve filter string.
+		std::string filterOne = m_filterOneLabel->get_text();
+		filterOne = filterOne.substr(10);
+		
+		//	Split filter string.
+		colonPos = filterOne.find(":");
+		filterOneGroup = filterOne.substr(0, colonPos);
+		filterOneName = filterOne.substr(colonPos + 1);
+	}
+
+	//	Get second filter info.
+	if (m_filterTwoLabel->get_text() != "Filter 2: ---") {
+		//	Retrieve filter string.
+		std::string filterTwo = m_filterTwoLabel->get_text();
+		filterTwo = filterTwo.substr(10);
+		
+		//	Split filter string.
+		colonPos = filterTwo.find(":");
+		filterTwoGroup = filterTwo.substr(0, colonPos);
+		filterTwoName = filterTwo.substr(colonPos + 1);
+	}
+
+	//	Build new query.
+	std::string newQuery = "SELECT * FROM pokemon";
+	bool doubleFilter = false;
+
+	//	Filter one check.
+	if (m_filterOneLabel->get_text() != "Filter 1: ---") {
+		if (filterOneGroup == "Type") {
+			newQuery += " WHERE pokemon_primary_type = '" + filterOneName + "' OR pokemon_secondary_type = '" + filterOneName + "'";
+		} else if (filterOneGroup == "Generation") {
+			newQuery += " WHERE pokemon_generation = '";
+			if (filterOneName == "Kanto") 
+				newQuery += "1";
+			else if (filterOneName == "Johto")
+				newQuery += "2";
+			else if (filterOneName == "Hoenn")
+				newQuery += "3";
+			else if (filterOneName == "Sinnoh")
+				newQuery += "4";
+			else if (filterOneName == "Unova")
+				newQuery += "5";
+			else if (filterOneName == "Kalos")
+				newQuery += "6";
+			else if (filterOneName == "Alola")
+				newQuery += "7";
+			newQuery += "'";
+		} else if (filterOneGroup == "Misc") {
+			if 	(filterOneName == "Legendary")
+				newQuery += " WHERE pokemon_is_legendary = true";
+			else if (filterOneName == "Dual-Type")
+				newQuery += " WHERE NOT pokemon_secondary_type = '-'";
+		}
+	}
+
+	//	Check for combined filter.
+	if (m_filterOneLabel->get_text() != "Filter 1: ---") {
+		if (m_filterTwoLabel->get_text() != "Filter 2: ---") {
+			newQuery += " AND";
+			doubleFilter = true;
+		}
+	}
+
+	//	Filter two check.
+	if (m_filterTwoLabel->get_text() != "Filter 1: ---") {
+		if (filterTwoGroup == "Type") {
+			if (!doubleFilter)
+				newQuery += " WHERE";
+			newQuery += " pokemon_primary_type = '" + filterTwoName + "' OR pokemon_secondary_type = '" + filterTwoName + "'";
+		} else if (filterTwoGroup == "Generation") {
+			if (!doubleFilter)
+				newQuery += " WHERE";
+			newQuery += " pokemon_generation = '";
+			if (filterTwoName == "Kanto") 
+				newQuery += "1";
+			else if (filterTwoName == "Johto")
+				newQuery += "2";
+			else if (filterTwoName == "Hoenn")
+				newQuery += "3";
+			else if (filterTwoName == "Sinnoh")
+				newQuery += "4";
+			else if (filterTwoName == "Unova")
+				newQuery += "5";
+			else if (filterTwoName == "Kalos")
+				newQuery += "6";
+			else if (filterTwoName == "Alola")
+				newQuery += "7";
+			newQuery += "'";
+		} else if (filterTwoGroup == "Misc") {
+			if 	(filterTwoName == "Legendary") {
+				if (!doubleFilter)
+					newQuery += " WHERE";
+				newQuery += " pokemon_is_legendary = true";
+			}
+			else if (filterTwoName == "Dual-Type") {
+				if (!doubleFilter)
+					newQuery += " WHERE";
+				newQuery += " NOT pokemon_secondary_type = '-'";
+			}
+		}
+	}
+
+	//	End query.
+	newQuery += ";";
+
+	getQueryResults(newQuery);
 }
 
 //	displayResultsEntries	--	Displays vector contents on screen.
@@ -149,4 +265,6 @@ void CMainScreen::setFilter(int filterNum, std::string filter) {
 	} else if (filterNum == 2) {
 		m_filterTwoLabel->set_text("Filter 2: " + filter);
 	}
+
+	updateQuery();
 }
