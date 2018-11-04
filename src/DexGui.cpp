@@ -6,6 +6,7 @@
 
 //	Include files.
 #include "DexGui.h"
+#include <iostream>
 
 //	Definitions.
 #define mainScreenPage 0
@@ -14,6 +15,9 @@
 //	Constructor.
 //	Parameters:	none.
 CDexGui::CDexGui() {
+	//	Tracing.
+	std::cout << "DexGui: constructor called." << std::endl;
+
 	//	Create app & window.
 	app = Gtk::Application::create();
 	m_window = new Gtk::Window();
@@ -35,13 +39,17 @@ CDexGui::CDexGui() {
 
 //	Destructor.
 CDexGui::~CDexGui() {
-	
+	//	Tracing.
+	std::cout << "DexGui: destructor called." << std::endl;
 }
 
 //	start	--	Starts application.
 //	Parameters:	none.
 //	Returns:	void.
 void CDexGui::start() {
+	//	Tracing.
+	std::cout << "DexGui: start called." << std::endl;
+	
 	m_pages->set_current_page(mainScreenPage);
 	m_window->show_all_children();
 	app->run(*m_window);
@@ -52,6 +60,9 @@ void CDexGui::start() {
 //		newScreen	--	String of screen name.
 //	Returns:	void.
 void CDexGui::swapScreen(std::string newScreen) {
+	//	Tracing.
+	std::cout << "DexGui: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+
 	if (newScreen == "mainscreen")
 		m_pages->set_current_page(mainScreenPage);
 	else if (newScreen == "filterscreen")

@@ -6,11 +6,15 @@
 
 //	Include files.
 #include "FilterScreen.h"
+#include <iostream>
 
 //	Constructor.
 //	Parameters:
 //		parmGui	--	Gui containing this screen.
 CFilterScreen::CFilterScreen(CDexGui parmGui) : m_gui(&parmGui) {
+	//	Tracing.
+	std::cout << "FilterScreen: constructor called." << std::endl;
+
 	//	Build child widgets.
 	m_framesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 		m_optionsFrame = new Gtk::Frame("Options");
@@ -210,7 +214,8 @@ CFilterScreen::CFilterScreen(CDexGui parmGui) : m_gui(&parmGui) {
 
 //	Destructor.
 CFilterScreen::~CFilterScreen() {
-
+	//	Tracing.
+	std::cout << "FilterScreen: destructor called." << std::endl;
 }
 
 //	swapScreen	--	Tells the window to switch screens.
@@ -218,6 +223,9 @@ CFilterScreen::~CFilterScreen() {
 //		newScreen	--	String of new screen name.
 //	Returns:	void.
 void CFilterScreen::swapScreen(std::string newScreen) {
+	//	Tracing.
+	std::cout << "FilterScreen: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+
 	if (newScreen == "mainscreen0") {
 		swapScreen("mainscreen");
 	} else if (newScreen == "mainscreen1") {
@@ -245,6 +253,9 @@ void CFilterScreen::swapScreen(std::string newScreen) {
 //		name	--	string of filter name
 //	Returns:	void.
 void CFilterScreen::selectFilter(std::string group, std::string name) {
+	//	Tracing.
+	std::cout << "FilterScreen: selectFilter called -> group=" << group << ", name=" << name << "." << std::endl;
+
 	m_selectedFilterGroupLabel->set_text("Group: " + group);
 	//m_filterGroup = group;
 	m_selectedFilterNameLabel->set_text("Name: " + name);
@@ -264,5 +275,8 @@ void CFilterScreen::updatePointers(CMainScreen newMainScreen) {
 //		--	num	--	Filter number.
 //	Returns:	void.
 void CFilterScreen::setFilterNum(int num) {
+	//	Tracing.
+	std::cout << "FilterScreen: setFilterNum called -> num=" << num << "." << std::endl;
+
 	m_filtersFrame->set_label("Filter " + std::to_string(num));
 }

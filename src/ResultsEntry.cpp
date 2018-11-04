@@ -57,7 +57,20 @@ CResultsEntry::CResultsEntry() {
 
 //	Destructor.
 CResultsEntry::~CResultsEntry() {
-
+	delete m_selectEntryButton;
+	delete m_entrySecTypeLabel;
+	delete m_entrySecTypeFrame;
+	delete m_entryPriTypeLabel;
+	delete m_entryPriTypeFrame;
+	delete m_entryTypesHBox;
+	delete m_entryNameLabel;
+	delete m_entryNameFrame;
+	delete m_entryNumLabel;
+	delete m_entryNumFrame;
+	delete m_entryNumNameHBox;
+	delete m_entryInfoVBox;
+	delete m_entryMainHBox;
+	delete m_entryMainFrame;
 }
 
 //	getNumber	--	Returns Pokemon number.

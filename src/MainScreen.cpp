@@ -12,6 +12,9 @@
 //	Parameters:
 //		parmGui	--	Gui containing this screen.
 CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
+	//	Tracing.
+	std::cout << "MainScreen: constructor called." << std::endl;
+
 	//	Build child widgets.
 	m_framesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 		m_resultsFrame = new Gtk::Frame("Results");
@@ -64,6 +67,9 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 //	Destructor.
 //	Parameters:	none.
 CMainScreen::~CMainScreen() {
+	//	Tracing.
+	std::cout << "MainScreen: destructor called." << std::endl;
+
 	m_gui->setMainScreen(NULL);
 
 	m_resultsEntries.clear();
@@ -74,6 +80,9 @@ CMainScreen::~CMainScreen() {
 //		newScreen	--	String of new screen name.
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
+	//	Tracing.
+	std::cout << "MainScreen: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+
 	if (newScreen == "filterscreen1") {
 		m_filterScreen->setFilterNum(1);
 		swapScreen("filterscreen");
@@ -110,6 +119,8 @@ void CMainScreen::updatePointers(CFilterScreen newFilterScreen) {
 //	Parameters:	none.
 //	Returns:	void.
 void CMainScreen::updateQuery() {
+	std::cout << "MainScreen: updateQuery called." << std::endl;
+
 	int colonPos;
 	std::string filterOneGroup, filterOneName, filterTwoGroup, filterTwoName;
 
@@ -227,7 +238,18 @@ void CMainScreen::updateQuery() {
 //	Parameters:	none.
 //	Returns:	void.
 void CMainScreen::getQueryResults(std::string newQuery) {
-	//	Clear vector.
+	//	Tracing.
+	std::cout << "MainScreen: getQueryResults called -> newQuery=" << newQuery << "." << std::endl;
+	std::cout << "Current entry count: " << m_resultsEntries.size() << std::endl;
+
+	//	Clear entries from vector and box.
+	for (int i = m_resultsEntries.size(); i > 0; i--) {
+		CResultsEntry* temp = m_resultsEntries.at(i);
+		Gtk::Frame* tempFrame = temp->getMainFrame();
+		m_resultsListVBox->remove(*tempFrame);
+		std::cout << "Deleting entry with number " << temp->getNumber() << std::endl;
+		delete temp;
+	}
 	m_resultsEntries.clear();
 
 	//	Update resultset
@@ -244,6 +266,9 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 		m_resEntry->setEntryData(_num, _name, _pritype, _sectype);
 		appendResultsEntry(m_resEntry);
 	}
+
+	
+	std::cout << "MainScreen: getQueryResults finished with " << m_resultsEntries.size() << " entries." << std::endl;
 }
 
 //	setQuery	--	Sets query string.
@@ -251,6 +276,9 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 //		newQuery	--	String of new query.
 //	Returns:	void.
 void CMainScreen::setQuery(std::string newQuery) {
+	//	Tracing.
+	std::cout << "MainScreen: setQuery called -> newQuery=" << newQuery << "." << std::endl;
+
 	m_query = newQuery;
 }
 
@@ -260,6 +288,9 @@ void CMainScreen::setQuery(std::string newQuery) {
 //		filter	--	String containing filter.
 //	Returns:	void.
 void CMainScreen::setFilter(int filterNum, std::string filter) {
+	//	Tracing.
+	std::cout << "MainScreen: setFilter called -> filterNum=" << filterNum << ", filter=" << filter << "." << std::endl;
+
 	if (filterNum == 1) {
 		m_filterOneLabel->set_text("Filter 1: " + filter);
 	} else if (filterNum == 2) {
