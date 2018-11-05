@@ -20,6 +20,7 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 		m_resultsFrame = new Gtk::Frame("Results");
 			m_scrollWindow = new Gtk::ScrolledWindow();
 				m_resultsListVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+					m_resultsEntries = new std::vector<CResultsEntry*>();
 
 		m_specifyFrame = new Gtk::Frame("Specify");
 			m_specifyHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -64,6 +65,59 @@ CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
 	m_gui->getNotebook()->append_page(*m_framesVBox);
 }
 
+//	Copy constructor.
+//	Parameters:
+//		main	--	MainScreen address.
+CMainScreen::CMainScreen(const CMainScreen& other) {
+	//	Tracing.
+	std::cout << "CMainScreen: copy constructor called." << std::endl;
+
+	//	Copy member pointers.
+	m_framesVBox = other.m_framesVBox;
+		m_resultsFrame = other.m_resultsFrame;
+			m_scrollWindow = other.m_scrollWindow;
+				m_resultsListVBox = other.m_resultsListVBox;
+					m_resultsEntries = other.m_resultsEntries;
+
+		m_specifyFrame = other.m_specifyFrame;
+			m_specifyHBox = other.m_specifyHBox;
+				m_filterOneVBox = other.m_filterOneVBox;
+					m_filterOneLabel = other.m_filterOneLabel;
+					m_filterOneButton = other.m_filterOneButton;
+
+				m_filterTwoVBox = other.m_filterTwoVBox;
+					m_filterTwoLabel = other.m_filterTwoLabel;
+					m_filterTwoButton = other.m_filterTwoButton;
+
+				m_searchButton = other.m_searchButton;
+}
+
+//	Assignment operator.
+//	Parameters:
+//		main	--	Reference to MainScreen object.
+CMainScreen& CMainScreen::operator=(const CMainScreen& other) {
+	//	Tracing.
+	std::cout << "CMainScreen: assignment operator called." << std::endl;
+
+	//	Swap members.
+	std::swap(*m_framesVBox, *other.m_framesVBox);
+	std::swap(*m_resultsFrame, *other.m_resultsFrame);
+	std::swap(*m_scrollWindow, *other.m_scrollWindow);
+	std::swap(*m_resultsListVBox, *other.m_resultsListVBox);
+	std::swap(*m_resultsEntries, *other.m_resultsEntries);
+	std::swap(*m_specifyFrame, *other.m_specifyFrame);
+	std::swap(*m_specifyHBox, *other.m_specifyHBox);
+	std::swap(*m_filterOneVBox, *other.m_filterOneVBox);
+	std::swap(*m_filterOneLabel, *other.m_filterOneLabel);
+	std::swap(*m_filterOneButton, *other.m_filterOneButton);
+	std::swap(*m_filterTwoVBox, *other.m_filterTwoVBox);
+	std::swap(*m_filterTwoLabel, *other.m_filterTwoLabel);
+	std::swap(*m_filterTwoButton, *other.m_filterTwoButton);
+	std::swap(*m_searchButton, *other.m_searchButton);
+
+	return *this;
+}
+
 //	Destructor.
 //	Parameters:	none.
 CMainScreen::~CMainScreen() {
@@ -72,7 +126,7 @@ CMainScreen::~CMainScreen() {
 
 	m_gui->setMainScreen(NULL);
 
-	m_resultsEntries.clear();
+	m_resultsEntries->clear();
 }
 
 //	swapScreen	--	Tells the window to switch screens.
@@ -102,7 +156,7 @@ void CMainScreen::swapScreen(std::string newScreen) {
 //		--	sectype	--	String of Pokemon secondary type.
 //	Returns:	void.
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
-	m_resultsEntries.push_back(entry);
+	m_resultsEntries->push_back(entry);
 	Gtk::Frame* entryFrame = entry->getMainFrame();
 	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 5);
 }
@@ -240,17 +294,17 @@ void CMainScreen::updateQuery() {
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Tracing.
 	std::cout << "MainScreen: getQueryResults called -> newQuery=" << newQuery << "." << std::endl;
-	std::cout << "Current entry count: " << m_resultsEntries.size() << std::endl;
+	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Clear entries from vector and box.
-	for (int i = m_resultsEntries.size(); i > 0; i--) {
-		CResultsEntry* temp = m_resultsEntries.at(i);
+	for (int i = m_resultsEntries->size(); i > 0; i--) {
+		CResultsEntry* temp = m_resultsEntries->at(i);
 		Gtk::Frame* tempFrame = temp->getMainFrame();
 		m_resultsListVBox->remove(*tempFrame);
 		std::cout << "Deleting entry with number " << temp->getNumber() << std::endl;
 		delete temp;
 	}
-	m_resultsEntries.clear();
+	m_resultsEntries->clear();
 
 	//	Update resultset
 	m_queryRes = m_gui->getDex()->retrieveData(newQuery);
@@ -267,8 +321,8 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 		appendResultsEntry(m_resEntry);
 	}
 
-	
-	std::cout << "MainScreen: getQueryResults finished with " << m_resultsEntries.size() << " entries." << std::endl;
+
+	std::cout << "MainScreen: getQueryResults finished with " << m_resultsEntries->size() << " entries." << std::endl;
 }
 
 //	setQuery	--	Sets query string.

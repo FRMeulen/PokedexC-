@@ -26,8 +26,15 @@ int main() {
 	m_filterScreen->updatePointers(*m_mainScreen);
 
 	//	Start gui.
+	std::cout << "Pokedex: Starting GUI!" << std::endl;
 	m_gui->start();
 
+	//	Delete objects.
+	delete m_filterScreen;
+	delete m_mainScreen;
+	delete m_gui;
+
 	//	Exit program.
+	std::cout << "Pokedex: Terminating program!" << std::endl;
 	return 0;
 }

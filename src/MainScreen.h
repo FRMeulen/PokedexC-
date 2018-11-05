@@ -32,7 +32,7 @@ protected:
 		Gtk::Frame* m_resultsFrame;
 			Gtk::ScrolledWindow* m_scrollWindow;
 				Gtk::Box* m_resultsListVBox;
-					std::vector<CResultsEntry*> m_resultsEntries;
+					std::vector<CResultsEntry*>* m_resultsEntries;
 					CResultsEntry* m_resEntry;
 
 		Gtk::Frame* m_specifyFrame;
@@ -49,6 +49,8 @@ protected:
 public:
 	//	Constructors & desctructor.
 	CMainScreen(CDexGui parmGui);
+	CMainScreen(const CMainScreen& main);
+	CMainScreen& operator=(const CMainScreen& main);
 	virtual ~CMainScreen();
 
 	//	Methods.
