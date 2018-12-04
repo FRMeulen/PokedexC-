@@ -10,7 +10,7 @@
 #pragma once
 
 //	Include files.
-#include "DexGui.h"
+#include "../DexGui.h"
 #include <gtkmm-3.0/gtkmm.h>
 #include "MainScreen.h"
 

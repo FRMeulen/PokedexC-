@@ -12,10 +12,10 @@
 #include <gtkmm-3.0/gtkmm.h>
 #include <vector>
 #include <cppconn/resultset.h>
-#include "DexGui.h"
-#include "DexConnector.h"
+#include "../DexGui.h"
+#include "../DexConnector.h"
 #include "FilterScreen.h"
-#include "ResultsEntry.h"
+#include "../ResultsEntry.h"
 
 //	Class interface.
 class CMainScreen {

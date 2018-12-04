@@ -8,8 +8,8 @@
 
 //	Include files.
 #include "DexGui.h"
-#include "MainScreen.h"
-#include "FilterScreen.h"
+#include "screens/MainScreen.h"
+#include "screens/FilterScreen.h"
 
 //	Main method	--	Entry point for PokedexC++ program.
 //	Parameters:	none.
