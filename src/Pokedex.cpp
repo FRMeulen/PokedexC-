@@ -4,6 +4,7 @@
 //	2018-07-09	--	F.R. van der Meulen	--	Created.
 //	2018-10-25	--	F.R. van der Meulen	--	Altered to match V2 style.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
 
 //	Include files.
 #include "DexGui.h"
@@ -22,7 +23,7 @@ int main() {
 	CFilterScreen *m_filterScreen = new CFilterScreen(m_gui);
 
 	//	Start gui.
-	std::cout << "Pokedex: Starting GUI!" << std::endl;
+	std::cout << "[POKEDEX]	--	Starting GUI!" << std::endl;
 	m_gui->start();
 
 	//	Delete objects.
@@ -31,6 +32,6 @@ int main() {
 	delete m_gui;
 
 	//	Exit program.
-	std::cout << "Pokedex: Terminating program!" << std::endl;
+	std::cout << "[POKEDEX]	--	Terminating program!" << std::endl;
 	return 0;
 }

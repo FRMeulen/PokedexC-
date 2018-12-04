@@ -4,6 +4,7 @@
 //	2018-10-26	--	F.R. van der Meulen	--	Created.
 //	2018-10-29	--	F.R. van der Meulen	--	Renamed, now derived from Gtk::Frame.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen	--	Added getName method.
 
 //	Include files.
 #include "ResultsEntry.h"

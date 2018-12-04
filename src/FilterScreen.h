@@ -3,6 +3,8 @@
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
+//	2018--12-04	--	F.R. van der Meulen	--	Added option to remove a filter.
 
 //	Pragma.
 #pragma once
@@ -23,6 +25,7 @@ protected:
 		Gtk::Frame* m_optionsFrame;
 			Gtk::Box* m_optionsHBox;
 				Gtk::Button* m_backButton;
+				Gtk::Button* m_removeButton;
 				Gtk::Button* m_confirmButton;
 
 		Gtk::Frame* m_filtersFrame;

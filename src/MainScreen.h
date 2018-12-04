@@ -3,6 +3,7 @@
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
 
 //	Pragma.
 #pragma once

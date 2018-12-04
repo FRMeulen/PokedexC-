@@ -3,6 +3,8 @@
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
+//	2018-12-04	--	F.R. van der Meulen --	Filters fully functional.
 
 //	Include files.
 #include "MainScreen.h"
@@ -13,7 +15,7 @@
 //		parmGui	--	Gui containing this screen.
 CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Tracing.
-	std::cout << "MainScreen: constructor called." << std::endl;
+	std::cout << "[MAINSCREEN]	--	constructor called." << std::endl;
 
 	//	Build child widgets.
 	m_framesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
@@ -65,64 +67,11 @@ CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	m_gui->getNotebook()->append_page(*m_framesVBox);
 }
 
-//	Copy constructor.
-//	Parameters:
-//		main	--	MainScreen address.
-CMainScreen::CMainScreen(const CMainScreen& other) {
-	//	Tracing.
-	std::cout << "CMainScreen: copy constructor called." << std::endl;
-
-	//	Copy member pointers.
-	m_framesVBox = other.m_framesVBox;
-		m_resultsFrame = other.m_resultsFrame;
-			m_scrollWindow = other.m_scrollWindow;
-				m_resultsListVBox = other.m_resultsListVBox;
-					m_resultsEntries = other.m_resultsEntries;
-
-		m_specifyFrame = other.m_specifyFrame;
-			m_specifyHBox = other.m_specifyHBox;
-				m_filterOneVBox = other.m_filterOneVBox;
-					m_filterOneLabel = other.m_filterOneLabel;
-					m_filterOneButton = other.m_filterOneButton;
-
-				m_filterTwoVBox = other.m_filterTwoVBox;
-					m_filterTwoLabel = other.m_filterTwoLabel;
-					m_filterTwoButton = other.m_filterTwoButton;
-
-				m_searchButton = other.m_searchButton;
-}
-
-//	Assignment operator.
-//	Parameters:
-//		main	--	Reference to MainScreen object.
-CMainScreen& CMainScreen::operator=(const CMainScreen& other) {
-	//	Tracing.
-	std::cout << "CMainScreen: assignment operator called." << std::endl;
-
-	//	Swap members.
-	std::swap(*m_framesVBox, *other.m_framesVBox);
-	std::swap(*m_resultsFrame, *other.m_resultsFrame);
-	std::swap(*m_scrollWindow, *other.m_scrollWindow);
-	std::swap(*m_resultsListVBox, *other.m_resultsListVBox);
-	std::swap(*m_resultsEntries, *other.m_resultsEntries);
-	std::swap(*m_specifyFrame, *other.m_specifyFrame);
-	std::swap(*m_specifyHBox, *other.m_specifyHBox);
-	std::swap(*m_filterOneVBox, *other.m_filterOneVBox);
-	std::swap(*m_filterOneLabel, *other.m_filterOneLabel);
-	std::swap(*m_filterOneButton, *other.m_filterOneButton);
-	std::swap(*m_filterTwoVBox, *other.m_filterTwoVBox);
-	std::swap(*m_filterTwoLabel, *other.m_filterTwoLabel);
-	std::swap(*m_filterTwoButton, *other.m_filterTwoButton);
-	std::swap(*m_searchButton, *other.m_searchButton);
-
-	return *this;
-}
-
 //	Destructor.
 //	Parameters:	none.
 CMainScreen::~CMainScreen() {
 	//	Tracing.
-	std::cout << "MainScreen: destructor called." << std::endl;
+	std::cout << "[MAINSCREEN]	--	destructor called." << std::endl;
 
 	m_gui->setMainScreen(NULL);
 
@@ -135,7 +84,7 @@ CMainScreen::~CMainScreen() {
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
-	std::cout << "MainScreen: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	swapScreen called -> newScreen=" << newScreen << "." << std::endl;
 
 	if (newScreen == "filterscreen1") {
 		m_gui->getFilterScreen()->setFilterNum(1);
@@ -166,7 +115,7 @@ void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 //	Parameters:	none.
 //	Returns:	void.
 void CMainScreen::updateQuery() {
-	std::cout << "MainScreen: updateQuery called." << std::endl;
+	std::cout << "[MAINSCREEN]	--	updateQuery called." << std::endl;
 
 	int colonPos;
 	std::string filterOneGroup, filterOneName, filterTwoGroup, filterTwoName;
@@ -286,7 +235,7 @@ void CMainScreen::updateQuery() {
 //	Returns:	void.
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Tracing.
-	std::cout << "MainScreen: getQueryResults called -> newQuery='" << newQuery << "'." << std::endl;
+	std::cout << "[MAINSCREEN]	--	getQueryResults called -> newQuery='" << newQuery << "'." << std::endl;
 	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Clear entries from vector and box.
@@ -318,7 +267,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 	}
 
 
-	std::cout << "MainScreen: getQueryResults finished with " << m_resultsEntries->size() << " entries." << std::endl;
+	std::cout << "[MAINSCREEN]	--	getQueryResults finished with " << m_resultsEntries->size() << " entries." << std::endl;
 }
 
 //	setQuery	--	Sets query string.
@@ -327,7 +276,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 //	Returns:	void.
 void CMainScreen::setQuery(std::string newQuery) {
 	//	Tracing.
-	std::cout << "MainScreen: setQuery called -> newQuery=" << newQuery << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	setQuery called -> newQuery=" << newQuery << "." << std::endl;
 
 	m_query = newQuery;
 }
@@ -339,7 +288,7 @@ void CMainScreen::setQuery(std::string newQuery) {
 //	Returns:	void.
 void CMainScreen::setFilter(int filterNum, std::string filter) {
 	//	Tracing.
-	std::cout << "MainScreen: setFilter called -> filterNum=" << filterNum << ", filter=" << filter << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	setFilter called -> filterNum=" << filterNum << ", filter=" << filter << "." << std::endl;
 
 	if (filterNum == 1) {
 		m_filterOneLabel->set_text("Filter 1: " + filter);

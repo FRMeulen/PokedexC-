@@ -3,6 +3,8 @@
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
+//	2018-12-04	--	F.R. van der Meulen	--	Added option to remove a filter.
 
 //	Include files.
 #include "FilterScreen.h"
@@ -13,13 +15,14 @@
 //		parmGui	--	Gui containing this screen.
 CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Tracing.
-	std::cout << "FilterScreen: constructor called." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	constructor called." << std::endl;
 
 	//	Build child widgets.
 	m_framesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 		m_optionsFrame = new Gtk::Frame("Options");
 			m_optionsHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 				m_backButton = new Gtk::Button("Back");
+				m_removeButton = new Gtk::Button("Remove Filter");
 				m_confirmButton = new Gtk::Button("Done");
 
 		m_filtersFrame = new Gtk::Frame("Filters");
@@ -92,6 +95,7 @@ CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	m_framesVBox->pack_start(*m_optionsFrame, Gtk::PACK_SHRINK, 10);
 		m_optionsFrame->add(*m_optionsHBox);
 			m_optionsHBox->pack_start(*m_backButton, Gtk::PACK_EXPAND_WIDGET, 10);
+			m_optionsHBox->pack_start(*m_removeButton, Gtk::PACK_EXPAND_WIDGET, 10);
 			m_optionsHBox->pack_start(*m_confirmButton, Gtk::PACK_EXPAND_WIDGET, 10);
 
 	m_framesVBox->pack_start(*m_filtersFrame, Gtk::PACK_EXPAND_WIDGET, 10);
@@ -171,8 +175,9 @@ CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	m_miscFiltersFrame->set_border_width(10);
 
 	//	Signal handlers	-	Options frame.
-	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreen0"));
-	m_confirmButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreen1"));
+	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreenreturn"));
+	m_removeButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreenremove"));
+	m_confirmButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreenadd"));
 	
 	//	Signal handlers	-	Type filters.
 	m_typeFilterNormal->signal_clicked().connect(sigc::bind<std::string, std::string>(sigc::mem_fun(*this, &CFilterScreen::selectFilter), "Type", "Normal"));
@@ -215,7 +220,7 @@ CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 //	Destructor.
 CFilterScreen::~CFilterScreen() {
 	//	Tracing.
-	std::cout << "FilterScreen: destructor called." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	destructor called." << std::endl;
 }
 
 //	swapScreen	--	Tells the window to switch screens.
@@ -224,25 +229,70 @@ CFilterScreen::~CFilterScreen() {
 //	Returns:	void.
 void CFilterScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
-	std::cout << "FilterScreen: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	swapScreen called -> newScreen=" << newScreen << "." << std::endl;
 
-	if (newScreen == "mainscreen0") {
+	//	If back button is pressed.
+	if (newScreen == "mainscreenreturn") {
+		//	Return to main screen.
 		swapScreen("mainscreen");
-	} else if (newScreen == "mainscreen1") {
+	}
+
+	//	If filter is removed.
+	else if (newScreen== "mainscreenremove") {
+		//	Reset labels.
+		m_selectedFilterGroupLabel->set_text("Group: ---");
+		m_selectedFilterNameLabel->set_text("Name: ---");
+		
+		//	If filter one is reset.
+		if (m_filtersFrame->get_label() == "Filter 1") {
+			//	Reset filter.
+			m_gui->getMainScreen()->setFilter(1, "---");
+			
+			//	Return to main screen.
+			swapScreen("mainscreen");
+		}
+
+		//	If filter two is reset.
+		else if (m_filtersFrame->get_label() == "Filter 2") {
+			//	Reset filter.
+			m_gui->getMainScreen()->setFilter(2, "---");
+			
+			//	Return to main screen.
+			swapScreen("mainscreen");
+		}
+	} 
+
+	//	If new filter is set.
+	else if (newScreen == "mainscreenadd") {
+		//	Set filter string.
 		std::string filterGroup = m_selectedFilterGroupLabel->get_text();
 		filterGroup = filterGroup.substr(7);
 		std::string filterName = m_selectedFilterNameLabel->get_text();
 		filterName = filterName.substr(6);
 		std::string filterString = filterGroup + ":" + filterName;
 
+		//	If filter one is set.
 		if (m_filtersFrame->get_label() == "Filter 1") {
+			//	Set filter.
 			m_gui->getMainScreen()->setFilter(1, filterString);
-			swapScreen("mainscreen");
-		} else if (m_filtersFrame->get_label() == "Filter 2") {
-			m_gui->getMainScreen()->setFilter(2, filterString);
+			
+			//	Return to main screen.
 			swapScreen("mainscreen");
 		}
-	} else {
+
+		//	If filter two is set.
+		else if (m_filtersFrame->get_label() == "Filter 2") {
+			//	Set filter.
+			m_gui->getMainScreen()->setFilter(2, filterString);
+			
+			//	Return to main screen.
+			swapScreen("mainscreen");
+		}
+	}
+
+	//	If screen has no special actions.
+	else {
+		//	Tell gui to swap screens.
 		m_gui->swapScreen(newScreen);
 	}
 }
@@ -254,7 +304,7 @@ void CFilterScreen::swapScreen(std::string newScreen) {
 //	Returns:	void.
 void CFilterScreen::selectFilter(std::string group, std::string name) {
 	//	Tracing.
-	std::cout << "FilterScreen: selectFilter called -> group=" << group << ", name=" << name << "." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	selectFilter called -> group=" << group << ", name=" << name << "." << std::endl;
 
 	m_selectedFilterGroupLabel->set_text("Group: " + group);
 	//m_filterGroup = group;
@@ -267,7 +317,7 @@ void CFilterScreen::selectFilter(std::string group, std::string name) {
 //	Returns:	string of filter number.
 std::string CFilterScreen::getFilterNum() {
 	//	Tracing.
-	std::cout << "FilterScreen: getFilterNum called -> num='" << m_filtersFrame->get_label() << "'." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	getFilterNum called -> num='" << m_filtersFrame->get_label() << "'." << std::endl;
 
 	//	Return string
 	return m_filtersFrame->get_label();
@@ -279,7 +329,7 @@ std::string CFilterScreen::getFilterNum() {
 //	Returns:	void.
 void CFilterScreen::setFilterNum(int num) {
 	//	Tracing.
-	std::cout << "FilterScreen: setFilterNum called -> num='" << num << "'." << std::endl;
+	std::cout << "[FILTERSCREEN]	--	setFilterNum called -> num='" << num << "'." << std::endl;
 
 	m_filtersFrame->set_label("Filter " + std::to_string(num));
 }

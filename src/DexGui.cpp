@@ -3,6 +3,7 @@
 //	Revisions:
 //	2018-10-25	--	F.R. van der Meulen	--	Created.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
+//	2018-12-04	--	F.R. van der Meulen --	Fixed copying DexGui instead of referencing it.
 
 //	Include files.
 #include "DexGui.h"
@@ -16,7 +17,7 @@
 //	Parameters:	none.
 CDexGui::CDexGui() {
 	//	Tracing.
-	std::cout << "DexGui: constructor called." << std::endl;
+	std::cout << "[DEXGUI]	--	constructor called." << std::endl;
 
 	//	Create app & window.
 	app = Gtk::Application::create();
@@ -40,7 +41,7 @@ CDexGui::CDexGui() {
 //	Destructor.
 CDexGui::~CDexGui() {
 	//	Tracing.
-	std::cout << "DexGui: destructor called." << std::endl;
+	std::cout << "[DEXGUI]	--	destructor called." << std::endl;
 }
 
 //	start	--	Starts application.
@@ -48,7 +49,7 @@ CDexGui::~CDexGui() {
 //	Returns:	void.
 void CDexGui::start() {
 	//	Tracing.
-	std::cout << "DexGui: start called." << std::endl;
+	std::cout << "[DEXGUI]	--	start called." << std::endl;
 	
 	m_pages->set_current_page(mainScreenPage);
 	m_window->show_all_children();
@@ -61,7 +62,7 @@ void CDexGui::start() {
 //	Returns:	void.
 void CDexGui::swapScreen(std::string newScreen) {
 	//	Tracing.
-	std::cout << "DexGui: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+	std::cout << "[DEXGUI]	--	swapScreen called -> newScreen=" << newScreen << "." << std::endl;
 
 	if (newScreen == "mainscreen")
 		m_pages->set_current_page(mainScreenPage);
