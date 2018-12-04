@@ -11,7 +11,7 @@
 //	Constructor.
 //	Parameters:
 //		parmGui	--	Gui containing this screen.
-CFilterScreen::CFilterScreen(CDexGui parmGui) : m_gui(&parmGui) {
+CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Tracing.
 	std::cout << "FilterScreen: constructor called." << std::endl;
 
@@ -236,10 +236,10 @@ void CFilterScreen::swapScreen(std::string newScreen) {
 		std::string filterString = filterGroup + ":" + filterName;
 
 		if (m_filtersFrame->get_label() == "Filter 1") {
-			m_mainScreen->setFilter(1, filterString);
+			m_gui->getMainScreen()->setFilter(1, filterString);
 			swapScreen("mainscreen");
 		} else if (m_filtersFrame->get_label() == "Filter 2") {
-			m_mainScreen->setFilter(2, filterString);
+			m_gui->getMainScreen()->setFilter(2, filterString);
 			swapScreen("mainscreen");
 		}
 	} else {
@@ -262,12 +262,15 @@ void CFilterScreen::selectFilter(std::string group, std::string name) {
 	//m_filterName = name;
 }
 
-//	updatePointers	--	Updates pointers to other screens.
-//	Parameters:
-//		newMainScreen	--	Main Screen.
-//	Returns:	void.
-void CFilterScreen::updatePointers(CMainScreen newMainScreen) {
-	m_mainScreen = &newMainScreen;
+//	getFilterNum	--	Returns filter number.
+//	Parameters:	none.
+//	Returns:	string of filter number.
+std::string CFilterScreen::getFilterNum() {
+	//	Tracing.
+	std::cout << "FilterScreen: getFilterNum called -> num='" << m_filtersFrame->get_label() << "'." << std::endl;
+
+	//	Return string
+	return m_filtersFrame->get_label();
 }
 
 //	setFilterNum	--	Sets filter number.
@@ -276,7 +279,7 @@ void CFilterScreen::updatePointers(CMainScreen newMainScreen) {
 //	Returns:	void.
 void CFilterScreen::setFilterNum(int num) {
 	//	Tracing.
-	std::cout << "FilterScreen: setFilterNum called -> num=" << num << "." << std::endl;
+	std::cout << "FilterScreen: setFilterNum called -> num='" << num << "'." << std::endl;
 
 	m_filtersFrame->set_label("Filter " + std::to_string(num));
 }

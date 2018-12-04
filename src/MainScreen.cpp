@@ -11,7 +11,7 @@
 //	Constructor.
 //	Parameters:
 //		parmGui	--	Gui containing this screen.
-CMainScreen::CMainScreen(CDexGui parmGui) : m_gui(&parmGui) {
+CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Tracing.
 	std::cout << "MainScreen: constructor called." << std::endl;
 
@@ -138,10 +138,10 @@ void CMainScreen::swapScreen(std::string newScreen) {
 	std::cout << "MainScreen: swapScreen called -> newScreen=" << newScreen << "." << std::endl;
 
 	if (newScreen == "filterscreen1") {
-		m_filterScreen->setFilterNum(1);
+		m_gui->getFilterScreen()->setFilterNum(1);
 		swapScreen("filterscreen");
 	} else if (newScreen == "filterscreen2") {
-		m_filterScreen->setFilterNum(2);
+		m_gui->getFilterScreen()->setFilterNum(2);
 		swapScreen("filterscreen");
 	} else {
 		m_gui->swapScreen(newScreen);
@@ -156,17 +156,10 @@ void CMainScreen::swapScreen(std::string newScreen) {
 //		--	sectype	--	String of Pokemon secondary type.
 //	Returns:	void.
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
+	//	Append entry frame to vector.
 	m_resultsEntries->push_back(entry);
 	Gtk::Frame* entryFrame = entry->getMainFrame();
 	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 5);
-}
-
-//	updatePointers	--	Updates pointers to other screens.
-//	Parameters:
-//		newFilterScreen	--	Filter Screen
-//	Returns:	none.
-void CMainScreen::updatePointers(CFilterScreen newFilterScreen) {
-	m_filterScreen = &newFilterScreen;
 }
 
 //	updateQuery	--	Updates query to include filters
@@ -293,7 +286,7 @@ void CMainScreen::updateQuery() {
 //	Returns:	void.
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Tracing.
-	std::cout << "MainScreen: getQueryResults called -> newQuery=" << newQuery << "." << std::endl;
+	std::cout << "MainScreen: getQueryResults called -> newQuery='" << newQuery << "'." << std::endl;
 	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Clear entries from vector and box.

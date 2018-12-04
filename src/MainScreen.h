@@ -21,7 +21,6 @@ class CMainScreen {
 protected:
 	//	Gui pointers.
 	CDexGui* m_gui;
-	CFilterScreen* m_filterScreen;
 
 	//	Data-related fields.
 	sql::ResultSet* m_queryRes;
@@ -48,7 +47,7 @@ protected:
 				Gtk::Button* m_searchButton;
 public:
 	//	Constructors & desctructor.
-	CMainScreen(CDexGui parmGui);
+	CMainScreen(CDexGui *parmGui);
 	CMainScreen(const CMainScreen& main);
 	CMainScreen& operator=(const CMainScreen& main);
 	virtual ~CMainScreen();
@@ -56,7 +55,6 @@ public:
 	//	Methods.
 	void swapScreen(std::string newScreen);
 	void appendResultsEntry(CResultsEntry* entry);
-	void updatePointers(CFilterScreen newFilterScreen);
 	void updateQuery();
 
 	//	Getters.

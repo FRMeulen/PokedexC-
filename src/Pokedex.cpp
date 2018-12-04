@@ -18,12 +18,8 @@ int main() {
 	CDexGui *m_gui = new CDexGui();
 
 	//	Create screens.
-	CMainScreen *m_mainScreen = new CMainScreen(*m_gui);
-	CFilterScreen *m_filterScreen = new CFilterScreen(*m_gui);
-
-	//	Familiarize screens.
-	m_mainScreen->updatePointers(*m_filterScreen);
-	m_filterScreen->updatePointers(*m_mainScreen);
+	CMainScreen *m_mainScreen = new CMainScreen(m_gui);
+	CFilterScreen *m_filterScreen = new CFilterScreen(m_gui);
 
 	//	Start gui.
 	std::cout << "Pokedex: Starting GUI!" << std::endl;

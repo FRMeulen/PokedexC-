@@ -17,7 +17,6 @@ class CFilterScreen {
 protected:
 	//	Gui pointers.
 	CDexGui* m_gui;
-	CMainScreen* m_mainScreen;
 
 	//	Child widget pointers.
 	Gtk::Box* m_framesVBox;
@@ -93,13 +92,15 @@ protected:
 						Gtk::Button* m_miscFilterDualType;
 public:
 	//	Constructors & desctructor.
-	CFilterScreen(CDexGui parmGui);
+	CFilterScreen(CDexGui *parmGui);
 	virtual ~CFilterScreen();
 
 	//	Methods.
 	void swapScreen(std::string newScreen);
 	void selectFilter(std::string group, std::string name);
-	void updatePointers(CMainScreen newMainScreen);
+	
+	//	Getters.
+	std::string getFilterNum();
 
 	//	Setters.
 	void setFilterNum(int num);
