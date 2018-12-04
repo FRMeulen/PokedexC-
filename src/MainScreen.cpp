@@ -236,7 +236,6 @@ void CMainScreen::updateQuery() {
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Tracing.
 	std::cout << "[MAINSCREEN]	--	getQueryResults called -> newQuery='" << newQuery << "'." << std::endl;
-	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Clear entries from vector and box.
 	for (int i = m_resultsEntries->size()-1; i > -1; i--) {
@@ -245,10 +244,6 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 		m_resultsListVBox->remove(*tempFrame);
 	}
 	m_resultsEntries->clear();
-
-	//	Tracing.
-	std::cout << "Cleared entry vector!" << std::endl;
-	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Update resultset
 	m_queryRes = m_gui->getDex()->retrieveData(newQuery);
