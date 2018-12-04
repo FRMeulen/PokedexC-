@@ -80,6 +80,13 @@ std::string CResultsEntry::getNumber() {
 	return m_entryNumLabel->get_text();
 }
 
+//	getMainFrame	--	Returns Pokemon name.
+//	Parameters:	none.
+//	Returns:	String of Pokemon name.
+std::string CResultsEntry::getName() {
+	return m_entryNameLabel->get_text();
+}
+
 //	getMainFrame	--	Returns main frame of entry.
 //	Parameters:	none.
 //	Returns:	pointer to main frame.

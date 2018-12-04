@@ -40,6 +40,7 @@ public:
 
 	//	Getters.
 	std::string getNumber();
+	std::string getName();
 	Gtk::Frame* getMainFrame();
 
 	//	Setters.
