@@ -314,6 +314,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 
 		m_resEntry->setEntryData(_num, _name, _pritype, _sectype);
 		appendResultsEntry(m_resEntry);
+		m_gui->getWindow()->show_all_children();
 	}
 
 
