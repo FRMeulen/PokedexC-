@@ -202,9 +202,9 @@ void CMainScreen::updateQuery() {
 	//	Filter one check.
 	if (m_filterOneLabel->get_text() != "Filter 1: ---") {
 		if (filterOneGroup == "Type") {
-			newQuery += " WHERE pokemon_primary_type = '" + filterOneName + "' OR pokemon_secondary_type = '" + filterOneName + "'";
+			newQuery += " WHERE (pokemon_primary_type = '" + filterOneName + "' OR pokemon_secondary_type = '" + filterOneName + "')";
 		} else if (filterOneGroup == "Generation") {
-			newQuery += " WHERE pokemon_generation = '";
+			newQuery += " WHERE (pokemon_generation = '";
 			if (filterOneName == "Kanto") 
 				newQuery += "1";
 			else if (filterOneName == "Johto")
@@ -219,12 +219,12 @@ void CMainScreen::updateQuery() {
 				newQuery += "6";
 			else if (filterOneName == "Alola")
 				newQuery += "7";
-			newQuery += "'";
+			newQuery += "')";
 		} else if (filterOneGroup == "Misc") {
 			if 	(filterOneName == "Legendary")
-				newQuery += " WHERE pokemon_is_legendary = true";
+				newQuery += " WHERE (pokemon_is_legendary = true)";
 			else if (filterOneName == "Dual-Type")
-				newQuery += " WHERE NOT pokemon_secondary_type = '-'";
+				newQuery += " WHERE NOT (pokemon_secondary_type = '-')";
 		}
 	}
 
@@ -237,15 +237,15 @@ void CMainScreen::updateQuery() {
 	}
 
 	//	Filter two check.
-	if (m_filterTwoLabel->get_text() != "Filter 1: ---") {
+	if (m_filterTwoLabel->get_text() != "Filter 2: ---") {
 		if (filterTwoGroup == "Type") {
 			if (!doubleFilter)
 				newQuery += " WHERE";
-			newQuery += " pokemon_primary_type = '" + filterTwoName + "' OR pokemon_secondary_type = '" + filterTwoName + "'";
+			newQuery += " (pokemon_primary_type = '" + filterTwoName + "' OR pokemon_secondary_type = '" + filterTwoName + "')";
 		} else if (filterTwoGroup == "Generation") {
 			if (!doubleFilter)
 				newQuery += " WHERE";
-			newQuery += " pokemon_generation = '";
+			newQuery += " (pokemon_generation = '";
 			if (filterTwoName == "Kanto") 
 				newQuery += "1";
 			else if (filterTwoName == "Johto")
@@ -260,17 +260,17 @@ void CMainScreen::updateQuery() {
 				newQuery += "6";
 			else if (filterTwoName == "Alola")
 				newQuery += "7";
-			newQuery += "'";
+			newQuery += "')";
 		} else if (filterTwoGroup == "Misc") {
 			if 	(filterTwoName == "Legendary") {
 				if (!doubleFilter)
 					newQuery += " WHERE";
-				newQuery += " pokemon_is_legendary = true";
+				newQuery += " (pokemon_is_legendary = true)";
 			}
 			else if (filterTwoName == "Dual-Type") {
 				if (!doubleFilter)
 					newQuery += " WHERE";
-				newQuery += " NOT pokemon_secondary_type = '-'";
+				newQuery += " NOT (pokemon_secondary_type = '-')";
 			}
 		}
 	}
@@ -290,14 +290,16 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Clear entries from vector and box.
-	for (int i = m_resultsEntries->size(); i > 0; i--) {
+	for (int i = m_resultsEntries->size()-1; i > -1; i--) {
 		CResultsEntry* temp = m_resultsEntries->at(i);
 		Gtk::Frame* tempFrame = temp->getMainFrame();
 		m_resultsListVBox->remove(*tempFrame);
-		std::cout << "Deleting entry with number " << temp->getNumber() << std::endl;
-		delete temp;
 	}
 	m_resultsEntries->clear();
+
+	//	Tracing.
+	std::cout << "Cleared entry vector!" << std::endl;
+	std::cout << "Current entry count: " << m_resultsEntries->size() << std::endl;
 
 	//	Update resultset
 	m_queryRes = m_gui->getDex()->retrieveData(newQuery);
