@@ -253,10 +253,30 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 
 		std::string _num = m_queryRes->getString("pokemon_number");
 		std::string _name = m_queryRes->getString("pokemon_name");
+		std::string _gen = m_queryRes->getString("pokemon_generation");
 		std::string _pritype = m_queryRes->getString("pokemon_primary_type");
 		std::string _sectype = m_queryRes->getString("pokemon_secondary_type");
 
-		m_resEntry->setEntryData(_num, _name, _pritype, _sectype);
+		if (_gen == "1") {
+			_gen = "Kanto";
+		} else if (_gen == "2") {
+			_gen = "Johto";
+		} else if (_gen == "3") {
+			_gen = "Hoenn";
+		} else if (_gen == "4") {
+			_gen = "Sinnoh";
+		} else if (_gen == "5") {
+			_gen = "Unova";
+		} else if (_gen == "6") {
+			_gen = "Kalos";
+		} else if (_gen == "7") {
+			_gen = "Alola";
+		} else {
+			_gen = "Unknown";
+		}
+
+
+		m_resEntry->setEntryData(_num, _name, _gen, _pritype, _sectype);
 		appendResultsEntry(m_resEntry);
 		m_gui->getWindow()->show_all_children();
 	}

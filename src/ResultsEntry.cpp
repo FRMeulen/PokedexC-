@@ -4,7 +4,7 @@
 //	2018-10-26	--	F.R. van der Meulen	--	Created.
 //	2018-10-29	--	F.R. van der Meulen	--	Renamed, now derived from Gtk::Frame.
 //	2018-11-02	--	F.R. van der Meulen	--	Program architecture overhaul.
-//	2018-12-04	--	F.R. van der Meulen	--	Added getName method.
+//	2018-12-05	--	F.R. van der Meulen	--	Added getter methods.
 
 //	Include files.
 #include "ResultsEntry.h"
@@ -16,12 +16,15 @@ CResultsEntry::CResultsEntry() {
 	m_entryMainFrame = new Gtk::Frame();
 		m_entryMainHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 			m_entryInfoVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-				m_entryNumNameHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+				m_entryNumNameGenHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 					m_entryNumFrame = new Gtk::Frame();
 						m_entryNumLabel = new Gtk::Label();
 
 					m_entryNameFrame = new Gtk::Frame();
 						m_entryNameLabel = new Gtk::Label();
+
+					m_entryGenFrame = new Gtk::Frame();
+						m_entryGenLabel = new Gtk::Label();
 
 				m_entryTypesHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 					m_entryPriTypeFrame = new Gtk::Frame();
@@ -37,11 +40,13 @@ CResultsEntry::CResultsEntry() {
 	m_entryMainFrame->add(*m_entryMainHBox);
 
 	m_entryMainHBox->pack_start(*m_entryInfoVBox, Gtk::PACK_EXPAND_WIDGET, 5);
-		m_entryInfoVBox->pack_start(*m_entryNumNameHBox, Gtk::PACK_EXPAND_WIDGET, 5);
-			m_entryNumNameHBox->pack_start(*m_entryNumFrame, Gtk::PACK_SHRINK, 5);
+		m_entryInfoVBox->pack_start(*m_entryNumNameGenHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_entryNumNameGenHBox->pack_start(*m_entryNumFrame, Gtk::PACK_SHRINK, 5);
 				m_entryNumFrame->add(*m_entryNumLabel);
-			m_entryNumNameHBox->pack_start(*m_entryNameFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_entryNumNameGenHBox->pack_start(*m_entryNameFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 				m_entryNameFrame->add(*m_entryNameLabel);
+			m_entryNumNameGenHBox->pack_start(*m_entryGenFrame, Gtk::PACK_SHRINK, 5);
+				m_entryGenFrame->add(*m_entryGenLabel);
 
 		m_entryInfoVBox->pack_start(*m_entryTypesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
 			m_entryTypesHBox->pack_start(*m_entryPriTypeFrame, Gtk::PACK_EXPAND_WIDGET, 5);
@@ -64,11 +69,13 @@ CResultsEntry::~CResultsEntry() {
 	delete m_entryPriTypeLabel;
 	delete m_entryPriTypeFrame;
 	delete m_entryTypesHBox;
+	delete m_entryGenLabel;
+	delete m_entryGenFrame;
 	delete m_entryNameLabel;
 	delete m_entryNameFrame;
 	delete m_entryNumLabel;
 	delete m_entryNumFrame;
-	delete m_entryNumNameHBox;
+	delete m_entryNumNameGenHBox;
 	delete m_entryInfoVBox;
 	delete m_entryMainHBox;
 	delete m_entryMainFrame;
@@ -81,12 +88,34 @@ std::string CResultsEntry::getNumber() {
 	return m_entryNumLabel->get_text();
 }
 
-//	getMainFrame	--	Returns Pokemon name.
+//	getName	--	Returns Pokemon name.
 //	Parameters:	none.
 //	Returns:	String of Pokemon name.
 std::string CResultsEntry::getName() {
 	return m_entryNameLabel->get_text();
 }
+
+//	getPriType	--	Returns Pokemon primary type.
+//	Parameters:	none.
+//	Returns:	String of Pokemon primary type.
+std::string CResultsEntry::getPriType() {
+	return m_entryPriTypeLabel->get_text();
+}
+
+//	getSecType	--	Returns Pokemon secondary type.
+//	Parameters:	none.
+//	Returns:	String of Pokemon secondary type.
+std::string CResultsEntry::getSecType() {
+	return m_entrySecTypeLabel->get_text();
+}
+
+//	getGen	--	Returns Pokemon generation.
+//	Parameters:	none.
+//	Returns:	String of Pokemon generation.
+std::string CResultsEntry::getGen() {
+	return m_entryGenLabel->get_text();
+}
+
 
 //	getMainFrame	--	Returns main frame of entry.
 //	Parameters:	none.
@@ -102,9 +131,10 @@ Gtk::Frame* CResultsEntry::getMainFrame() {
 //		pritype	--	String of Pokemon primary type.
 //		sectype	--	String of Pokemon secondary type.
 //	Returns:	void.
-void CResultsEntry::setEntryData(std::string num, std::string name, std::string pritype, std::string sectype) {
+void CResultsEntry::setEntryData(std::string num, std::string name, std::string gen, std::string pritype, std::string sectype) {
 	m_entryNumLabel->set_text(num);
 	m_entryNameLabel->set_text(name);
+	m_entryGenLabel->set_text(gen);
 	m_entryPriTypeLabel->set_text(pritype);
 	m_entrySecTypeLabel->set_text(sectype);
 }
