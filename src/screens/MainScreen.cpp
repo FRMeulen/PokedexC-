@@ -108,7 +108,7 @@ void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 	//	Append entry frame to vector.
 	m_resultsEntries->push_back(entry);
 	Gtk::Frame* entryFrame = entry->getMainFrame();
-	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 5);
+	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 0);
 }
 
 //	updateQuery	--	Updates query to include filters
