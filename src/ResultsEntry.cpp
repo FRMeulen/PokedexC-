@@ -139,3 +139,10 @@ std::string CResultsEntry::getGen() {
 Gtk::Frame* CResultsEntry::getMainFrame() {
 	return m_entryMainFrame;
 }
+
+//	getButton	--	Returns button in entry.
+//	Parameters:	none.
+//	Returns:	pointer to button.
+Gtk::Button* CResultsEntry::getButton() {
+	return m_selectEntryButton;
+}

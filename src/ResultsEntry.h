@@ -59,4 +59,5 @@ public:
 	std::string getSecType();
 	std::string getGen();
 	Gtk::Frame* getMainFrame();
+	Gtk::Button* getButton();
 };

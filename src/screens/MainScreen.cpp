@@ -37,12 +37,12 @@ CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 				m_searchButton = new Gtk::Button("Search");
 
 	//	Build screen.
-	m_framesVBox->pack_start(*m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 10);
+	m_framesVBox->pack_start(*m_resultsFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 		m_resultsFrame->add(*m_scrollWindow);
 			m_scrollWindow->add(*m_resultsListVBox);
 				getQueryResults("SELECT * FROM pokemon;");
 
-	m_framesVBox->pack_start(*m_specifyFrame, Gtk::PACK_SHRINK, 10);
+	m_framesVBox->pack_start(*m_specifyFrame, Gtk::PACK_SHRINK, 5);
 		m_specifyFrame->add(*m_specifyHBox);
 			m_specifyHBox->pack_start(*m_filterOneVBox, Gtk::PACK_EXPAND_WIDGET, 10);
 				m_filterOneVBox->pack_start(*m_filterOneLabel, Gtk::PACK_SHRINK, 10);
