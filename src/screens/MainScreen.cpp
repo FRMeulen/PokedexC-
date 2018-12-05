@@ -249,8 +249,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 	m_queryRes = m_gui->getDex()->retrieveData(newQuery);
 
 	while (m_queryRes->next()) {
-		m_resEntry = new CResultsEntry();
-
+		//	Get Pokemon data.
 		std::string _num = m_queryRes->getString("pokemon_number");
 		std::string _name = m_queryRes->getString("pokemon_name");
 		std::string _gen = m_queryRes->getString("pokemon_generation");
@@ -276,7 +275,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 		}
 
 
-		m_resEntry->setEntryData(_num, _name, _gen, _pritype, _sectype);
+		m_resEntry = new CResultsEntry(_num, _name, _pritype, _sectype, _gen);
 		appendResultsEntry(m_resEntry);
 		m_gui->getWindow()->show_all_children();
 	}

@@ -15,9 +15,19 @@
 //	Class interface.
 class CResultsEntry {
 protected:
+	//	Data holders.
+	std::string pokeNum;
+	std::string pokeName;
+	std::string pokePriType;
+	std::string pokeSecType;
+	std::string pokeGen;
+
 	//	Child widget pointers.
 	Gtk::Frame* m_entryMainFrame;
 		Gtk::Box* m_entryMainHBox;
+			Gtk::Frame* m_entryImageFrame;
+				Gtk::Image* m_entryImage;
+
 			Gtk::Box* m_entryInfoVBox;
 				Gtk::Box* m_entryNumNameGenHBox;
 					Gtk::Frame* m_entryNumFrame;
@@ -36,10 +46,10 @@ protected:
 					Gtk::Frame* m_entrySecTypeFrame;
 						Gtk::Label* m_entrySecTypeLabel;
 
-		Gtk::Button* m_selectEntryButton;
+			Gtk::Button* m_selectEntryButton;
 public:
 	//	Constructors & destructor.
-	CResultsEntry();
+	CResultsEntry(std::string num, std::string name, std::string pritype, std::string sectype, std::string gen);
 	virtual ~CResultsEntry();
 
 	//	Getters.
@@ -49,7 +59,4 @@ public:
 	std::string getSecType();
 	std::string getGen();
 	Gtk::Frame* getMainFrame();
-
-	//	Setters.
-	void setEntryData(std::string num, std::string name, std::string gen, std::string pritype, std::string(sectype));
 };

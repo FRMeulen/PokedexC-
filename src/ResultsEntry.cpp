@@ -11,33 +11,44 @@
 #include <iostream>
 
 //	Constructor.
-CResultsEntry::CResultsEntry() {
+CResultsEntry::CResultsEntry(std::string num, std::string name, std::string pritype, std::string sectype, std::string gen)
+: pokeNum(num), pokeName(name), pokePriType(pritype), pokeSecType(sectype), pokeGen(gen) {
+	//	Determine icon path.
+	std::string pokeIconPath = "res/icons/" + pokeNum + ".png";
+
 	//	Build child widgets.
 	m_entryMainFrame = new Gtk::Frame();
 		m_entryMainHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+			m_entryImageFrame = new Gtk::Frame();
+				m_entryImage = new Gtk::Image(pokeIconPath);
+
 			m_entryInfoVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 				m_entryNumNameGenHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 					m_entryNumFrame = new Gtk::Frame();
-						m_entryNumLabel = new Gtk::Label();
+						m_entryNumLabel = new Gtk::Label(pokeNum);
 
 					m_entryNameFrame = new Gtk::Frame();
-						m_entryNameLabel = new Gtk::Label();
+						m_entryNameLabel = new Gtk::Label(pokeName);
 
 					m_entryGenFrame = new Gtk::Frame();
-						m_entryGenLabel = new Gtk::Label();
+						m_entryGenLabel = new Gtk::Label(pokeGen);
 
 				m_entryTypesHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 					m_entryPriTypeFrame = new Gtk::Frame();
-						m_entryPriTypeLabel = new Gtk::Label();
+						m_entryPriTypeLabel = new Gtk::Label(pokePriType);
 
 					m_entrySecTypeFrame = new Gtk::Frame();
-						m_entrySecTypeLabel = new Gtk::Label();
+						m_entrySecTypeLabel = new Gtk::Label(pokeSecType);
 
-		m_selectEntryButton = new Gtk::Button("GO");
+			m_selectEntryButton = new Gtk::Button("GO");
 
 	//	Build entry.
 	m_entryMainFrame->set_border_width(10);
 	m_entryMainFrame->add(*m_entryMainHBox);
+
+
+	m_entryMainHBox->pack_start(*m_entryImageFrame, Gtk::PACK_SHRINK, 5);
+		m_entryImageFrame->add(*m_entryImage);
 
 	m_entryMainHBox->pack_start(*m_entryInfoVBox, Gtk::PACK_EXPAND_WIDGET, 5);
 		m_entryInfoVBox->pack_start(*m_entryNumNameGenHBox, Gtk::PACK_EXPAND_WIDGET, 5);
@@ -78,6 +89,8 @@ CResultsEntry::~CResultsEntry() {
 	delete m_entryNumNameGenHBox;
 	delete m_entryInfoVBox;
 	delete m_entryMainHBox;
+	delete m_entryImage;
+	delete m_entryImageFrame;
 	delete m_entryMainFrame;
 }
 
@@ -122,19 +135,4 @@ std::string CResultsEntry::getGen() {
 //	Returns:	pointer to main frame.
 Gtk::Frame* CResultsEntry::getMainFrame() {
 	return m_entryMainFrame;
-}
-
-//	setEntryData	--	Sets data in entry boxes.
-//	Parameters:
-//		num		--	String of Pokemon number.
-//		name	--	String of Pokemon name.
-//		pritype	--	String of Pokemon primary type.
-//		sectype	--	String of Pokemon secondary type.
-//	Returns:	void.
-void CResultsEntry::setEntryData(std::string num, std::string name, std::string gen, std::string pritype, std::string sectype) {
-	m_entryNumLabel->set_text(num);
-	m_entryNameLabel->set_text(name);
-	m_entryGenLabel->set_text(gen);
-	m_entryPriTypeLabel->set_text(pritype);
-	m_entrySecTypeLabel->set_text(sectype);
 }
