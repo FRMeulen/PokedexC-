@@ -33,7 +33,7 @@ CDexGui::CDexGui() {
 	m_window->show_all_children();
 
 	//	Configure notebook.
-	//m_pages->set_show_tabs(false);
+	m_pages->set_show_tabs(false);
 
 	//	Create dex connector.
 	m_dex = new CDexConnector();

@@ -63,6 +63,54 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 				m_statsButton = new Gtk::Button("Stats");
 				m_backButton = new Gtk::Button("Back");
 
+	//	Build screen.
+	m_mainVBox->pack_start(*m_pokeMainVBox, Gtk::PACK_EXPAND_WIDGET, 10);
+		m_pokeMainVBox->pack_start(*m_pokeMainHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_pokeMainHBox->pack_start(*m_pokeSpriteFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+				m_pokeSpriteFrame->add(*m_pokeSpriteVBox);
+					m_pokeSpriteVBox->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
+					m_pokeSpriteVBox->pack_start(*m_pokeSpeciesFrame, Gtk::PACK_SHRINK, 5);
+						m_pokeSpeciesFrame->add(*m_pokeSpecies);
+
+			m_pokeMainHBox->pack_start(*m_pokeInfoFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+				m_pokeInfoFrame->add(*m_pokeInfoVBox);
+					m_pokeInfoVBox->pack_start(*m_pokeNumHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNumHBox->pack_start(*m_pokeNumText, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNumHBox->pack_start(*m_pokeNum, Gtk::PACK_EXPAND_WIDGET, 5);
+
+					m_pokeInfoVBox->pack_start(*m_pokeNameHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNameHBox->pack_start(*m_pokeNameText, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNameHBox->pack_start(*m_pokeName, Gtk::PACK_EXPAND_WIDGET, 5);
+					
+					m_pokeInfoVBox->pack_start(*m_pokeTypesVBox, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeTypesVBox->pack_start(*m_pokeTypesText, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeTypesHBox->pack_start(*m_pokeTypesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeTypesHBox->pack_start(*m_pokePriTypeFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+								m_pokePriTypeFrame->add(*m_pokePriType);
+
+							m_pokeTypesHBox->pack_start(*m_pokeSecTypeFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+								m_pokeSecTypeFrame->add(*m_pokeSecType);
+
+					m_pokeInfoVBox->pack_start(*m_pokeHeightWeightHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeHeightWeightHBox->pack_start(*m_pokeHeightVBox, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeHeightVBox->pack_start(*m_pokeHeightText, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeHeightVBox->pack_start(*m_pokeHeight, Gtk::PACK_EXPAND_WIDGET, 5);
+
+						m_pokeHeightWeightHBox->pack_start(*m_pokeWeightVBox, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeWeightVBox->pack_start(*m_pokeWeightText, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeWeightVBox->pack_start(*m_pokeWeight, Gtk::PACK_EXPAND_WIDGET, 5);
+
+		m_pokeMainVBox->pack_start(*m_pokeEntryFrame, Gtk::PACK_SHRINK, 5);
+			m_pokeEntryFrame->add(*m_pokeEntryLabel);
+
+	m_mainVBox->pack_start(*m_optionsFrame, Gtk::PACK_SHRINK, 10);
+		m_optionsFrame->add(*m_optionsHBox);
+			m_optionsHBox->pack_start(*m_infoButton, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_optionsHBox->pack_start(*m_movesButton, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_optionsHBox->pack_start(*m_matchupButton, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_optionsHBox->pack_start(*m_statsButton, Gtk::PACK_EXPAND_WIDGET, 5);
+			m_optionsHBox->pack_start(*m_backButton, Gtk::PACK_EXPAND_WIDGET, 5);
+
 	//	Configure widgets.
 	m_pokeSpriteFrame->set_border_width(10);
 	m_pokeInfoFrame->set_border_width(10);
