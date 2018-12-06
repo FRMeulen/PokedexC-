@@ -96,8 +96,9 @@ void CMainScreen::swapScreen(std::string newScreen) {
 		swapScreen("filterscreen");
 	} else if (newScreen.substr(0, 12) == "pokemonscreen") {
 		std::string pokeNum = newScreen.substr(13);
-		//GET RESULTSET OF TARGET POKEMON
-		//m_gui->getPokemonScreen()->setPokemon(RESULTSET);
+		std::string pokeQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + pokeNum + "';";
+		sql::ResultSet* pokemonInfo = m_gui->getDex()->retrieveData(pokeQuery);
+		m_gui->getPokemonScreen()->setPokemon(pokemonInfo);
 		swapScreen("pokemonscreen");
 	} else {
 		m_gui->swapScreen(newScreen);

@@ -50,6 +50,7 @@ public:
 	CDexConnector* getDex();
 	CMainScreen* getMainScreen();
 	CFilterScreen* getFilterScreen();
+	CPokemonScreen* getPokemonScreen();
 
 	//	Setters.
 	void setMainScreen(CMainScreen* main);

@@ -108,6 +108,13 @@ CFilterScreen* CDexGui::getFilterScreen() {
 	return m_filterScreen;
 }
 
+//	getPokemonScreen	--	Returns pointer to pokemon screen.
+//	Parameters:	none.
+//	Returns:	pointer to pokemon screen.
+CPokemonScreen* CDexGui::getPokemonScreen() {
+	return m_pokemonScreen;
+}
+
 //	setMainScreen	--	Sets gui main screen.
 //	Parameters:
 //		main	--	pointer to main screen object.
