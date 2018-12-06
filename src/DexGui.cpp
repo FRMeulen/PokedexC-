@@ -10,8 +10,9 @@
 #include <iostream>
 
 //	Definitions.
-#define mainScreenPage 0
-#define filterScreenPage 1
+#define mainScreenPage		0
+#define filterScreenPage	1
+#define pokemonScreenPage	2
 
 //	Constructor.
 //	Parameters:	none.
@@ -32,7 +33,7 @@ CDexGui::CDexGui() {
 	m_window->show_all_children();
 
 	//	Configure notebook.
-	m_pages->set_show_tabs(false);
+	//m_pages->set_show_tabs(false);
 
 	//	Create dex connector.
 	m_dex = new CDexConnector();
@@ -68,6 +69,8 @@ void CDexGui::swapScreen(std::string newScreen) {
 		m_pages->set_current_page(mainScreenPage);
 	else if (newScreen == "filterscreen")
 		m_pages->set_current_page(filterScreenPage);
+	else if (newScreen == "pokemonscreen")
+		m_pages->set_current_page(pokemonScreenPage);
 }
 
 //	getWindow	--	Returns pointer to window.
@@ -119,4 +122,12 @@ void CDexGui::setMainScreen(CMainScreen* main) {
 //	Returns:	void.
 void CDexGui::setFilterScreen(CFilterScreen* filter) {
 	m_filterScreen = filter;
+}
+
+//	setPokemonScreen	--	Sets gui pokemon screen.
+//	Parameters:
+//		pokemon	--	pointer to pokemon screen object.
+//	Returns:	void.
+void CDexGui::setPokemonScreen(CPokemonScreen* pokemon) {
+	m_pokemonScreen = pokemon;
 }

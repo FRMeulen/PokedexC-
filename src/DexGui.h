@@ -16,6 +16,7 @@
 //	Predefinitions.
 class CMainScreen;
 class CFilterScreen;
+class CPokemonScreen;
 class CResultsEntry;
 
 //	Class interface.
@@ -32,6 +33,8 @@ protected:
 	//	Screen object pointers.
 	CMainScreen* m_mainScreen;
 	CFilterScreen* m_filterScreen;
+	CPokemonScreen* m_pokemonScreen;
+
 public:
 	//	Constructors & destructor.
 	CDexGui();
@@ -51,4 +54,5 @@ public:
 	//	Setters.
 	void setMainScreen(CMainScreen* main);
 	void setFilterScreen(CFilterScreen* filter);
+	void setPokemonScreen(CPokemonScreen* pokemon);
 };

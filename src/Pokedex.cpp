@@ -10,6 +10,7 @@
 #include "DexGui.h"
 #include "screens/MainScreen.h"
 #include "screens/FilterScreen.h"
+#include "screens/PokemonScreen.h"
 
 //	Main method	--	Entry point for PokedexC++ program.
 //	Parameters:	none.
@@ -21,12 +22,14 @@ int main() {
 	//	Create screens.
 	CMainScreen *m_mainScreen = new CMainScreen(m_gui);
 	CFilterScreen *m_filterScreen = new CFilterScreen(m_gui);
+	CPokemonScreen *m_pokemonScreen = new CPokemonScreen(m_gui);
 
 	//	Start gui.
 	std::cout << "[POKEDEX]	--	Starting GUI!" << std::endl;
 	m_gui->start();
 
 	//	Delete objects.
+	delete m_pokemonScreen;
 	delete m_filterScreen;
 	delete m_mainScreen;
 	delete m_gui;

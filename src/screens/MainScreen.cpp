@@ -73,8 +73,10 @@ CMainScreen::~CMainScreen() {
 	//	Tracing.
 	std::cout << "[MAINSCREEN]	--	destructor called." << std::endl;
 
+	//	Remove from Gui.
 	m_gui->setMainScreen(NULL);
 
+	//	Clear stored entries.
 	m_resultsEntries->clear();
 }
 
@@ -84,7 +86,7 @@ CMainScreen::~CMainScreen() {
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
-	std::cout << "[MAINSCREEN]	--	swapScreen called -> newScreen=" << newScreen << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	swapScreen called -> newScreen='" << newScreen << "'." << std::endl;
 
 	if (newScreen == "filterscreen1") {
 		m_gui->getFilterScreen()->setFilterNum(1);
@@ -92,6 +94,11 @@ void CMainScreen::swapScreen(std::string newScreen) {
 	} else if (newScreen == "filterscreen2") {
 		m_gui->getFilterScreen()->setFilterNum(2);
 		swapScreen("filterscreen");
+	} else if (newScreen.substr(0, 12) == "pokemonscreen") {
+		std::string pokeNum = newScreen.substr(13);
+		//GET RESULTSET OF TARGET POKEMON
+		//m_gui->getPokemonScreen()->setPokemon(RESULTSET);
+		swapScreen("pokemonscreen");
 	} else {
 		m_gui->swapScreen(newScreen);
 	}
@@ -99,24 +106,28 @@ void CMainScreen::swapScreen(std::string newScreen) {
 
 //	appendResultsEntry	--	Appends results entry to vector.
 //	Parameters:
-//		--	num		--	String of Pokemon number.
-//		--	name	--	String of Pokemon name.
-//		--	pritype	--	String of Pokemon primary type.
-//		--	sectype	--	String of Pokemon secondary type.
+//		entry	--	pointer to ResultsEntry object.
 //	Returns:	void.
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
 	//	Append entry frame to vector.
 	m_resultsEntries->push_back(entry);
 	Gtk::Frame* entryFrame = entry->getMainFrame();
+
+	//	Pack entry frame in box.
 	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 0);
+	
+	//	Connect method to button signal.
+	entry->getButton()->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CMainScreen::swapScreen), "pokemonscreen" + entry->getNumber()));
 }
 
 //	updateQuery	--	Updates query to include filters
 //	Parameters:	none.
 //	Returns:	void.
 void CMainScreen::updateQuery() {
+	//	Tracing.
 	std::cout << "[MAINSCREEN]	--	updateQuery called." << std::endl;
 
+	//	Utility variables.
 	int colonPos;
 	std::string filterOneGroup, filterOneName, filterTwoGroup, filterTwoName;
 

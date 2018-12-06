@@ -16,11 +16,12 @@
 #include "../DexConnector.h"
 #include "FilterScreen.h"
 #include "../ResultsEntry.h"
+#include "PokemonScreen.h"
 
 //	Class interface.
 class CMainScreen {
 protected:
-	//	Gui pointers.
+	//	Gui pointer.
 	CDexGui* m_gui;
 
 	//	Data-related fields.
@@ -46,11 +47,10 @@ protected:
 					Gtk::Button* m_filterTwoButton;
 				
 				Gtk::Button* m_searchButton;
+				
 public:
 	//	Constructors & desctructor.
 	CMainScreen(CDexGui *parmGui);
-	CMainScreen(const CMainScreen& main);
-	CMainScreen& operator=(const CMainScreen& main);
 	virtual ~CMainScreen();
 
 	//	Methods.
