@@ -33,13 +33,15 @@ protected:
 				
 				Gtk::Frame* m_pokeInfoFrame;
 					Gtk::Box* m_pokeInfoVBox;
-						Gtk::Box* m_pokeNumHBox;
-							Gtk::Label* m_pokeNumText;
-							Gtk::Label* m_pokeNum;
+						Gtk::Frame* m_pokeNumFrame;	
+							Gtk::Box* m_pokeNumHBox;
+								Gtk::Label* m_pokeNumText;
+								Gtk::Label* m_pokeNum;
 
-						Gtk::Box* m_pokeNameHBox;
-							Gtk::Label* m_pokeNameText;
-							Gtk::Label* m_pokeName;
+						Gtk::Frame* m_pokeNameFrame;
+							Gtk::Box* m_pokeNameHBox;
+								Gtk::Label* m_pokeNameText;
+								Gtk::Label* m_pokeName;
 
 						Gtk::Box* m_pokeTypesVBox;
 							Gtk::Label* m_pokeTypesText;
@@ -51,16 +53,18 @@ protected:
 									Gtk::Label* m_pokeSecType;
 
 						Gtk::Box* m_pokeHeightWeightHBox;
-							Gtk::Box* m_pokeHeightVBox;
-								Gtk::Label* m_pokeHeightText;
-								Gtk::Label* m_pokeHeight;
+							Gtk::Frame* m_pokeHeightFrame;
+								Gtk::Box* m_pokeHeightVBox;
+									Gtk::Label* m_pokeHeightText;
+									Gtk::Label* m_pokeHeight;
 
-							Gtk::Box* m_pokeWeightVBox;
-								Gtk::Label* m_pokeWeightText;
-								Gtk::Label* m_pokeWeight;
+							Gtk::Frame* m_pokeWeightFrame;
+								Gtk::Box* m_pokeWeightVBox;
+									Gtk::Label* m_pokeWeightText;
+									Gtk::Label* m_pokeWeight;
 
 			Gtk::Frame* m_pokeEntryFrame;
-				Gtk::Label* m_pokeEntryLabel;
+				Gtk::Label* m_pokeEntry;
 
 		Gtk::Frame* m_optionsFrame;
 			Gtk::Box* m_optionsHBox;

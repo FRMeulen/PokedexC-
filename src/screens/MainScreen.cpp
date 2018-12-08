@@ -88,13 +88,14 @@ void CMainScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
 	std::cout << "[MAINSCREEN]	--	swapScreen called -> newScreen='" << newScreen << "'." << std::endl;
 
+	//	Determine action.
 	if (newScreen == "filterscreen1") {
 		m_gui->getFilterScreen()->setFilterNum(1);
 		swapScreen("filterscreen");
 	} else if (newScreen == "filterscreen2") {
 		m_gui->getFilterScreen()->setFilterNum(2);
 		swapScreen("filterscreen");
-	} else if (newScreen.substr(0, 12) == "pokemonscreen") {
+	} else if (newScreen[13] == '#') {
 		std::string pokeNum = newScreen.substr(13);
 		std::string pokeQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + pokeNum + "';";
 		sql::ResultSet* pokemonInfo = m_gui->getDex()->retrieveData(pokeQuery);

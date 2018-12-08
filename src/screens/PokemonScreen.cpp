@@ -20,19 +20,21 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 			m_pokeMainHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 				m_pokeSpriteFrame = new Gtk::Frame();
 					m_pokeSpriteVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-						m_pokeSprite = new Gtk::Image();
+						//	m_pokeSprite is made when Pokemon is set.
 						m_pokeSpeciesFrame = new Gtk::Frame();
 							m_pokeSpecies = new Gtk::Label();
 
 				m_pokeInfoFrame = new Gtk::Frame("Information");
 					m_pokeInfoVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-						m_pokeNumHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-							m_pokeNumText = new Gtk::Label("Number: ");
-							m_pokeNum = new Gtk::Label();
+						m_pokeNumFrame = new Gtk::Frame();
+							m_pokeNumHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+								m_pokeNumText = new Gtk::Label("Number: ");
+								m_pokeNum = new Gtk::Label();
 
-						m_pokeNameHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-							m_pokeNameText = new Gtk::Label("Name: ");
-							m_pokeName = new Gtk::Label();
+						m_pokeNameFrame = new Gtk::Frame();
+							m_pokeNameHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+								m_pokeNameText = new Gtk::Label("Name: ");
+								m_pokeName = new Gtk::Label();
 
 						m_pokeTypesVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 							m_pokeTypesText = new Gtk::Label("Types");
@@ -44,16 +46,18 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 									m_pokeSecType = new Gtk::Label();
 
 						m_pokeHeightWeightHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-							m_pokeHeightVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-								m_pokeHeightText = new Gtk::Label("Height");
-								m_pokeHeight = new Gtk::Label();
+							m_pokeHeightFrame = new Gtk::Frame();
+								m_pokeHeightVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+									m_pokeHeightText = new Gtk::Label("Height");
+									m_pokeHeight = new Gtk::Label();
 
-							m_pokeWeightVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-								m_pokeWeightText = new Gtk::Label("Weight");
-								m_pokeWeight = new Gtk::Label();
+							m_pokeWeightFrame = new Gtk::Frame();
+								m_pokeWeightVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+									m_pokeWeightText = new Gtk::Label("Weight");
+									m_pokeWeight = new Gtk::Label();
 
 			m_pokeEntryFrame = new Gtk::Frame();
-				m_pokeEntryLabel = new Gtk::Label();
+				m_pokeEntry = new Gtk::Label();
 
 		m_optionsFrame = new Gtk::Frame("Options");
 			m_optionsHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -68,23 +72,25 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 		m_pokeMainVBox->pack_start(*m_pokeMainHBox, Gtk::PACK_EXPAND_WIDGET, 5);
 			m_pokeMainHBox->pack_start(*m_pokeSpriteFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 				m_pokeSpriteFrame->add(*m_pokeSpriteVBox);
-					m_pokeSpriteVBox->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
+					//	m_pokeSprite is added to m_pokeSpriteVBox when Pokemon is set.
 					m_pokeSpriteVBox->pack_start(*m_pokeSpeciesFrame, Gtk::PACK_SHRINK, 5);
 						m_pokeSpeciesFrame->add(*m_pokeSpecies);
 
 			m_pokeMainHBox->pack_start(*m_pokeInfoFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 				m_pokeInfoFrame->add(*m_pokeInfoVBox);
-					m_pokeInfoVBox->pack_start(*m_pokeNumHBox, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeNumHBox->pack_start(*m_pokeNumText, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeNumHBox->pack_start(*m_pokeNum, Gtk::PACK_EXPAND_WIDGET, 5);
+					m_pokeInfoVBox->pack_start(*m_pokeNumFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNumFrame->add(*m_pokeNumHBox);
+							m_pokeNumHBox->pack_start(*m_pokeNumText, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeNumHBox->pack_start(*m_pokeNum, Gtk::PACK_EXPAND_WIDGET, 5);
 
-					m_pokeInfoVBox->pack_start(*m_pokeNameHBox, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeNameHBox->pack_start(*m_pokeNameText, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeNameHBox->pack_start(*m_pokeName, Gtk::PACK_EXPAND_WIDGET, 5);
+					m_pokeInfoVBox->pack_start(*m_pokeNameFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeNameFrame->add(*m_pokeNameHBox);
+							m_pokeNameHBox->pack_start(*m_pokeNameText, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeNameHBox->pack_start(*m_pokeName, Gtk::PACK_EXPAND_WIDGET, 5);
 					
 					m_pokeInfoVBox->pack_start(*m_pokeTypesVBox, Gtk::PACK_EXPAND_WIDGET, 5);
 						m_pokeTypesVBox->pack_start(*m_pokeTypesText, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeTypesHBox->pack_start(*m_pokeTypesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeTypesVBox->pack_start(*m_pokeTypesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
 							m_pokeTypesHBox->pack_start(*m_pokePriTypeFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 								m_pokePriTypeFrame->add(*m_pokePriType);
 
@@ -92,16 +98,18 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 								m_pokeSecTypeFrame->add(*m_pokeSecType);
 
 					m_pokeInfoVBox->pack_start(*m_pokeHeightWeightHBox, Gtk::PACK_EXPAND_WIDGET, 5);
-						m_pokeHeightWeightHBox->pack_start(*m_pokeHeightVBox, Gtk::PACK_EXPAND_WIDGET, 5);
-							m_pokeHeightVBox->pack_start(*m_pokeHeightText, Gtk::PACK_EXPAND_WIDGET, 5);
-							m_pokeHeightVBox->pack_start(*m_pokeHeight, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeHeightWeightHBox->pack_start(*m_pokeHeightFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeHeightFrame->add(*m_pokeHeightVBox);
+								m_pokeHeightVBox->pack_start(*m_pokeHeightText, Gtk::PACK_EXPAND_WIDGET, 5);
+								m_pokeHeightVBox->pack_start(*m_pokeHeight, Gtk::PACK_EXPAND_WIDGET, 5);
 
-						m_pokeHeightWeightHBox->pack_start(*m_pokeWeightVBox, Gtk::PACK_EXPAND_WIDGET, 5);
-							m_pokeWeightVBox->pack_start(*m_pokeWeightText, Gtk::PACK_EXPAND_WIDGET, 5);
-							m_pokeWeightVBox->pack_start(*m_pokeWeight, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeHeightWeightHBox->pack_start(*m_pokeWeightFrame, Gtk::PACK_EXPAND_WIDGET, 5);
+							m_pokeWeightFrame->add(*m_pokeWeightVBox);
+								m_pokeWeightVBox->pack_start(*m_pokeWeightText, Gtk::PACK_EXPAND_WIDGET, 5);
+								m_pokeWeightVBox->pack_start(*m_pokeWeight, Gtk::PACK_EXPAND_WIDGET, 5);
 
 		m_pokeMainVBox->pack_start(*m_pokeEntryFrame, Gtk::PACK_SHRINK, 5);
-			m_pokeEntryFrame->add(*m_pokeEntryLabel);
+			m_pokeEntryFrame->add(*m_pokeEntry);
 
 	m_mainVBox->pack_start(*m_optionsFrame, Gtk::PACK_SHRINK, 10);
 		m_optionsFrame->add(*m_optionsHBox);
@@ -113,6 +121,13 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 
 	//	Configure widgets.
 	m_pokeSpriteFrame->set_border_width(10);
+	m_pokeSpeciesFrame->set_border_width(5);
+	m_pokeNumFrame->set_border_width(5);
+	m_pokeNameFrame->set_border_width(5);
+	m_pokePriTypeFrame->set_border_width(5);
+	m_pokeSecTypeFrame->set_border_width(5);
+	m_pokeHeightFrame->set_border_width(5);
+	m_pokeWeightFrame->set_border_width(5);
 	m_pokeInfoFrame->set_border_width(10);
 	m_optionsFrame->set_border_width(10);
 
@@ -153,7 +168,27 @@ void CPokemonScreen::setPokemon(sql::ResultSet* res) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	setPokemon called." << std::endl;
 
-	//	Get results.
+	//	Store database results.
+	m_queryRes = res;
 
+	//	Get pokemon in results.
+	res->next();
+
+	//	Set sprite.
+	m_pokeSprite = new Gtk::Image("res/sprites/" + (std::string) res->getString("pokemon_number") + ".png");
+	m_pokeSpriteVBox->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
+	
 	//	Set label texts.
+	m_pokeSpecies->set_text((std::string) res->getString("pokemon_species"));
+	m_pokeNum->set_text((std::string) res->getString("pokemon_number"));
+	m_pokeName->set_text((std::string) res->getString("pokemon_name"));
+	m_pokePriType->set_text((std::string) res->getString("pokemon_primary_type"));
+	m_pokeSecType->set_text((std::string) res->getString("pokemon_secondary_type"));
+	m_pokeHeight->set_text((std::string) res->getString("pokemon_height"));
+	m_pokeWeight->set_text((std::string) res->getString("pokemon_weight"));
+	
+	//	Set pokedex entry.
+
+	//	Refresh GUI.
+	m_gui->getWindow()->show_all_children();
 }
