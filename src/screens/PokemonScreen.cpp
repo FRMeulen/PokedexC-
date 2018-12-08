@@ -130,6 +130,8 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	m_pokeWeightFrame->set_border_width(5);
 	m_pokeInfoFrame->set_border_width(10);
 	m_optionsFrame->set_border_width(10);
+	m_pokeEntryFrame->set_border_width(10);
+	m_pokeEntry->set_single_line_mode(false);
 
 	//	Signal handlers.
 	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapScreen), "mainscreen"));
@@ -157,7 +159,13 @@ void CPokemonScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	swapScreen called -> newScreen='" << newScreen << "'." << std::endl;
 
-	m_gui->swapScreen(newScreen);
+	if (newScreen == "mainscreen") {
+		//	Clear sprite.
+		m_pokeSpriteVBox->remove(*m_pokeSprite);
+
+		//	Return to main screen.
+		m_gui->swapScreen(newScreen);
+	}
 }
 
 //	setPokemon	--	Sets target Pokemon.
@@ -188,6 +196,10 @@ void CPokemonScreen::setPokemon(sql::ResultSet* res) {
 	m_pokeWeight->set_text((std::string) res->getString("pokemon_weight"));
 	
 	//	Set pokedex entry.
+	std::string entryQuery = "SELECT * FROM pokedex_entries WHERE pokemon_number = '" + res->getString("pokemon_number") + "';";
+	sql::ResultSet* dexEntry = m_gui->getDex()->retrieveData(entryQuery);
+	dexEntry->next();
+	m_pokeEntry->set_text((std::string) dexEntry->getString("pokemon_description"));
 
 	//	Refresh GUI.
 	m_gui->getWindow()->show_all_children();
