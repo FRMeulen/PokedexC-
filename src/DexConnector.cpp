@@ -14,11 +14,11 @@ CDexConnector::CDexConnector(){
 	std::cout << "[DEXCONNECTOR]	--	constructor called." << std::endl;
 
 	//	Set up driver & connection.
-	m_pdriver = sql::mysql::get_mysql_driver_instance();
-	m_pconn = m_pdriver->connect("tcp://127.0.0.1:3306", "pokedex", "CppDex");
+	m_driver = sql::mysql::get_mysql_driver_instance();
+	m_conn = m_driver->connect("tcp://127.0.0.1:3306", "pokedex", "CppDex");
 
 	//	Select database.
-	m_pconn->setSchema("pokebase");
+	m_conn->setSchema("pokebase");
 }
 
 //	Destructor.
@@ -33,12 +33,12 @@ CDexConnector::~CDexConnector(){
 //	Returns:	pointer to SQL ResultSet of executed query.
 sql::ResultSet* CDexConnector::retrieveData(std::string query){
 	//	Tracing.
-	std::cout << "[DEXCONNECTOR]	--	retrieveData called -> query=" << query << "." << std::endl;
+	std::cout << "[DEXCONNECTOR]	--	retrieveData called -> " << query << "." << std::endl;
 
 	//	Execute query.
-	m_pstatement = m_pconn->createStatement();
-	m_pres = m_pstatement->executeQuery(query);
+	m_statement = m_conn->createStatement();
+	m_res = m_statement->executeQuery(query);
 
 	//	Return resultset.
-	return m_pres;
+	return m_res;
 }

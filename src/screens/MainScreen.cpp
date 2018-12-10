@@ -86,7 +86,7 @@ CMainScreen::~CMainScreen() {
 //	Returns:	void.
 void CMainScreen::swapScreen(std::string newScreen) {
 	//	Tracing.
-	std::cout << "[MAINSCREEN]	--	swapScreen called -> newScreen='" << newScreen << "'." << std::endl;
+	std::cout << "[MAINSCREEN]	--	swapScreen called -> " << newScreen << "." << std::endl;
 
 	//	Determine action.
 	if (newScreen == "filterscreen1") {
@@ -248,7 +248,7 @@ void CMainScreen::updateQuery() {
 //	Returns:	void.
 void CMainScreen::getQueryResults(std::string newQuery) {
 	//	Tracing.
-	std::cout << "[MAINSCREEN]	--	getQueryResults called -> newQuery='" << newQuery << "'." << std::endl;
+	std::cout << "[MAINSCREEN]	--	getQueryResults called -> " << newQuery << "." << std::endl;
 
 	//	Clear entries from vector and box.
 	for (int i = m_resultsEntries->size()-1; i > -1; i--) {
@@ -303,7 +303,7 @@ void CMainScreen::getQueryResults(std::string newQuery) {
 //	Returns:	void.
 void CMainScreen::setQuery(std::string newQuery) {
 	//	Tracing.
-	std::cout << "[MAINSCREEN]	--	setQuery called -> newQuery=" << newQuery << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	setQuery called -> " << newQuery << "." << std::endl;
 
 	m_query = newQuery;
 }
@@ -315,7 +315,7 @@ void CMainScreen::setQuery(std::string newQuery) {
 //	Returns:	void.
 void CMainScreen::setFilter(int filterNum, std::string filter) {
 	//	Tracing.
-	std::cout << "[MAINSCREEN]	--	setFilter called -> filterNum=" << filterNum << ", filter=" << filter << "." << std::endl;
+	std::cout << "[MAINSCREEN]	--	setFilter called -> filter " << filterNum << " set to " << filter << "." << std::endl;
 
 	if (filterNum == 1) {
 		m_filterOneLabel->set_text("Filter 1: " + filter);

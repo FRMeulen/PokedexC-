@@ -20,12 +20,12 @@
 class CDexConnector{
 private:
 	//	MySQL driver.
-	sql::mysql::MySQL_Driver *m_pdriver;
+	sql::mysql::MySQL_Driver *m_driver;
 	
 	//	MySQL object pointers.
-	sql::Connection *m_pconn;
-	sql::Statement *m_pstatement;
-	sql::ResultSet *m_pres;
+	sql::Connection *m_conn;
+	sql::Statement *m_statement;
+	sql::ResultSet *m_res;
 public:
 	//	Constructors & destructor.
 	CDexConnector();
