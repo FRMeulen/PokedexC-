@@ -1,0 +1,46 @@
+//THIS IS AN EXAMPLE, THIS WILL NOT WORK DUE TO THESE COMMENT LINES!
+
+
+//This example will show the syntax.
+//generate_queries.py will generate SQL queries to add entries in the `pokemon_moves' table.
+//'pokemon_moves' is a link table between pokemon and moves.
+//This example will add 8 moves to Bulbasaur and 8 to Ivysaur.
+#001
+Growl(3)|Leech Seed(7)
+Work Up(1)|Toxic(6)
+Amnesia|Charm
+Bind|Giga Drain
+
+#002
+Sleep Powder(4)|Solar Beam(44)
+Leaf Storm(7)|Wood Hammer(90)
+Synthesis|Tackle
+Knock Off|Snore
+
+
+//An in-depth explanation of the syntax below:
+#001	//This is the Pokemon number, in this case Bulbasaur.
+Growl(3)|Leech Seed(7)	//This line is for moves learned by Leveling up. This means Bulbasaur learns Growl at Level 3 and Leech Seed at Level 7.
+Work Up(1)|Toxic(6)	//This line is for moves learned by using TMs. This means Bulbasaur can learn Work Up from TM1 and Toxic from TM6.
+Amnesia|Charm		//This line is for moves obtained from their parents, known as Egg moves. This means Bulbasaur can inherit the moves Amnesia and Charm. Egg moves have no additional data, hence no brackets.
+Bind|Giga Drain		//This line is for moves learned by visitin the Tutor. This means Bulbasaur can be taught Bind and Giga Drain by the Tutor. Tutor moves also have no additional data.
+
+// Any number of Pokemon following the syntax can be converted to SQL queries in one go.
+#number
+Level-Up moves
+TM moves
+Egg moves
+Tutor moves
+
+#number
+Level-Up moves
+TM moves
+Egg moves
+Tutor moves
+
+#number
+...
+...
+...
+...
+
