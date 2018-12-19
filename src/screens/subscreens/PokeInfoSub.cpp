@@ -9,7 +9,8 @@
 
 //	Constructor.
 //	Parameters:
-//		res	--	ResultSet containing Pokemon Info.
+//		parmGui	--	pointer to GUI.
+//		res		--	pointer to ResultSet containing Pokemon Info.
 CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGui), m_res(res) {
 	//	Tracing.
 	std::cout << "[POKEINFOSUB]	--	constructor called." << std::endl;

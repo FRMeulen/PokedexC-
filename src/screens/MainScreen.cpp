@@ -23,6 +23,7 @@ CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 			m_scrollWindow = new Gtk::ScrolledWindow();
 				m_resultsListVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 					m_resultsEntries = new std::vector<CResultsEntry*>();
+					//	m_resEntry is made when appending results.
 
 		m_specifyFrame = new Gtk::Frame("Specify");
 			m_specifyHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -97,9 +98,7 @@ void CMainScreen::swapScreen(std::string newScreen) {
 		swapScreen("filterscreen");
 	} else if (newScreen[13] == '#') {
 		std::string pokeNum = newScreen.substr(13);
-		std::string pokeQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + pokeNum + "';";
-		sql::ResultSet* pokemonInfo = m_gui->getDex()->retrieveData(pokeQuery);
-		m_gui->getPokemonScreen()->setPokemon(pokemonInfo);
+		m_gui->getPokemonScreen()->setPokemon(pokeNum);
 		swapScreen("pokemonscreen");
 	} else {
 		m_gui->swapScreen(newScreen);
@@ -111,11 +110,11 @@ void CMainScreen::swapScreen(std::string newScreen) {
 //		entry	--	pointer to ResultsEntry object.
 //	Returns:	void.
 void CMainScreen::appendResultsEntry(CResultsEntry* entry) {
-	//	Append entry frame to vector.
+	//	Append entry to vector.
 	m_resultsEntries->push_back(entry);
-	Gtk::Frame* entryFrame = entry->getMainFrame();
 
 	//	Pack entry frame in box.
+	Gtk::Frame* entryFrame = entry->getMainFrame();
 	m_resultsListVBox->pack_start(*entryFrame, Gtk::PACK_SHRINK, 0);
 	
 	//	Connect method to button signal.

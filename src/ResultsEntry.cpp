@@ -43,7 +43,6 @@ CResultsEntry::CResultsEntry(std::string num, std::string name, std::string prit
 			m_selectEntryButton = new Gtk::Button("GO");
 
 	//	Build entry.
-	m_entryMainFrame->set_border_width(10);
 	m_entryMainFrame->add(*m_entryMainHBox);
 
 
@@ -69,10 +68,8 @@ CResultsEntry::CResultsEntry(std::string num, std::string name, std::string prit
 	m_entryMainHBox->pack_start(*m_selectEntryButton, Gtk::PACK_SHRINK, 5);
 
 	//	Configure frames.
+	m_entryMainFrame->set_border_width(10);
 	m_entryImageFrame->set_border_width(5);
-
-	//	Signal handler.
-	//m_selectEntryButton.signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &EntryBox::FUNCNAME), m_entryNumLabel.get_text()));
 }
 
 //	Destructor.

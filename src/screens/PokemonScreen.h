@@ -12,6 +12,7 @@
 #include "../DexGui.h"
 #include "MainScreen.h"
 #include "subscreens/PokeInfoSub.h"
+#include "subscreens/PokeMovesSub.h"
 
 //	Class interface.
 class CPokemonScreen {
@@ -21,12 +22,13 @@ protected:
 
 	//	Subscreen pointers.
 	CPokeInfoSub* m_pokeInfoSub;
+	CPokeMovesSub* m_pokeMovesSub;
 
 	//	Pokemon information.
-	sql::ResultSet* m_queryRes;
+	std::string m_strPokeNum;
 
 	//	Data related variables.
-	std::string m_currentSubScreen = "info";
+	std::string m_currentSubScreen;
 
 	//	Child widget pointers.
 	Gtk::Box* m_mainVBox;
@@ -50,5 +52,5 @@ public:
 	void swapSubScreen(std::string newSubScreen);
 
 	//	Setters.
-	void setPokemon(sql::ResultSet *res);
+	void setPokemon(std::string num);
 };

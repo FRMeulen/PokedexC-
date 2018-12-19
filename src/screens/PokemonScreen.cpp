@@ -41,6 +41,8 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 
 	//	Signal handlers.
 	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapScreen), "mainscreen"));
+	m_infoButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapSubScreen), "info"));
+	m_movesButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapSubScreen), "moves"));
 
 	//	Make self known to Gui.
 	m_gui->setPokemonScreen(this);
@@ -77,14 +79,39 @@ void CPokemonScreen::swapSubScreen(std::string newSubScreen) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	swapSubScreen called -> " << newSubScreen << "." << std::endl;
 
+	//	Check for invalid swaps.
+	if (newSubScreen == m_currentSubScreen)
+		return;
+
+	//	Temporary Gtk::Box pointer.
+	Gtk::Box* tempBox;
+
+	//	Clear current subscreen.
+	if (m_currentSubScreen == "info") {
+		tempBox = m_pokeInfoSub->getMainBox();
+		m_subScreenBox->remove(*tempBox);
+	} else if (m_currentSubScreen == "moves") {
+		tempBox = m_pokeMovesSub->getMainBox();
+		m_subScreenBox->remove(*tempBox);
+	} else if (m_currentSubScreen == "matchup") {
+
+	} else if (m_currentSubScreen == "stats"){
+
+	}
+
 	//	Determine new sub screen.
 	if (newSubScreen == "info") {
 		m_currentSubScreen = "info";
-		m_pokeInfoSub = new CPokeInfoSub(m_gui, m_queryRes);
-		Gtk::Box* tempBox = m_pokeInfoSub->getMainBox();
+		std::string pokeInfoQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + m_strPokeNum + "';";
+		sql::ResultSet* pokeInfoSet = m_gui->getDex()->retrieveData(pokeInfoQuery);
+		m_pokeInfoSub = new CPokeInfoSub(m_gui, pokeInfoSet);
+		tempBox = m_pokeInfoSub->getMainBox();
 		m_subScreenBox->pack_start(*tempBox);
 	} else if (newSubScreen == "moves") {
 		m_currentSubScreen = "moves";
+		m_pokeMovesSub = new CPokeMovesSub(m_gui, m_strPokeNum);
+		tempBox = m_pokeMovesSub->getMainBox();
+		m_subScreenBox->pack_start(*tempBox);
 	} else if (newSubScreen == "matchup") {
 		m_currentSubScreen = "matchup";
 	} else if (newSubScreen == "stats") {
@@ -99,12 +126,12 @@ void CPokemonScreen::swapSubScreen(std::string newSubScreen) {
 //	Parameters:
 //		num	--	string of Pokemon number.
 //	Returns:	void.
-void CPokemonScreen::setPokemon(sql::ResultSet* res) {
+void CPokemonScreen::setPokemon(std::string num) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	setPokemon called." << std::endl;
 
-	//	Store database results.
-	m_queryRes = res;
+	//	Store Pokemon Number.
+	m_strPokeNum = num;
 
 	//	Set starting screen.
 	swapSubScreen("info");
