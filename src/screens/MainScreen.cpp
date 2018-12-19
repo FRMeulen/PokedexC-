@@ -55,9 +55,12 @@ CMainScreen::CMainScreen(CDexGui *parmGui) : m_gui(parmGui) {
 			
 			m_specifyHBox->pack_start(*m_searchButton, Gtk::PACK_EXPAND_WIDGET, 10);
 
-	//	Configure widgets.
+	//	Configure frames.
 	m_resultsFrame->set_border_width(10);
 	m_specifyFrame->set_border_width(10);
+
+	//	Configure boxes.
+	m_specifyHBox->set_homogeneous(true);
 
 	//	Signal handlers.
 	m_filterOneButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CMainScreen::swapScreen), "filterscreen1"));

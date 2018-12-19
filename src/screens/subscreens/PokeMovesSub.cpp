@@ -19,10 +19,10 @@ CPokeMovesSub::CPokeMovesSub(CDexGui *parmGui, std::string num) : m_gui(parmGui)
 	m_mainVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 		m_moveLearnMethodsFrame = new Gtk::Frame("Learn Methods");
 			m_moveLearnMethodsHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-				m_levelUpMovesButton 	= new Gtk::Button("  Level  ");
-				m_tmHmMovesButton		= new Gtk::Button(" TMs/HMs ");
-				m_eggMovesButton		= new Gtk::Button("   Egg   ");
-				m_tutorMovesButton		= new Gtk::Button("  Tutor  ");
+				m_levelUpMovesButton 	= new Gtk::Button("Level-Up");
+				m_tmHmMovesButton		= new Gtk::Button("TMs");
+				m_eggMovesButton		= new Gtk::Button("Egg");
+				m_tutorMovesButton		= new Gtk::Button("Tutor");
 
 		m_movesFrame = new Gtk::Frame("Moves");
 			m_scrollWindow = new Gtk::ScrolledWindow();
@@ -53,6 +53,9 @@ CPokeMovesSub::CPokeMovesSub(CDexGui *parmGui, std::string num) : m_gui(parmGui)
 	//	Configure frames.
 	m_moveLearnMethodsFrame->set_border_width(10);
 	m_movesFrame->set_border_width(10);
+
+	//	Configure boxes.
+	m_moveLearnMethodsHBox->set_homogeneous(true);
 
 	//	Show level-up moves by default.
 	showLevelUpMoves();

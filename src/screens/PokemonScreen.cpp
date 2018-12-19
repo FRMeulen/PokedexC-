@@ -39,6 +39,9 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Set frame borders.
 	m_optionsFrame->set_border_width(10);
 
+	//	Configure boxes.
+	m_optionsHBox->set_homogeneous(true);
+
 	//	Signal handlers.
 	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapScreen), "mainscreen"));
 	m_infoButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CPokemonScreen::swapSubScreen), "info"));

@@ -70,6 +70,9 @@ CResultsEntry::CResultsEntry(std::string num, std::string name, std::string prit
 	//	Configure frames.
 	m_entryMainFrame->set_border_width(10);
 	m_entryImageFrame->set_border_width(5);
+
+	//	Configure boxes.
+	m_entryTypesHBox->set_homogeneous(true);
 }
 
 //	Destructor.

@@ -121,7 +121,7 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 	m_pokeMainVBox->pack_start(*m_pokeEntryFrame, Gtk::PACK_SHRINK, 5);
 		m_pokeEntryFrame->add(*m_pokeEntry);
 
-	//	Set frame borders.
+	//	Configure frames.
 	m_pokeSpriteFrame->set_border_width(10);
 	m_pokeSpeciesFrame->set_border_width(5);
 	m_pokeNumFrame->set_border_width(5);
@@ -132,6 +132,10 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 	m_pokeWeightFrame->set_border_width(5);
 	m_pokeInfoFrame->set_border_width(10);
 	m_pokeEntryFrame->set_border_width(10);
+
+	//	Configure boxes.
+	m_pokeTypesHBox->set_homogeneous(true);
+	m_pokeHeightWeightHBox->set_homogeneous(true);
 
 	//	Configure labels.
 	m_pokeEntry->set_single_line_mode(false);

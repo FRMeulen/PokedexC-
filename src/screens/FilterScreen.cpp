@@ -78,13 +78,13 @@ CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 
 				m_genFiltersFrame = new Gtk::Frame("Generation Filters");
 					m_genFiltersHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-						m_genFilterKanto	= new Gtk::Button(" Kanto");
-						m_genFilterJohto	= new Gtk::Button(" Johto");
-						m_genFilterHoenn	= new Gtk::Button(" Hoenn");
+						m_genFilterKanto	= new Gtk::Button("Kanto");
+						m_genFilterJohto	= new Gtk::Button("Johto");
+						m_genFilterHoenn	= new Gtk::Button("Hoenn");
 						m_genFilterSinnoh	= new Gtk::Button("Sinnoh");
-						m_genFilterUnova	= new Gtk::Button(" Unova");
-						m_genFilterKalos	= new Gtk::Button(" Kalos");
-						m_genFilterAlola	= new Gtk::Button(" Alola");
+						m_genFilterUnova	= new Gtk::Button("Unova");
+						m_genFilterKalos	= new Gtk::Button("Kalos");
+						m_genFilterAlola	= new Gtk::Button("Alola");
 
 				m_miscFiltersFrame = new Gtk::Frame("Misc Filters");
 					m_miscFiltersHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
@@ -166,13 +166,22 @@ CFilterScreen::CFilterScreen(CDexGui *parmGui) : m_gui(parmGui) {
 					m_miscFiltersHBox->pack_start(*m_miscFilterLegendary, Gtk::PACK_EXPAND_WIDGET, 10);
 					m_miscFiltersHBox->pack_start(*m_miscFilterDualType, Gtk::PACK_EXPAND_WIDGET, 10);
 
-	//	Configure widgets.
+	//	Configure frames.
 	m_optionsFrame->set_border_width(10);
 	m_filtersFrame->set_border_width(10);
 	m_selectedFilterFrame->set_border_width(10);
 	m_typeFiltersFrame->set_border_width(10);
 	m_genFiltersFrame->set_border_width(10);
 	m_miscFiltersFrame->set_border_width(10);
+
+	//	Configure boxes.
+	m_optionsHBox->set_homogeneous(true);
+	m_selectedFilterHBox->set_homogeneous(true);
+	m_typeFiltersTopHBox->set_homogeneous(true);
+	m_typeFiltersMiddleHBox->set_homogeneous(true);
+	m_typeFiltersBottomHBox->set_homogeneous(true);
+	m_genFiltersHBox->set_homogeneous(true);
+	m_miscFiltersHBox->set_homogeneous(true);
 
 	//	Signal handlers	-	Options frame.
 	m_backButton->signal_clicked().connect(sigc::bind<std::string>(sigc::mem_fun(*this, &CFilterScreen::swapScreen), "mainscreenreturn"));
