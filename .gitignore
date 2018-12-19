@@ -3,3 +3,4 @@ makefile
 obj/
 util/move_add.txt
 util/EXAMPLE_move_add.txt
+util/output_queries.txt

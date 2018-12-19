@@ -215,5 +215,5 @@ reader = Reader(text)
 
 #	Write SQL queries to file.
 for query in queries:
-	with open("output_queries.txt", "a") as outputfile:
+	with open("output_queries.sql", "a") as outputfile:
 		outputfile.write(query + '\n')
