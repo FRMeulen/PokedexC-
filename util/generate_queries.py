@@ -30,8 +30,8 @@ class Query:
 		self.querytext += "('" + self.pokenum + "', "
 		self.querytext += "'" + self.movename + "', "
 		self.querytext += "'" + self.learnmethod + "', "
-		if self.learndata == "NULL":
-			self.querytext += self.learndata + ");"
+		if self.learnmethod == "Egg" or self.learnmethod == "Tutor":
+			self.querytext +=  "NULL);"
 		else:
 			self.querytext += "'" + self.learndata + "');"
 		
