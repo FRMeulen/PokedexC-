@@ -20,12 +20,26 @@ protected:
 	//	Resultset pointer.
 	sql::ResultSet* m_res;
 
+	//	Data holder.
+	std::string m_strPokeNum;
+	int currentSprite = 0;
+
 	//	Child widget pointers.
 	Gtk::Box* m_pokeMainVBox;
 		Gtk::Box* m_pokeMainHBox;
 			Gtk::Frame* m_pokeSpriteFrame;
 				Gtk::Box* m_pokeSpriteVBox;
-					Gtk::Image* m_pokeSprite;
+					std::vector<Gtk::Image*>* m_pokeSpriteList;
+					Gtk::Box* m_pokeSpritesHBox;
+						Gtk::Box* m_pokePrevSpriteButtonHolder;
+							Gtk::Button* m_pokePrevSpriteButton;
+
+						Gtk::Box* m_pokeSpriteHolder;
+							Gtk::Image* m_pokeSprite;
+						
+						Gtk::Box* m_pokeNextSpriteButtonHolder;
+							Gtk::Button* m_pokeNextSpriteButton;
+
 					Gtk::Frame* m_pokeSpeciesFrame;
 						Gtk::Label* m_pokeSpecies;
 				
@@ -64,9 +78,13 @@ protected:
 		Gtk::Frame* m_pokeEntryFrame;
 			Gtk::Label* m_pokeEntry;
 
+	//	Methods.
+	void prevSprite();
+	void nextSprite();
+
 public:
 	//	Constructors & destructor.
-	CPokeInfoSub(CDexGui* parmGui, sql::ResultSet* res);
+	CPokeInfoSub(CDexGui* parmGui, std::string pokeNum);
 	virtual ~CPokeInfoSub();
 
 	//	Getters.

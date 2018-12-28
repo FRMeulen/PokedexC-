@@ -11,15 +11,19 @@
 //	Parameters:
 //		parmGui	--	pointer to GUI.
 //		res		--	pointer to ResultSet containing Pokemon Info.
-CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGui), m_res(res) {
+CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, std::string pokeNum) : m_gui(parmGui), m_strPokeNum(pokeNum) {
 	//	Tracing.
 	std::cout << "[POKEINFOSUB]	--	constructor called." << std::endl;
+
+	//	Get data.
+	std::string pokeQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + m_strPokeNum + "';";
+	m_res = m_gui->getDex()->retrieveData(pokeQuery);
 
 	//	Get information.
 	m_res->next();
 
 	//	Store information.
-	std::string strPokeNum = m_res->getString("pokemon_number");
+	std::string strPokeNum = m_strPokeNum;
 	std::string strPokeName = m_res->getString("pokemon_name");
 	std::string strPokePriType = m_res->getString("pokemon_primary_type");
 	std::string strPokeSecType = m_res->getString("pokemon_secondary_type");
@@ -27,9 +31,10 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 	std::string strPokeWeight = m_res->getString("pokemon_weight");
 	std::string strPokeSpecies = m_res->getString("pokemon_species");
 	std::string strSpritePath = "res/sprites/" + strPokeNum + ".png";
+	int pokeAltForms = m_res->getInt("pokemon_forms_count") - 1;
 
 	//	Get pokedex entry.
-	std::string entryQuery = "SELECT * FROM pokedex_entries WHERE pokemon_number = '" + res->getString("pokemon_number") + "';";
+	std::string entryQuery = "SELECT * FROM pokedex_entries WHERE pokemon_number = '" + m_strPokeNum + "';";
 	sql::ResultSet* dexEntry = m_gui->getDex()->retrieveData(entryQuery);
 	dexEntry->next();
 	std::string strPokeEntry = dexEntry->getString("pokemon_description");
@@ -39,7 +44,18 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 		m_pokeMainHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
 			m_pokeSpriteFrame = new Gtk::Frame();
 				m_pokeSpriteVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
-					m_pokeSprite = new Gtk::Image(strSpritePath);
+					m_pokeSpriteList = new std::vector<Gtk::Image*>();
+						m_pokeSpritesHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+							m_pokePrevSpriteButtonHolder = new Gtk::Box();	
+								//	m_pokePrevSpriteButton made if alt forms exist.
+							m_pokeSpriteHolder = new Gtk::Box();
+								std::cout << "Sprite from path: " << strSpritePath << std::endl;
+								m_pokeSprite = new Gtk::Image(strSpritePath);
+								m_pokeSpriteList->push_back(m_pokeSprite);
+							
+							m_pokeNextSpriteButtonHolder = new Gtk::Box();
+								//	m_pokeNextSpriteButton made if alt forms exist.
+					
 					m_pokeSpeciesFrame = new Gtk::Frame();
 						m_pokeSpecies = new Gtk::Label(strPokeSpecies);
 
@@ -75,14 +91,23 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 								m_pokeWeightText = new Gtk::Label("Weight");
 								m_pokeWeight = new Gtk::Label(strPokeWeight);
 
-		m_pokeEntryFrame = new Gtk::Frame();
+		m_pokeEntryFrame = new Gtk::Frame("Pokedex Entry");
 			m_pokeEntry = new Gtk::Label(strPokeEntry);
 
 	//	Build screen.
 	m_pokeMainVBox->pack_start(*m_pokeMainHBox, Gtk::PACK_EXPAND_WIDGET, 5);
 		m_pokeMainHBox->pack_start(*m_pokeSpriteFrame, Gtk::PACK_EXPAND_WIDGET, 5);
 			m_pokeSpriteFrame->add(*m_pokeSpriteVBox);
-				m_pokeSpriteVBox->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
+				m_pokeSpriteVBox->pack_start(*m_pokeSpritesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
+					m_pokeSpritesHBox->pack_start(*m_pokePrevSpriteButtonHolder, Gtk::PACK_SHRINK, 5);
+						//	M_pokePrevSpriteButton added if alt forms exist.
+
+					m_pokeSpritesHBox->pack_start(*m_pokeSpriteHolder, Gtk::PACK_EXPAND_WIDGET, 5);
+						m_pokeSpriteHolder->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
+
+					m_pokeSpritesHBox->pack_start(*m_pokeNextSpriteButtonHolder, Gtk::PACK_SHRINK, 5);
+						//	m_pokeNextSpriteButton added if alt forms exist.
+
 				m_pokeSpriteVBox->pack_start(*m_pokeSpeciesFrame, Gtk::PACK_SHRINK, 5);
 					m_pokeSpeciesFrame->add(*m_pokeSpecies);
 
@@ -139,12 +164,94 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, sql::ResultSet *res) : m_gui(parmGu
 
 	//	Configure labels.
 	m_pokeEntry->set_single_line_mode(false);
+
+	//	Setup multi-sprite mode if alt-forms exist.
+	if (pokeAltForms > 0) {
+		//	Tracing.
+		std::cout << "[POKEINFOSUB]	--	" << std::to_string(pokeAltForms) << " Alt form(s) detected!" << std::endl;
+
+		//	Add sprite switching buttons.
+		m_pokePrevSpriteButton = new Gtk::Button("<");
+		m_pokeNextSpriteButton = new Gtk::Button(">");
+		m_pokePrevSpriteButtonHolder->pack_start(*m_pokePrevSpriteButton, Gtk::PACK_EXPAND_WIDGET, 5);
+		m_pokeNextSpriteButtonHolder->pack_start(*m_pokeNextSpriteButton, Gtk::PACK_EXPAND_WIDGET, 5);
+
+		//	Get alt sprites.
+		for (int i = 1; i <= pokeAltForms; i++) {
+			std::string strAltSpritePath = "res/sprites/" + strPokeNum + ":" + std::to_string(i) + ".png";
+			m_pokeSprite = new Gtk::Image(strAltSpritePath);
+			m_pokeSpriteList->push_back(m_pokeSprite);
+		}
+
+		//	Signal handlers.
+		m_pokePrevSpriteButton->signal_clicked().connect(sigc::mem_fun(*this, &CPokeInfoSub::prevSprite));
+		m_pokeNextSpriteButton->signal_clicked().connect(sigc::mem_fun(*this, &CPokeInfoSub::nextSprite));
+	}
 }
 
 //	Destructor.
 //	Parameters:	none.
 CPokeInfoSub::~CPokeInfoSub() {
+	//	Tracing.
+	std::cout << "[POKEINFOSUB]	--	destructor called." << std::endl;
+}
 
+//	prevSprite	--	Shows the previous sprite.
+//	Parameters:	none.
+//	Returns:	void.
+void CPokeInfoSub::prevSprite() {
+	//	Tracing.
+	std::cout << "[POKEINFOSUB]	--	prevSprite called." << std::endl;
+
+	//	Check sprites count.
+	int totalSpritesCount = m_pokeSpriteList->size();
+	
+	//	Remove current sprite.
+	Gtk::Image* tmp = m_pokeSpriteList->at(currentSprite);
+	m_pokeSpriteHolder->remove(*tmp);
+
+	//	Set current sprite number.
+	if (currentSprite == 0) {
+		currentSprite = totalSpritesCount - 1;
+	} else {
+		currentSprite--;
+	}
+
+	//	Set current sprite.
+	tmp = m_pokeSpriteList->at(currentSprite);
+	m_pokeSpriteHolder->pack_start(*tmp);
+
+	//	Update window.
+	m_gui->getWindow()->show_all_children();
+}
+
+//	nextSprite	--	Shows the next sprite.
+//	Parameters:	none.
+//	Returns:	void.
+void CPokeInfoSub::nextSprite() {
+	//	Tracing.
+	std::cout << "[POKEINFOSUB]	--	nextSprite called." << std::endl;
+
+	//	Check sprites count.
+	int totalSpritesCount = m_pokeSpriteList->size();
+	
+	//	Remove current sprite.
+	Gtk::Image* tmp = m_pokeSpriteList->at(currentSprite);
+	m_pokeSpriteHolder->remove(*tmp);
+
+	//	Set current sprite number.
+	if (currentSprite == totalSpritesCount - 1) {
+		currentSprite = 0;
+	} else {
+		currentSprite++;
+	}
+
+	//	Set current sprite.
+	tmp = m_pokeSpriteList->at(currentSprite);
+	m_pokeSpriteHolder->pack_start(*tmp);
+
+	//	Update window.
+	m_gui->getWindow()->show_all_children();
 }
 
 //	getMainBox	--	Returns pointer to main box.

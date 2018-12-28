@@ -97,22 +97,18 @@ void CPokemonScreen::swapSubScreen(std::string newSubScreen) {
 		tempBox = m_pokeMovesSub->getMainBox();
 		m_subScreenBox->remove(*tempBox);
 	} else if (m_currentSubScreen == "matchup") {
-
+		//	TODO.
 	} else if (m_currentSubScreen == "stats"){
-
+		//	TODO.
 	}
 
 	//	Determine new sub screen.
 	if (newSubScreen == "info") {
 		m_currentSubScreen = "info";
-		std::string pokeInfoQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + m_strPokeNum + "';";
-		sql::ResultSet* pokeInfoSet = m_gui->getDex()->retrieveData(pokeInfoQuery);
-		m_pokeInfoSub = new CPokeInfoSub(m_gui, pokeInfoSet);
 		tempBox = m_pokeInfoSub->getMainBox();
 		m_subScreenBox->pack_start(*tempBox);
 	} else if (newSubScreen == "moves") {
 		m_currentSubScreen = "moves";
-		m_pokeMovesSub = new CPokeMovesSub(m_gui, m_strPokeNum);
 		tempBox = m_pokeMovesSub->getMainBox();
 		m_subScreenBox->pack_start(*tempBox);
 	} else if (newSubScreen == "matchup") {
@@ -133,8 +129,20 @@ void CPokemonScreen::setPokemon(std::string num) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	setPokemon called." << std::endl;
 
+	//	Delete current sub screens.
+	if (m_pokeInfoSub != NULL) {
+		delete m_pokeInfoSub;
+	}
+	
+	if (m_pokeMovesSub != NULL)
+		delete m_pokeMovesSub;
+
 	//	Store Pokemon Number.
 	m_strPokeNum = num;
+
+	//	Create new sub screens.
+	m_pokeInfoSub = new CPokeInfoSub(m_gui, m_strPokeNum);
+	m_pokeMovesSub = new CPokeMovesSub(m_gui, m_strPokeNum);
 
 	//	Set starting screen.
 	swapSubScreen("info");
