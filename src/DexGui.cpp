@@ -27,7 +27,7 @@ CDexGui::CDexGui() {
 	
 	//	Configure window.
 	m_window->set_title("PokedexC++");
-	m_window->set_default_size(800, 600);
+	m_window->set_default_size(1024, 768);
 	m_window->set_resizable(false);
 	m_window->add(*m_pages);
 	m_window->show_all_children();
