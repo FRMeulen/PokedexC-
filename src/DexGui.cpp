@@ -71,6 +71,9 @@ void CDexGui::swapScreen(std::string newScreen) {
 		m_pages->set_current_page(filterScreenPage);
 	else if (newScreen == "pokemonscreen")
 		m_pages->set_current_page(pokemonScreenPage);
+
+	//	Update GUI.
+	m_window->show_all_children();
 }
 
 //	getWindow	--	Returns pointer to window.

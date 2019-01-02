@@ -50,6 +50,10 @@ CPokemonScreen::CPokemonScreen(CDexGui *parmGui) : m_gui(parmGui) {
 	//	Make self known to Gui.
 	m_gui->setPokemonScreen(this);
 	m_gui->getNotebook()->append_page(*m_mainVBox);
+
+	//	Create dummy subs.
+	m_pokeInfoSub = new CPokeInfoSub();
+	m_pokeMovesSub = new CPokeMovesSub();
 }
 
 //	Destructor.
@@ -129,13 +133,9 @@ void CPokemonScreen::setPokemon(std::string num) {
 	//	Tracing.
 	std::cout << "[POKEMONSCREEN]	--	setPokemon called." << std::endl;
 
-	//	Delete current sub screens.
-	if (m_pokeInfoSub != NULL) {
-		delete m_pokeInfoSub;
-	}
-	
-	if (m_pokeMovesSub != NULL)
-		delete m_pokeMovesSub;
+	//	Delete current subscreens.
+	delete m_pokeInfoSub;
+	delete m_pokeMovesSub;
 
 	//	Store Pokemon Number.
 	m_strPokeNum = num;

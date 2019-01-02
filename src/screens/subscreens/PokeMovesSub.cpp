@@ -7,6 +7,16 @@
 #include "PokeMovesSub.h"
 #include <iostream>
 
+//	Dummy constructor.
+//	Parameters:	none.
+CPokeMovesSub::CPokeMovesSub() {
+	//	Tracing.
+	std::cout << "[POKEMOVESSUB]	--	Dummy constructor called." << std::endl;
+
+	//	Set dummy bool to true.
+	dummy = true;
+}
+
 //	Constructor.
 //	Parameters:
 //		parmGui	--	pointer to GUI.
@@ -14,6 +24,9 @@
 CPokeMovesSub::CPokeMovesSub(CDexGui *parmGui, std::string num) : m_gui(parmGui), m_strPokeNum(num) {
 	//	Tracing.
 	std::cout << "[POKEMOVESSUB]	--	constructor called." << std::endl;
+
+	//	Set dummy bool to false.
+	dummy = false;
 
 	//	Build child widgets.
 	m_mainVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
@@ -65,6 +78,26 @@ CPokeMovesSub::CPokeMovesSub(CDexGui *parmGui, std::string num) : m_gui(parmGui)
 CPokeMovesSub::~CPokeMovesSub() {
 	//	Tracing.
 	std::cout << "[POKEMOVESSUB]	--	destructor called." << std::endl;
+
+	//	Stop if dummy.
+	if (dummy)
+		return;
+
+	//	Delete move entries.
+	m_movesEntries->clear();
+
+	//	Delete children in reverse order.
+	delete m_movesEntries;
+	delete m_movesListVBox;
+	delete m_scrollWindow;
+	delete m_movesFrame;
+	delete m_tutorMovesButton;
+	delete m_eggMovesButton;
+	delete m_tmHmMovesButton;
+	delete m_levelUpMovesButton;
+	delete m_moveLearnMethodsHBox;
+	delete m_moveLearnMethodsFrame;
+	delete m_mainVBox;
 }
 
 //	appendMove	--	Appends move to list & screen.

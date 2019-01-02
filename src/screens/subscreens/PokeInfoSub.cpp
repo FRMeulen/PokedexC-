@@ -7,13 +7,26 @@
 #include "PokeInfoSub.h"
 #include <iostream>
 
+//	Dummy constructor.
+//	Parameters:	none.
+CPokeInfoSub::CPokeInfoSub() {
+	//	Tracing.
+	std::cout << "[POKEINFOSUB]	--	dummy constructor called." << std::endl;
+
+	//	Set dummy bool to true.
+	dummy = true;
+}
+
 //	Constructor.
 //	Parameters:
 //		parmGui	--	pointer to GUI.
-//		res		--	pointer to ResultSet containing Pokemon Info.
+//		pokeNum		--	string of Pokemon number.
 CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, std::string pokeNum) : m_gui(parmGui), m_strPokeNum(pokeNum) {
 	//	Tracing.
 	std::cout << "[POKEINFOSUB]	--	constructor called." << std::endl;
+
+	//	Set dummy bool to false.
+	dummy = false;
 
 	//	Get data.
 	std::string pokeQuery = "SELECT * FROM pokemon WHERE pokemon_number = '" + m_strPokeNum + "';";
@@ -45,16 +58,16 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, std::string pokeNum) : m_gui(parmGu
 			m_pokeSpriteFrame = new Gtk::Frame();
 				m_pokeSpriteVBox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 					m_pokeSpriteList = new std::vector<Gtk::Image*>();
-						m_pokeSpritesHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
-							m_pokePrevSpriteButtonHolder = new Gtk::Box();	
-								//	m_pokePrevSpriteButton made if alt forms exist.
-							m_pokeSpriteHolder = new Gtk::Box();
-								std::cout << "Sprite from path: " << strSpritePath << std::endl;
-								m_pokeSprite = new Gtk::Image(strSpritePath);
-								m_pokeSpriteList->push_back(m_pokeSprite);
+					m_pokeSpritesHBox = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL);
+						m_pokePrevSpriteButtonHolder = new Gtk::Box();	
+							//	m_pokePrevSpriteButton made if alt forms exist.
+						m_pokeSpriteHolder = new Gtk::Box();
+							std::cout << "Sprite from path: " << strSpritePath << std::endl;
+							m_pokeSprite = new Gtk::Image(strSpritePath);
+							m_pokeSpriteList->push_back(m_pokeSprite);
 							
-							m_pokeNextSpriteButtonHolder = new Gtk::Box();
-								//	m_pokeNextSpriteButton made if alt forms exist.
+						m_pokeNextSpriteButtonHolder = new Gtk::Box();
+							//	m_pokeNextSpriteButton made if alt forms exist.
 					
 					m_pokeSpeciesFrame = new Gtk::Frame();
 						m_pokeSpecies = new Gtk::Label(strPokeSpecies);
@@ -100,7 +113,7 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, std::string pokeNum) : m_gui(parmGu
 			m_pokeSpriteFrame->add(*m_pokeSpriteVBox);
 				m_pokeSpriteVBox->pack_start(*m_pokeSpritesHBox, Gtk::PACK_EXPAND_WIDGET, 5);
 					m_pokeSpritesHBox->pack_start(*m_pokePrevSpriteButtonHolder, Gtk::PACK_SHRINK, 5);
-						//	M_pokePrevSpriteButton added if alt forms exist.
+						//	m_pokePrevSpriteButton added if alt forms exist.
 
 					m_pokeSpritesHBox->pack_start(*m_pokeSpriteHolder, Gtk::PACK_EXPAND_WIDGET, 5);
 						m_pokeSpriteHolder->pack_start(*m_pokeSprite, Gtk::PACK_EXPAND_WIDGET, 5);
@@ -194,6 +207,58 @@ CPokeInfoSub::CPokeInfoSub(CDexGui *parmGui, std::string pokeNum) : m_gui(parmGu
 CPokeInfoSub::~CPokeInfoSub() {
 	//	Tracing.
 	std::cout << "[POKEINFOSUB]	--	destructor called." << std::endl;
+
+	//	Stop if dummy.
+	if (dummy)
+		return;
+
+	//	Delete sprites.
+	m_pokeSpriteList->clear();
+
+	//	Delete children in reverse order.
+	delete m_pokeEntry;
+	delete m_pokeEntryFrame;
+	delete m_pokeWeight;
+	delete m_pokeWeightText;
+	delete m_pokeWeightVBox;
+	delete m_pokeWeightFrame;
+	delete m_pokeHeight;
+	delete m_pokeHeightText;
+	delete m_pokeHeightVBox;
+	delete m_pokeHeightFrame;
+	delete m_pokeHeightWeightHBox;
+	delete m_pokeSecType;
+	delete m_pokeSecTypeFrame;
+	delete m_pokePriType;
+	delete m_pokePriTypeFrame;
+	delete m_pokeTypesHBox;
+	delete m_pokeTypesText;
+	delete m_pokeTypesVBox;
+	delete m_pokeName;
+	delete m_pokeNameText;
+	delete m_pokeNameHBox;
+	delete m_pokeNameFrame;
+	delete m_pokeNum;
+	delete m_pokeNumText;
+	delete m_pokeNumHBox;
+	delete m_pokeNumFrame;
+	delete m_pokeInfoVBox;
+	delete m_pokeInfoFrame;
+	delete m_pokeSpecies;
+	delete m_pokeSpeciesFrame;
+	if (m_pokeNextSpriteButton != NULL)
+		delete m_pokeNextSpriteButton;
+	delete m_pokeNextSpriteButtonHolder;
+	delete m_pokeSpriteHolder;
+	if (m_pokePrevSpriteButton != NULL)
+		delete m_pokePrevSpriteButton;
+	delete m_pokePrevSpriteButtonHolder;
+	delete m_pokeSpritesHBox;
+	delete m_pokeSpriteList;
+	delete m_pokeSpriteVBox;
+	delete m_pokeSpriteFrame;
+	delete m_pokeMainHBox;
+	delete m_pokeMainVBox;
 }
 
 //	prevSprite	--	Shows the previous sprite.

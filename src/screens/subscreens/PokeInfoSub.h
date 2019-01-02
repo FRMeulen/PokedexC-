@@ -23,6 +23,7 @@ protected:
 	//	Data holder.
 	std::string m_strPokeNum;
 	int currentSprite = 0;
+	bool dummy;
 
 	//	Child widget pointers.
 	Gtk::Box* m_pokeMainVBox;
@@ -84,6 +85,7 @@ protected:
 
 public:
 	//	Constructors & destructor.
+	CPokeInfoSub();
 	CPokeInfoSub(CDexGui* parmGui, std::string pokeNum);
 	virtual ~CPokeInfoSub();
 
