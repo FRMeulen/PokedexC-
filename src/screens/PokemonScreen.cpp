@@ -137,6 +137,9 @@ void CPokemonScreen::setPokemon(std::string num) {
 	delete m_pokeInfoSub;
 	delete m_pokeMovesSub;
 
+	//	Set current subscreen string to none.
+	m_currentSubScreen = "none";
+
 	//	Store Pokemon Number.
 	m_strPokeNum = num;
 
