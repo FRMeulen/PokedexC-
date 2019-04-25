@@ -10,6 +10,7 @@ import Moveset
 
 #	Stored sets.
 movesets = []
+moves = []
 queries = []
 
 #	Stored variables.
@@ -67,4 +68,14 @@ raw_text = read_file("move_add.txt")
 movesets = parse_movesets(raw_text)
 
 #	Debug.
-print_all_movesets()
+for i in range(0, len(movesets)):
+	print("-----[MOVESET {}]-----".format(i))
+	print(movesets[i].to_string())
+	print()
+
+	temp_moves = movesets[i].parse_moves()
+	for move in temp_moves:
+		moves.append(move)
+
+for move in moves:
+	print(move.to_string())
