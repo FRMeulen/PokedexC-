@@ -76,6 +76,3 @@ for i in range(0, len(movesets)):
 	temp_moves = movesets[i].parse_moves()
 	for move in temp_moves:
 		moves.append(move)
-
-for move in moves:
-	print(move.to_string())
