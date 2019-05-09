@@ -6,15 +6,14 @@
 
 #	Imports.
 import Query
+import Move
 import Moveset
 
 #	Stored sets.
-movesets = []
+filtered_lines = []
+prased_movesets = []
 moves = []
 queries = []
-
-#	Stored variables.
-raw_text = ""
 
 #	read_file	--	Reads file from path and returns read text.
 #	Parameters:
@@ -27,52 +26,43 @@ def read_file(filename):
 	return read_text
 #	End read_file().
 
-#	parse_movesets	--	Splits raw text into Moveset objects.
+#	filter_lines	--	Filters out empty lines.
 #	Parameters:
-#		text	--	Raw text to parse.
-#	Returns:	list of Moveset objects.
-def parse_movesets(text):
-	sets = []
-	lines = []
+#		txt	--	Raw text to be filtered.
+#	Returns:	list of strings.
+def filter_lines(txt):
+	lastchar = ""
+	filtered_text = ""
+	for i in range(0, len(txt)):
+		if not (txt[i] == '\n' and txt[i - 1] == '\n' and i != 0):
+			filtered_text += txt[i]
+
 	line = ""
-	for char in text:
+	lines = []
+	for char in filtered_text:
 		if char != '\n':
 			line += char
 		else:
-			if len(line) > 0:
-				lines.append(line)
-				line = ""
-			else:
-				moves = Moveset.Moveset(lines[0], lines[1], lines[2], lines[3], lines[4])
-				sets.append(moves)
-				lines = []
+			lines.append(line)
+			line = ""
 
-	return sets
-#	End parse_movesets().
+	return lines
+#	End filter_lines().
 
-#	print_all_movesets	--	Debugs all parsed Moveset objects.
-#	Parameters:	none.
-#	Returns:	nothing.
-def print_all_movesets():
-	if len(movesets) == 0:
-		print("NO EXISTING MOVESETS")
-	else:
-		for i in range(0, len(movesets)):
-			print("----------[MOVESET {}]----------".format(i))
-			print(movesets[i].to_string())
-			print()
-#	End print_all_movesets.
+#	parse_moves	--	Splits raw text into Move objects.
+#	Parameters:
+#		text	--	Raw text to parse.
+#	Returns:	list of Moveset objects.
+def parse_movesets(lines):
+	movesets = []
+	for i in range(0, int(len(lines) / 5)):
+		moveset = Moveset.Moveset(lines[i * 5],lines[i * 5 + 1], lines[i * 5 + 2], lines[i * 5 + 3], lines[i * 5 + 4])
+		movesets.append(moveset)
+
+	return movesets
+#	End parse_moves().
 
 #	Program sequence.
-raw_text = read_file("move_add.txt")
-movesets = parse_movesets(raw_text)
-
-#	Debug.
-for i in range(0, len(movesets)):
-	print("-----[MOVESET {}]-----".format(i))
-	print(movesets[i].to_string())
-	print()
-
-	temp_moves = movesets[i].parse_moves()
-	for move in temp_moves:
-		moves.append(move)
+parsed_movesets = parse_movesets(filter_lines(read_file("move_add.txt")))
+for moveset in parsed_movesets:
+	print(moveset.to_string())

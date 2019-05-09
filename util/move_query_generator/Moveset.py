@@ -21,9 +21,6 @@ class Moveset:
 		self.tm_line = tm_line
 		self.egg_line = egg_line
 		self.tutor_line = tutor_line
-		
-		#	Parsed move lists.
-		self.moves = []
 	#	End __init__.
 
 	#	to_string	--	Convert Moveset object to string.
@@ -38,4 +35,4 @@ class Moveset:
 	#	Parameters:	none.
 	#	Returns:	List of moves.
 	def parse_moves(self):
-		do something
+		print("parsed moves")
