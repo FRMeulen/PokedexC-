@@ -64,5 +64,6 @@ def parse_movesets(lines):
 
 #	Program sequence.
 parsed_movesets = parse_movesets(filter_lines(read_file("move_add.txt")))
+i = 1
 for moveset in parsed_movesets:
-	print(moveset.to_string())
+	moveset.parse_moves()

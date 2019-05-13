@@ -12,8 +12,9 @@ class Move:
 	#		move_type	--	Method move is learned by.
 	#		move_name	--	Move name.
 	#		move_data	--	Extra data for move.
-	def __init__(self, move_data, learn_method):
-		self.move_data = move_data
+	def __init__(self, poke_num, move_name, learn_method, move_data):
+		self.poke_num = poke_num
+		self.move_name = move_name
 		if learn_method == 1:
 			self.learn_method = "Level"
 		elif learn_method == 2:
@@ -24,11 +25,13 @@ class Move:
 			self.learn_method = "Tutor"
 		else:
 			print("Error: learn_method not found!")
+		self.move_data = move_data
+	#	End __init__().
 
 	#	to_string	--	Converts Move object to string.
 	#	Parameters:	none.
 	#	Returns:	string.
 	def to_string(self):
-		str_move = "Move: {}, learned by {}.".format(self.move_data, self.learn_method)
+		str_move = "Move: {}, learned by {} by {}.".format(self.move_name, self.poke_num, self.learn_method)
 		return str_move
 	#	End to_string().

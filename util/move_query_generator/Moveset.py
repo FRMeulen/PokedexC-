@@ -21,6 +21,9 @@ class Moveset:
 		self.tm_line = tm_line
 		self.egg_line = egg_line
 		self.tutor_line = tutor_line
+
+		#	Stored moves.
+		self.moves = []
 	#	End __init__.
 
 	#	to_string	--	Convert Moveset object to string.
@@ -35,4 +38,26 @@ class Moveset:
 	#	Parameters:	none.
 	#	Returns:	List of moves.
 	def parse_moves(self):
-		print("parsed moves")
+		parse_level_moves()
+		#parse_tm_moves()
+		#parse_egg_moves()
+		#parse_tutor_moves()
+	#	End parse_moves()
+
+	#	parse_with_data	--	Parses move line with extra data.
+	#	Parameters:
+	#		line	--	Line with moves.
+	#		type	--	Type of moves.
+	#	Returns:	void.
+	def parse_with_data(self, line, type):
+		print()
+	#	End parse_with_data().
+
+	#	parse_without_data	--	Parses move line without extra data.
+	#	Parameters:
+	#		line	--	Line with moves.
+	#		type	--	Type of moves.
+	#	Returns:	void.
+	def parse_without_data(self, line, type):
+		print()
+	#	End parse_without_data().
